@@ -1,26 +1,31 @@
 <?php
-
+function auth_njit($user, $pass){
 $data = array(
-    'user' => 'user',
-    'pass' => 'password',
-	'uuid' => '0xACA021'
+    'ucid' => $user,
+    'pass' => $pass
 );
 
-$url = "https://cp4.njit.edu/cp/home/login";
+$url = "https://aevitepr2.njit.edu/myhousing/login.cfm";
 $ch = curl_init($url);
 
 $postString = http_build_query($data, '', '&');
 
 curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 $response = curl_exec($ch);
-if (strpos($response, 'ERROR') === false){
+if (strpos($response, 'Please select a MyHousing System to sign into:') == true){
 	echo "Successful Login";
 } else {
 	echo "Failed Login";
 }
 curl_close($ch);
+}
 
+$USER = $_POST['user'];
+$PASS = $_POST['pass'];
+
+auth_njit($USER, $PASS);
 ?>

@@ -16,7 +16,7 @@ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 $response = curl_exec($ch);
 if (strpos($response, 'Please select a MyHousing System to sign into:') == true){
-  echo json_encode("Successful Login")
+  echo json_encode("Successful Login");
 } else {
 	echo json_encode("Failed Login");
 }

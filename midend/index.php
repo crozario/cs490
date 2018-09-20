@@ -23,9 +23,9 @@ if (strpos($response, 'Please select a MyHousing System to sign into:') == true)
 curl_close($ch);
 }
 
-// #TODO: add backend php page URL
+#TODO: add backend php page URL
 
-// #TODO: add if-else logic for login response from backend
+#TODO: add if-else logic for login response from backend
 
 $USER = 'user';//$_POST['username'];
 $PASS = 'pass';//$_POST['password'];

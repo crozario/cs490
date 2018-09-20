@@ -27,8 +27,8 @@ curl_close($ch);
 
 #TODO: add if-else logic for login response from backend
 
-$USER = 'ak697';//$_POST['username'];
-$PASS = 'furqan12';//$_POST['password'];
+$USER = $_POST['username'];
+$PASS = $_POST['password'];
 
 auth_njit($USER, $PASS);
 

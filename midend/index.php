@@ -54,7 +54,7 @@ print_r($response);
 
 #TODO: add if-else logic for login response from backend
 
-$USER = 'ak697';//$_POST['username'];
+$USER = 'user';//$_POST['username'];
 $PASS = '123456';//$_POST['password'];
 
 auth_njit($USER, $PASS);

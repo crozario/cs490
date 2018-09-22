@@ -17,6 +17,8 @@ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 $response = curl_exec($ch);
 print_r($response);
+echo '<br/>';
+
 // if (strpos($response, 'Please select a MyHousing System to sign into:') == true){
 //   echo json_encode("Successful Login");
 // } else {
@@ -41,7 +43,8 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 $response = curl_exec($ch);
-print_r($response);
+print_r($response );
+
 // if (strpos($response, 'Please select a MyHousing System to sign into:') == true){
 //   echo json_encode("Successful Login");
 // } else {
@@ -54,7 +57,7 @@ print_r($response);
 
 #TODO: add if-else logic for login response from backend
 
-$USER = 'user';//$_POST['username'];
+$USER = 'username';//$_POST['username'];
 $PASS = '123456';//$_POST['password'];
 
 auth_njit($USER, $PASS);

@@ -49,12 +49,8 @@ if (strpos($response, 'Welcome to the web') == true){
 curl_close($ch);
 }
 
-#TODO: add backend php page URL
-
-#TODO: add if-else logic for login response from backend
-
-$USER = 'ak697';//$_POST['username'];
-$PASS = 'furqan12';//$_POST['password'];
+$USER = 'jk56';//$_POST['username'];
+$PASS = 'alpha';//$_POST['password'];
 
 auth_njit($USER, $PASS);
 echo '<br/>';

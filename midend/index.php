@@ -49,8 +49,8 @@ if (strpos($response, 'Welcome to the web') == true){
 curl_close($ch);
 }
 
-$USER = 'jk56';//$_POST['username'];
-$PASS = 'alpha';//$_POST['password'];
+$USER = 'wronguser';//$_POST['username'];
+$PASS = 'wrongpass';//$_POST['password'];
 
 auth_njit($USER, $PASS);
 echo '<br/>';

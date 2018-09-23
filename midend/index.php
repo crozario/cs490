@@ -15,7 +15,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 $response = curl_exec($ch);
-print_r($response);
+// print_r($response);
 
 if (strpos($response, 'Please select a MyHousing System') == true){
   echo json_encode("NJIT Login Successful");
@@ -39,7 +39,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 $response = curl_exec($ch);
-print_r($response );
+// print_r($response );
 
 if (strpos($response, 'Welcome to the web') == true){
   echo json_encode("DB Login Successful");
@@ -49,12 +49,12 @@ if (strpos($response, 'Welcome to the web') == true){
 curl_close($ch);
 }
 
-$USER = 'wronguser';//$_POST['username'];
-$PASS = 'wrongpass';//$_POST['password'];
+$USER = $_POST['username'];
+$PASS = $_POST['password'];
 
 auth_njit($USER, $PASS);
 echo '<br/>';
 auth_db($USER, $PASS);
 
-#TODO: send JSON data to the frontend php URL
+#TODO: manually parse JSON data
 ?>

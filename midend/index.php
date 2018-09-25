@@ -55,6 +55,7 @@ $PASS = $_POST['password'];
 auth_njit($USER, $PASS);
 //echo '<br/>';
 auth_db($USER, $PASS);
+echo $JSON['njit'];
 print_r($JSON);
 
 

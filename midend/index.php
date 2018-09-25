@@ -53,8 +53,12 @@ curl_close($ch);
 
 function jsonify($array, &$data){
   foreach ($array as $key => $value) {
-    echo $key . $value;
-    $data .= "\"$key\":\"$value\"";
+    if ($data == ""){
+      $data .= "\"$key\":\"$value\"";
+    }
+    else {
+      $data .= ", \"$key\":\"$value\"";
+    }
   }
 }
 
@@ -64,8 +68,6 @@ $PASS = $_POST['password'];
 auth_njit($USER, $PASS, $JSON);
 auth_db($USER, $PASS, $JSON);
 jsonify($JSON, $data);
-print_r($JSON);
-echo '<br/>';
 print_r($data);
 
 

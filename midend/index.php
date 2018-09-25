@@ -53,6 +53,7 @@ curl_close($ch);
 
 function jsonify($array, &$data){
   foreach ($array as $key => $value) {
+    echo $key . $value;
     $data .= "\"$key\":\"$value\"";
   }
 }

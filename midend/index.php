@@ -1,6 +1,6 @@
 <?php
 $JSON = array();
-function auth_njit($user, $pass){
+function auth_njit($user, $pass, &$JSON){
 $data = array(
     'ucid' => $user,
     'pass' => $pass
@@ -25,7 +25,7 @@ if (strpos($response, 'Please select a MyHousing System') == true){
 curl_close($ch);
 }
 
-function auth_db($user, $pass){
+function auth_db($user, $pass, &$JSON){
 $data = array(
     'username' => $user,
     'password' => $pass
@@ -55,10 +55,6 @@ $PASS = $_POST['password'];
 auth_njit($USER, $PASS);
 //echo '<br/>';
 auth_db($USER, $PASS);
-$JSON['njit'] = 'n/a';
-echo $JSON['njit'];
-echo $JSON['db'];
-echo 'hi';
 print_r($JSON);
 
 

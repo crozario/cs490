@@ -18,9 +18,9 @@ $response = curl_exec($ch);
 // print_r($response);
 
 if (strpos($response, 'Please select a MyHousing System') == true){
-  $JSON["njit"] = "success";
+  $JSON['njit'] = "success";
 } else {
-  $JSON["njit"] = "fail";
+  $JSON['njit'] = "fail";
 }
 curl_close($ch);
 }
@@ -42,9 +42,9 @@ $response = curl_exec($ch);
 // print_r($response );
 
 if (strpos($response, 'Welcome to the web') == true){
-  $JSON["db"] = "success";
+  $JSON['db'] = "success";
 } else {
-  $JSON["db"] = "fail";
+  $JSON['db'] = "fail";
 }
 curl_close($ch);
 }

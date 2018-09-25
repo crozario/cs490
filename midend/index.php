@@ -1,5 +1,5 @@
 <?php
-
+$JSON = array();
 function auth_njit($user, $pass){
 $data = array(
     'ucid' => $user,
@@ -18,9 +18,9 @@ $response = curl_exec($ch);
 // print_r($response);
 
 if (strpos($response, 'Please select a MyHousing System') == true){
-  echo json_encode("NJIT Login Successful");
+  $JSON["njit"] = "success";
 } else {
-	echo json_encode("NJIT Login Failed");
+  $JSON["njit"] = "fail";
 }
 curl_close($ch);
 }
@@ -42,9 +42,9 @@ $response = curl_exec($ch);
 // print_r($response );
 
 if (strpos($response, 'Welcome to the web') == true){
-  echo json_encode("DB Login Successful");
+  $JSON["db"] = "success";
 } else {
-	echo json_encode("DB Login Failed");
+  $JSON["db"] = "fail";
 }
 curl_close($ch);
 }
@@ -53,8 +53,10 @@ $USER = $_POST['username'];
 $PASS = $_POST['password'];
 
 auth_njit($USER, $PASS);
-echo '<br/>';
+//echo '<br/>';
 auth_db($USER, $PASS);
+print_r($JSON);
+
 
 #TODO: manually parse JSON data
 ?>

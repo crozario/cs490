@@ -41,7 +41,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 // print_r($response );
 
-if (strpos($response, 'Welcome to the web') == true){
+if (strpos($response, 'Welcome') == true){
   $JSON['db'] = "success";
 } else {
   $JSON['db'] = "fail";
@@ -55,6 +55,7 @@ $PASS = $_POST['password'];
 auth_njit($USER, $PASS);
 //echo '<br/>';
 auth_db($USER, $PASS);
+$JSON['njit'] = 'n/a';
 echo $JSON['njit'];
 echo $JSON['db'];
 echo 'hi';

@@ -56,6 +56,8 @@ auth_njit($USER, $PASS);
 //echo '<br/>';
 auth_db($USER, $PASS);
 echo $JSON['njit'];
+echo $JSON['db'];
+echo 'hi';
 print_r($JSON);
 
 

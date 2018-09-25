@@ -1,5 +1,7 @@
 <?php
 $JSON = array();
+$data = "";
+
 function auth_njit($user, $pass, &$JSON){
 $data = array(
     'ucid' => $user,
@@ -49,13 +51,23 @@ if (strpos($response, 'Welcome') == true){
 curl_close($ch);
 }
 
+function jsonify($array, &$data){
+  foreach ($array as $key => $value) {
+    $data .= "\"$key\":\"$value\"";
+  }
+}
+
 $USER = $_POST['username'];
 $PASS = $_POST['password'];
 
 auth_njit($USER, $PASS, $JSON);
-//echo '<br/>';
 auth_db($USER, $PASS, $JSON);
+jsonify($array, $data);
 print_r($JSON);
+echo '<br/>';
+print_r($data);
+
+
 
 
 #TODO: manually parse JSON data

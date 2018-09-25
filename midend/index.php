@@ -52,9 +52,9 @@ curl_close($ch);
 $USER = $_POST['username'];
 $PASS = $_POST['password'];
 
-auth_njit($USER, $PASS, &$JSON);
+auth_njit($USER, $PASS, $JSON);
 //echo '<br/>';
-auth_db($USER, $PASS, &$JSON);
+auth_db($USER, $PASS, $JSON);
 print_r($JSON);
 
 

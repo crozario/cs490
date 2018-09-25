@@ -70,8 +70,4 @@ auth_db($USER, $PASS, $JSON);
 jsonify($JSON, $data);
 print_r($data);
 
-
-
-
-#TODO: manually parse JSON data
 ?>

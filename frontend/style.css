@@ -19,10 +19,6 @@ input[type=text], input[type=password] {
     box-sizing: border-box;
 }
 
-/* #status {
-    padding: 6px px;
-} */
-
 button {
     background-color:#005792;
     color: white;

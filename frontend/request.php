@@ -1,9 +1,4 @@
 <?php
-// $uname = $_POST['username'];
-// $pword = $_POST['password'];
-// $response = "username is $uname and password is $pword";
-// echo $response;
-
 if (isset($_POST['username']) && isset($_POST['password'])  ) {
     $uname = $_POST['username'];
     $pword = $_POST['password'];
@@ -25,8 +20,7 @@ function send_to_midend($username, $password) {
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS =>  $auth_fields,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER => true,
-        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HEADER => false
     );
 
     curl_setopt_array($ch, $opt_array);

@@ -13,21 +13,18 @@ function loginButtonPressed() {
         if(req.readyState == 4) {
         
             if (req.status == 200) {
-                // var response_json = JSON.parse(req.responseText);
-                // var njit_response = response_json.njit;
-                // var db_response = response_json.db;
-
-                // var response_string = `NJIT = ${njit_response}\nDB = ${db_response}`;
-
-                // status_id.innerHTML = response_string;
-                status_id.innerHTML = req.responseText;
+                var json_response = JSON.parse(req.responseText);
+                var njit_response = json_response.njit;
+                var db_response = json_response.db;
+                var response_string = `<strong>NJIT login ${njit_response} <br> DB login ${db_response}<strong>`;
+                status_id.innerHTML = response_string;
 
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' +  req.status + ' ' + req.statusText;
             }           
         }  
     }
-    
+
     req.open("POST", "request.php", true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(vars); 

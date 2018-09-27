@@ -54,12 +54,13 @@ curl_close($ch);
 function jsonify($array, &$data){
   foreach ($array as $key => $value) {
     if ($data == ""){
-      $data .= "\"$key\":\"$value\"";
+      $data .= "{ \"$key\":\"$value\"";
     }
     else {
       $data .= ", \"$key\":\"$value\"";
     }
   }
+  $data .= " }";
 }
 
 $USER = $_POST['username'];

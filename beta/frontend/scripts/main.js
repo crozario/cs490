@@ -11,18 +11,26 @@ function loginButtonPressed() {
         
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
-                var njit_response = json_response.njit;
-                var db_response = json_response.db;
-                var response_string = `<strong>NJIT login ${njit_response} <br> DB login ${db_response}<strong>`;
-                status_id.innerHTML = response_string;
+                // var login_response = json_response.login;
+                var login_response = "student";
 
+                if (login_response == "student") {
+                    location.href = "student.html";
+                } else if (login_response == "instructor")  {
+                    location.href = "instructor.html";
+                } else if (login_response == "fail") {
+                    status_id.innerHTML = `<strong>Wrong Username or Password<strong>`;
+                } else {
+                    // error
+                }
+                
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' +  req.status + ' ' + req.statusText;
             }           
         }  
     }
 
-    req.open("POST", "request.php", true);
+    req.open("POST", "scripts/request.php", true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(vars); 
 }

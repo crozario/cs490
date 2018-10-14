@@ -6,8 +6,8 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$user = "jk56";//$_POST['username'];
-	$pass = sha1("alpha");//sha1($_POST['password']); 
+	$user = $_POST['username'];
+	$pass = sha1($_POST['password']); 
 
 	if (isset($user) && isset($pass)) {
 		$result = mysqli_query($db, "SELECT * FROM Login WHERE user = '$user' && password = '$pass'");

@@ -2,10 +2,11 @@
 //Creates a connection to server
 //@param: database name
 	$servername = "*********";
-	$username = "*********";
+	$username = "********";
 	$dbpassword = "*********";
-	$dbname = "*********";
+	$dbname = "***********";
 		
 	//Create connection
 	$db = new mysqli($servername, $username, $dbpassword, $dbname);
 ?>
+

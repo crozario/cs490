@@ -9,80 +9,35 @@
 # TODO: grade answer using test cases
 # TODO: POST grade and answer with test cases to backend
 
-//$code = "def multiply(num1, num2):
-//  product = num1 * num2
-//  print(product)";
-$code = "def toDouble(num):
-  num *= num
-  print(num)";
-#\nprint(str(sys.argv))
-$testCaseIn = '1 2,2 3,3 4';
-$testCaseOut = '2,6,12';
-$grade = 0;
-$userName = "hi";
-$functionName = "";
-$questionId = "";
-$paramType = "singleInt";
-$testId = "";
-$testCases = array();
+//$code = "def double(num):
+//  print(num*2)";
+//$grade = 0;
+//$userName = "";
+//$questionId = "";
+//$testId = "";
+//echo file_get_contents("php://input");
+$code = $_POST['answer'];
+$testCaseIn = $_POST['testCasesIn'];
+$testCaseOut = $_POST['testCasesOut'];
+$functionName = $_POST['functionName'];
 
-var_dump($testCases);
-echo '<br>';
+stringToArray($testCaseIn, $testCaseOut, $testCases);
+//var_dump($testCases);
 
-switch($paramType){
-    case 'singleInt':
-        $code .= "\nimport sys\ntoDouble(int(sys.argv[1]))";
-        file_put_contents("testCode.py", $code) or die("file_put not working");
-        stringToArray($testCaseIn, $testCaseOut, $testCases);
-
-        $counter = 0;
-        foreach($testCases as $testIn=> $testOut){
-            exec("python testCode.py $testIn", $output) . '<br>';
-            echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
-            if ($testOut == $output[$counter]){
-                $grade += 2;
-            }
-            $counter++;
-        }
-        break;
-    case 'multiInt':
-        $code .= "\nimport sys\nmultiply(int(sys.argv[1])";
-        //for each number in param, add another arg
-        for($x=2; $x <=2;$x++){
-            $code .= ", int(sys.argv[$x])";
-        }
-        $code .= ")";
-//        echo $code . '<br>';
-        file_put_contents("testCode.py", $code) or die("file_put not working");
-
-        stringToArray($testCaseIn, $testCaseOut, $testCases);
-//        var_dump($testCases);
-//        echo '<br>';
-
-        $counter = 0;
-        foreach($testCases as $testIn=> $testOut){
-            exec("python testCode.py $testIn", $output) . '<br>';
-            echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
-            if ($testOut == $output[$counter]){
-                $grade += 2;
-            }
-            $counter++;
-        }
-
-        break;
-    default:
-        echo 'unrecognized question type <br>';
+$counter = 0;
+foreach($testCases as $testIn=> $testOut){
+    $codeTemp = $code . "\n$functionName($testIn)";
+//    echo $codeTemp . '<br>';
+    file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
+    $out = exec("python testCode.py", $output) . '<br>';
+//    echo $out . '<br>';
+    echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
+//    echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
+    if ($testOut == $output[$counter]){
+        $grade += 2;
+    }
+    $counter++;
 }
-
-//$counter = 0;
-//foreach($testCases as $testIn=> $testOut){
-//    exec('python testCode.py "' . addslashes($testIn) . '"', $output) . '<br>';
-//    echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
-//    if ($testOut == $output[$counter]){
-//     $grade += 2;
-//    }
-//    $counter++;
-//}
 
 echo 'Grade: ' . $grade;
 
@@ -113,8 +68,8 @@ function sendGrades($data, &$JSON){
 
 //creates an array of int=>string pairs
 function stringToArray($testCaseIn, $testCaseOut, &$testCases){
-    $testCaseInArray = explode(',', $testCaseIn);
-    $testCaseOutArray = explode(',', $testCaseOut);
+    $testCaseInArray = explode(':', $testCaseIn);
+    $testCaseOutArray = explode(':', $testCaseOut);
     for ($x=0; $x < count($testCaseOutArray); $x++){
         $testCases[$testCaseInArray[$x]] = $testCaseOutArray[$x];
     }

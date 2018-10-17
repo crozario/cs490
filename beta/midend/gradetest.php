@@ -9,26 +9,32 @@
 # TODO: grade answer using test cases
 # TODO: POST grade and answer with test cases to backend
 
-$code = "def toDouble(num):
-  num *= num
-  print(num)";
-$code .= "\nimport sys\ntoDouble(int(sys.argv[1]))";
-#\nprint(str(sys.argv))
-$testCases = array(1=>1, 2=>4, 3=>9);
-$grade = 0;
-$userName = "hi";
-$functionName = "";
-$questionId = "";
-$testId = "";
+//$code = "def double(num):
+//  print(num*2)";
+//$grade = 0;
+//$userName = "";
+//$questionId = "";
+//$testId = "";
+//echo file_get_contents("php://input");
+$code = $_POST['answer'];
+$testCaseIn = $_POST['testCasesIn'];
+$testCaseOut = $_POST['testCasesOut'];
+$functionName = $_POST['functionName'];
 
-file_put_contents("testCode.py", $code) or die("file_put not working");
+stringToArray($testCaseIn, $testCaseOut, $testCases);
+//var_dump($testCases);
 
 $counter = 0;
 foreach($testCases as $testIn=> $testOut){
-    exec('python testCode.py "' . addslashes($testIn) . '"', $output) . '<br>';
+    $codeTemp = $code . "\n$functionName($testIn)";
+//    echo $codeTemp . '<br>';
+    file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
+    $out = exec("python testCode.py", $output) . '<br>';
+//    echo $out . '<br>';
     echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
+//    echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
     if ($testOut == $output[$counter]){
-     $grade += 2;
+        $grade += 2;
     }
     $counter++;
 }
@@ -43,18 +49,28 @@ $data = array(
 
 function sendGrades($data, &$JSON){
 
-    #$url = "https://web.njit.edu/~eo65/CS490_project/cs490_alpha/backend/login.php";
     $url = "";
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
-// print_r($response );
+    //should probably print success or fail for adding grades for a test
+    print_r($response );
 //    if (strpos($response, 'Welcome') == true){
 //        $JSON['db'] = "success";
 //    } else {
 //        $JSON['db'] = "fail";
 //    }
     curl_close($ch);
+}
+
+
+//creates an array of int=>string pairs
+function stringToArray($testCaseIn, $testCaseOut, &$testCases){
+    $testCaseInArray = explode(':', $testCaseIn);
+    $testCaseOutArray = explode(':', $testCaseOut);
+    for ($x=0; $x < count($testCaseOutArray); $x++){
+        $testCases[$testCaseInArray[$x]] = $testCaseOutArray[$x];
+    }
 }

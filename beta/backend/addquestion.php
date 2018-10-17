@@ -5,12 +5,12 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$examname = 'exam1';//$_POST['examname'];
-	$difficulty = 3;//$_POST['difficulty'];
-	$points = 10;//$_POST['points'];
-	$question = 'create an adding function';//$_POST['question'];
-	$partans = 'add(a,b)';//$_POST['partans'];
-	$testcases = '{"input":[1,2,3], "output":[1,4,3]}';//$_POST['testcases'];
+	$examname = $_POST['examname'];
+	$difficulty = $_POST['difficulty'];
+	$points = $_POST['points'];
+	$question = $_POST['question'];
+	$partans = $_POST['partans'];
+	$testcases = $_POST['testcases'];
 
 	$sql = "INSERT INTO $examname (difficulty, points, question, partans, testcases) VALUES ('$difficulty', '$points', '$question', '$partans', '$testcases')";
 
@@ -20,6 +20,6 @@
     	printf('{"Error":"%s"}', mysqli_error($db));
 	}
 
-	$conn->close();
+	$db->close();
 
 ?>

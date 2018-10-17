@@ -5,7 +5,7 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$examname = $_POST['examname'];
+	$examname = 'exam'//$_POST['examname'];
 	$num = $_POST['num'];
 
 	$result = mysqli_query($db, "SELECT testcases FROM $examname WHERE num = '$num'");
@@ -16,4 +16,6 @@
 	else {
 		echo '{"denied":"Wrong username or password"}';
 	}
+
+	$db->close();
 ?>

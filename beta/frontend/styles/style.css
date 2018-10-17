@@ -1,38 +1,199 @@
-body {
+* {
+    font-family: Arial;
+}
+
+
+/* body {
     text-align: center;
-}
-
-form {
-    border: 4px solid #13334c;
-    display: inline-block;
-    margin-top: 15%;
-}
+} */
 
 
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
 
 button {
     background-color:#005792;
     color: white;
-    padding: 14px 20px;
-    font-size: 12pt;
-    margin: 8px 0;
     cursor: pointer;
-    width: 100%;
+    padding: 6px 6px; 
+    margin: 8px 0;
+    font-size: 10pt;
+}
+
+textarea {
+    font-size: 10pt;
+    resize: none;
+}
+
+input {
+    font-size: 10pt;
+    padding: 6px 6px;
 }
 
 button:hover {
     opacity: 0.8;
 }
 
-.container {
-    padding: 16px;
+/* table { 
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%
+} */
+
+/* Login */
+
+#login-form {
+    text-align: center;
 }
+
+.login-form-container {
+    padding: 16px;
+    border: 4px solid #13334c;
+    display: inline-block;
+    margin-top: 15%;
+}
+
+.login-button {
+    width: 100%;
+}
+
+.login-input-username, .login-input-password {
+    width: 100%;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+} 
+
+/* Instructor Home */
+
+.instructor-home-page {
+    text-align: center;
+    
+}
+
+#pending-exams {
+    text-align: center;
+    display: inline-block;
+}
+
+
+
+
+/* .add-exam-container {
+    display: inline-block;
+    width: 20%;
+    margin: 8px;
+}
+
+.add-exam-input {
+    width: 50%;
+}
+.add-exam-button {
+    width: 40%;
+}   
+
+.exam-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 0.5px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+} */
+
+/* Student Home */
+
+/* .student-home-menu {
+    width: 30%;
+    margin: auto;
+    padding: 10px;
+    margin-top: 10%;
+} */
+
+/* Student Exam List */
+
+
+/* ------------------------------------------------------------ */
+
+/* Question Bank */
+
+/* .question-bank-page { */
+    /* align-items: center; */
+    /* text-align: center; */
+    /* display: inline-block; */
+    /* width: 100%; */
+/* } */
+
+/* nav bar */
+
+.nav-bar {
+    list-style: none;
+    text-align: center;
+    padding: 20px 0;  
+}
+
+.nav-bar li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.nav-bar li a{
+    text-decoration: none;
+    /* background-color: skyblue; */
+    color: white;
+}
+
+.nav-bar-container {
+    text-align: center;
+    background-color: #005792;
+}
+
+/* Question Bank */
+
+.question-bank-container {
+    padding: 10px;
+    width: 50%;
+    float: left;
+    border: 1px solid #ccc;
+    /* display: inline-block; */
+}
+
+.create-question-container {
+    padding: 10px;
+    width: 45%;
+    float: right;
+    border: 1px solid #ccc;
+    /* display: inline-block; */
+}
+
+.question-label-textarea {
+    vertical-align: top;
+}
+
+#create-question-form label{
+    display: inline-block;
+    /* float: left; */   
+    vertical-align: top;
+    width: 30%;
+    text-align: left;
+}
+
+#test-cases-form {
+    width: 65%;
+    display: inline-block;
+    text-align: center;
+}
+
+/* Instructor Exam */
+
+.add-exam-container {
+    width: 45%;
+    float: right;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+

@@ -10,17 +10,20 @@
 
 </head>
     <body>
-
-        <form id="login-form" method="POST" onsubmit="loginButtonPressed(); return false;">
-            <div class="container">
-                <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="username" required>
-                <label for="password"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
-              <button type="submit">Login</button>
-            </div>   
-            <div id="status"> </div>    
-             
-        </form>
+        <div>
+            <form id="login-form" method="POST" onsubmit="login_button_pressed(); return false;">
+                <div class="login-form-container">
+                    <label for="username"><b>Username</b></label>
+                    <input class="login-input-username" type="text" placeholder="Enter Username" name="username" required>
+                    <label for="password"><b>Password</b></label>
+                    <input class="login-input-password" type="password" placeholder="Enter Password" name="password" required>
+                  <button class="login-button" type="submit">Login</button>
+                </div>   
+                <div id="status"> </div>    
+                 
+            </form>
+        </div>
+       
     </body>
 </html>
+

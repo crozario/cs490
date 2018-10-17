@@ -3,7 +3,7 @@
 //@param: database name
 	$servername = "sql.njit.edu";
 	$username = "eo65";
-	$dbpassword = "n3wgZLYGf";
+	$dbpassword = "rR3hFwGFv";
 	$dbname = "eo65";
 		
 	//Create connection

@@ -5,14 +5,15 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$examname = $_POST['examname'];
+	
+	$questionbody = $_POST['questionbody'];
 	$difficulty = $_POST['difficulty'];
-	$points = $_POST['points'];
-	$question = $_POST['question'];
-	$partans = $_POST['partans'];
-	$testcases = $_POST['testcases'];
+	$topic = $_POST['topic'];
+	$testcasein = $_POST['testcasein'];
+	$testcaseout = $_POST['testcaseout'];
+	$functionName = $_POST['functionName']
 
-	$sql = "INSERT INTO $examname (difficulty, points, question, partans, testcases) VALUES ('$difficulty', '$points', '$question', '$partans', '$testcases')";
+	$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName')";
 
 	if ($db->query($sql) === TRUE) {
     	echo '{"Success":"New record created successfully"}';
@@ -23,3 +24,4 @@
 	$db->close();
 
 ?>
+

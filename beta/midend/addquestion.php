@@ -10,24 +10,19 @@
 
 //$questionId = uniqid("", TRUE); //$_POST['questionId'];
 $questionBody = "Write a function named double that doubles an integer input"; //$_POST['questionBody'];
-//$testCasesIn = "1:2:3"; //$_POST['testCasesIn'];
-//$testCasesOut = "2:4:6"; //$_POST['testCasesOut'];
-$examname = 'Exam1';
-$difficulty = 'easy';//$_POST['difficulty'];
-$points = '10';//$_POST['points'];
-$partans = 'I guess this is supposed to be the answer';//$_POST['partans'];
-$testcases = '1:2:3/2:4:6';
+$testcasein = "1:2:3"; //$_POST['testCasesIn'];
+$testcaseout = "2:4:6"; //$_POST['testCasesOut'];
+$difficulty = 'easy'; //$_POST['difficulty'];
+$functionName = 'double';//$_POST['partans'];
+$topic = 'function';
 
 $data = array(
-//    'questionId'=>$questionId,
-    'question'=>$questionBody,
-//    'testCasesIn'=>$testCasesIn,
-//    'testCasesOut'=>$testCasesOut,
+    'questionBody'=>$questionBody,
     'difficulty'=>$difficulty,
-    'partans'=>$partans,
-    'testcases'=>$testcases,
-    'points'=>$points,
-    'examname'=>$examname
+    'topic'=>$topic,
+    'testcasein'=>$testcasein,
+    'testcaseout'=>$testcaseout,
+    'functionName'=>$functionName
 );
 
 sendQuestion($data);

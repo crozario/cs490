@@ -5,3 +5,6 @@ Create php file that receives question submission POST and POST straight to back
 ## instructor wants to change grades, receive POST from front, send to backend to make appropriate changes ## - placeholder
 ## create test files then actual files ##
 will all questions be integer input or will there be string input questions?
+
+retrieve questions by exam name to display to student.
+store answers in db.

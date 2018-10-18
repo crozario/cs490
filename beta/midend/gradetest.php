@@ -21,15 +21,36 @@ $testCaseIn = $_POST['testCasesIn'];
 $testCaseOut = $_POST['testCasesOut'];
 $functionName = $_POST['functionName'];
 
+//student has to put in space after function name in def
+$answerArray = explode(' ', $code);
+//echo var_dump($answerArray) . '<br>';
+if ($answerArray[1] == $functionName){
+    $grade += 2;
+}
+else {
+    $answerArray[1] = $functionName;
+    $code = implode(' ', $answerArray);
+}
+
+if (strpos($code, 'return') == true){
+    $printOut = true;
+}
+
+$testCases = array();
 stringToArray($testCaseIn, $testCaseOut, $testCases);
 //var_dump($testCases);
 
 $counter = 0;
 foreach($testCases as $testIn=> $testOut){
-    $codeTemp = $code . "\n$functionName($testIn)";
+    if($printOut){
+        $codeTemp = $code . "\nprint($functionName($testIn))";
+    }
+    else {
+        $codeTemp = $code . "\n$functionName($testIn)";
+    }
 //    echo $codeTemp . '<br>';
     file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
-    $out = exec("python testCode.py", $output) . '<br>';
+    exec("python testCode.py", $output) . '<br>';
 //    echo $out . '<br>';
     echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
 //    echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
@@ -40,6 +61,8 @@ foreach($testCases as $testIn=> $testOut){
 }
 
 echo 'Grade: ' . $grade;
+
+$testCaseInArray = explode(':', $testCaseIn);
 
 $data = array(
     'userName'=>$userName,
@@ -64,7 +87,6 @@ function sendGrades($data, &$JSON){
 //    }
     curl_close($ch);
 }
-
 
 //creates an array of int=>string pairs
 function stringToArray($testCaseIn, $testCaseOut, &$testCases){

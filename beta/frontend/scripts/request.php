@@ -3,7 +3,7 @@
 if (isset($_POST['username']) && isset($_POST['password'])  ) {
     $uname = $_POST['username'];
     $pword = $_POST['password'];
-    $response = '{"login" : "instructor"}';
+    $response = '{"login" : "student"}';
     echo $response;
 
 
@@ -88,6 +88,10 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
     curl_close($ch);
 
     echo $response;
+} elseif (isset($_POST['take_exam_name'])) {
+    echo '{"questions":["asdfasd", "asdfasfd"], "points" : [1,4]}';
+} elseif (isset($_POST['take_exam_submit'])) {
+    echo ($_POST['questions']);
 }
 
 

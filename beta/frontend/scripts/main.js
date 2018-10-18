@@ -1,5 +1,6 @@
 var question_bank_array;
 var question_bank_exams_array;
+var take_exam_name = ""
 
 
 class Question {
@@ -161,7 +162,7 @@ function instructor_exams_onload() {
 function create_question_bank_button(question, topic, difficulty) {
     var button = document.createElement("button");
     button.innerHTML = "Add";
-    button.onclick = function() {
+    button.onclick = function () {
         add_question_to_exam(question, topic, difficulty);
     };
     return button;
@@ -196,7 +197,7 @@ function add_exam_button_pressed() {
     var exam_name = document.getElementsByName("exam_name")[0].value;
     var questions = get_exam_questions();
     var points = get_exam_points();
-    var vars = "send_exam=true&exam_name=" + exam_name + "&questions=" + questions+ "&points=" + points;
+    var vars = "send_exam=true&exam_name=" + exam_name + "&questions=" + questions + "&points=" + points;
     var req = new XMLHttpRequest();
 
     req.onreadystatechange = function () {
@@ -204,8 +205,12 @@ function add_exam_button_pressed() {
 
             if (req.status == 200) {
                 // var json_response = JSON.parse(req.responseText);
+                
+                // alert("hello");
+                clear_create_exam();
+                // alert(req.responseText);
+                
 
-                alert(req.responseText)
 
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
@@ -216,6 +221,20 @@ function add_exam_button_pressed() {
     req.open("POST", "scripts/request.php", true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(vars);
+
+}
+
+function clear_create_exam() {
+    var table = document.getElementById("add-exam-table");
+    document.getElementById("add-exam-input").value = "";
+    // alert("hello");
+    if (table.rows.length > 1) {
+        for (var r = 1, n = table.rows.length; r < n; r++) {
+            table.deleteRow(r);
+        }
+        // table.deleteRow(table.rows.length);
+    }
+     
 
 }
 
@@ -377,9 +396,6 @@ function clear_create_question_form() {
         }
     }
 
-
-
-
 }
 
 
@@ -408,4 +424,126 @@ function create_remove_button_test_case() {
     return button;
 }
 
+// Student Home
+
+// Take Exam
+
+function take_exam_onload() {
+
+
+    var vars = "take_exam_name=" + take_exam_name;
+    var req = new XMLHttpRequest();
+
+
+    req.onreadystatechange = function () {
+        if (req.readyState == 4) {
+
+            if (req.status == 200) {
+                // alert(req.responseText);
+                var json_response = JSON.parse(req.responseText);
+                // alert(json_response.added);
+
+
+
+                var questions = json_response.questions;
+                var points = json_response.points;
+
+
+
+                var table = document.getElementById("take-exam-table");
+
+                for (i = 0; i < questions.length; i++) {
+                    var row = document.createElement("tr");
+                    var cell1 = document.createElement("label");
+                    var cell2 = document.createElement("td");
+                    cell1.appendChild(document.createTextNode("Question:"));
+                    cell2.appendChild(document.createTextNode(questions[i]));
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+                    table.children[0].appendChild(row);
+
+                    row = document.createElement("tr");
+                    cell1 = document.createElement("label");
+                    cell2 = document.createElement("td");
+                    cell1.appendChild(document.createTextNode("Points:"));
+                    cell2.appendChild(document.createTextNode(points[i]));
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+                    table.children[0].appendChild(row);
+
+                    row = document.createElement("tr");
+                    cell1 = document.createElement("label");
+                    cell2 = document.createElement("td");
+                    cell1.appendChild(document.createTextNode("Answer:"));
+                    cell2.appendChild(add_answer_textarea());
+                    row.appendChild(cell1);
+                    row.appendChild(cell2);
+                    table.children[0].appendChild(row);
+                }
+
+
+            } else {
+                status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
+            }
+        }
+    }
+
+    req.open("POST", "scripts/request.php", true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send(vars);
+
+}
+
+function add_answer_textarea() {
+    var input = document.createElement("textarea");
+    input.cols = "50";
+    input.rows = "5";
+
+    return input;
+}
+
+function take_exam_submit_button_pressed() {
+    var table = document.getElementById("take-exam-table");
+    var questions = new Array();
+    var points = new Array();
+    var answers = new Array();
+
+
+    for (i = 0; i < questions.length - 2; i++) {
+        var question = table.rows[i].cells[1].innerHTML;
+        var point = table.rows[i+1].cells[1].innerHTML;
+        var answer = table.rows[i+2].cells[1].children[0].value;
+        questions.push(question);
+        points.push(point);
+        answers.push(answer);
+    }
+
+    questions_stringified = JSON.stringify(questions);
+    points_stringified = JSON.stringify(points);
+    answers_stringified = JSON.stringify(answers);
+
+    var vars = "take_exam_submit=true";
+    var req = new XMLHttpRequest();
+
+
+    req.onreadystatechange = function () {
+        if (req.readyState == 4) {
+
+            if (req.status == 200) {
+                alert(req.responseText);
+                // var json_response = JSON.parse(req.responseText);
+                // alert(json_response.added);
+
+
+            } else {
+                status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
+            }
+        }
+    }
+
+    req.open("POST", "scripts/request.php", true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send(vars);
+    
+}
 

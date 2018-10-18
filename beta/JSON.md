@@ -63,8 +63,50 @@
 ### "send_exam=true&exam_name=" + exam_name + "&questions=" + questions
 
 
+### instructor_user_name=sdaf
 
+```json
+
+{
+"exams" : ["test1" : {"released" : true, "graded" : true},  "test2" : {"released" : false, "graded" : true}]
+}
+
+```
 
 
 # Student
-### 
+
+### student_user_name="sdf"
+
+```json
+
+{
+"exams" : [{"test1" : "taken" , "test2" : "not taken"}]
+}
+
+```
+
+
+### take_exam_name=test1
+
+
+```json
+
+{
+"questions":["asdfasd", "asdfasfd"], 
+"points" : [1,4]
+}
+
+```
+
+### student_user_name=sdf&questions=["sadf", "sadf"]&points=[2,4]&answers=["sadf","sdaf"]
+
+
+```json
+
+{
+"added" : "success"
+}
+
+```
+

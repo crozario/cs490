@@ -37,13 +37,39 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
     curl_close($ch);
 
     echo $response;
-    
+
 } elseif (isset($_POST['get_question_bank'])) {
-    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/showquestion.php';
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showquestionstofront.php';
     $ch = curl_init();
 
     $auth_fields = array(
         'get_question_bank' => $_POST['get_question_bank'],
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+   
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    echo $response;
+} elseif (isset($_POST['send_exam'])) {
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/addtest.php';
+    $ch = curl_init();
+
+    $auth_fields = array(
+        'exam_name' => $_POST['exam_name'],
+        'questions' => $_POST['questions'],
+        'points' => $_POST['points']
     ); 
     
     $opt_array = array(

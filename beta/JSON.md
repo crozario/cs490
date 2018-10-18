@@ -60,6 +60,9 @@
 
 ```
 
+### "send_exam=true&exam_name=" + exam_name + "&questions=" + questions
+
+
 
 
 

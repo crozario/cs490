@@ -11,7 +11,7 @@
 
 </head>
 
-<body onload="instructor_exams_onload();">
+<body onload="instructor_exams_onload(); return false;">
 
     <div>
         <div class="nav-bar-container">
@@ -53,18 +53,18 @@
         <div class="question-bank-container">
             <h2>Question Bank</h2>
             <div>
-                <table id="question-bank-table">
+                <table id="question-bank-table-exams">
                     <tr>
                         <th>Topic</th>
                         <th>Difficulty</th>
                         <th>Question</th>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>Conditional</td>
                         <td>Hard</td>
                         <td>Given a string name, e.g. "Bob", return a greeting of the form "Hello Bob!".</td>
                         <td><button>Add</button></td>
-                    </tr>
+                    </tr> -->
 
                 </table>
             </div>
@@ -82,18 +82,13 @@
                         <th>Topic</th>
                         <th>Difficulty</th>
                         <th>Question</th>
-                    </tr>
-                    <tr>
-                        <td>Conditional</td>
-                        <td>Hard</td>
-                        <td>Given a string name, e.g. "Bob", return a greeting of the form "Hello Bob!".</td>
-                        <td><button>Remove</button></td>
+                        <th>Points</th>
                     </tr>
 
                 </table>
             </div>
             <div>
-                <button class="add-exam-button" type="button" onclick="add_exam_button_pressed();">Add Exam</button>
+                <button class="add-exam-button" type="button" onclick="add_exam_button_pressed(); return false;">Add Exam</button>
             </div>
 
         </div>

@@ -1,3 +1,4 @@
+
 <?php
 	include "db.php";
 
@@ -5,16 +6,19 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$examname = 'exam'//$_POST['examname'];
-	$num = $_POST['num'];
+	$examname = $_POST['examname'];
+	$question = $_POST['question'];
 
-	$result = mysqli_query($db, "SELECT testcases FROM $examname WHERE num = '$num'");
-	if (mysqli_num_rows($result) == 1) {
+	$result = mysqli_query($db, "SELECT DISTINCT examquestionlist.exam, question.testcasein, question.testcaseout, question.functionName, examquestionlist.graded FROM question INNER JOIN examquestionlist ON question.questionbody=examquestionlist.question WHERE exam = '$examname' && question = '$question' && graded = 0");
+
+	if (mysqli_num_rows($result) > 1) {
        	$row = $result->fetch_assoc();
-       	echo $row['testcases'];
+       	printf('{"testcasein":"%s","testcaseout":"%s","functionName":"%s"}', $row['testcasein'], $row['testcaseout'], $row['functionName']);
+
+       	mysqli_query($db, "UPDATE examquestionlist SET graded = 1 WHERE exam ='$examname' && question = '$question'");
 	}
 	else {
-		echo '{"denied":"Wrong username or password"}';
+		echo '{"error":"error"}';
 	}
 
 	$db->close();

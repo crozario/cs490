@@ -1,40 +1,28 @@
 <?php
-	include "db.php";
 
-	if ($db->connect_error) {
- 		die('Connection failed: ' . $db->connect_error);
-	}
-
-	$examname = $_POST['examname'];
+include "db.php";
 	
-	$sql = "CREATE TABLE $examname ( 
-	num int NOT NULL AUTO_INCREMENT, 
-	difficutly int NOT NULL, 
-	points int NOT NULL, 
-	question varchar(1000) NOT NULL, 
-	partans varchar(1000) NOT NULL, 
-	testcases varchar(1000) NOT NULL, 
-	PRIMARY KEY (num) 
-)";
+if ($db->connect_error) {
+	die('Connection failed: ' . $db->connect_error);
+}
+		
+//$response = file_get_contents('php://input');
+		
+$examName = $_POST['examName'];
+$question = $_POST['question'];
+$points = $_POST['points'];
 
-	if (mysqli_query($db, $sql)) {
-    	echo '{"Success":"Table created successfully"}';
-		$sql = "INSERT INTO examlist (exam) VALUES ('$examname')";
-
-		if ($db->query($sql) === FALSE) {
-    		printf('{"Error":"%s"}', mysqli_error($db));
-		}
-
-		$sql = "ALTER TABLE records ADD $examname varchar(2000)";
-		if ($db->query($sql) === FALSE) {
-    		printf('{"Error":"%s"}', mysqli_error($db));
-		}
-
-			
+if(isset($examName) && isset($question) & isset($points)){
+	$sql = "INSERT INTO examquestionlist (exam, question, points) VALUES ('$examName', '$question', '$points')";
+	if ($db->query($sql) === TRUE) {
+    		echo '{"Success":"Table created successfully"}';
 	} else {
-    	printf('{"Error":"%s"}', mysqli_error($db));
+    		echo "Error creating table: " . $db->error;
 	}
+}
+else {
+	echo '{"error":"nothing added"}';
+}
 
 	$db->close();
 ?>
-

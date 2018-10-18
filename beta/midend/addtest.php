@@ -8,13 +8,22 @@
 
 //probably should have testId, questionIds, instructorId
 
-$data = array();
+$data = array(
+    'examName'=>'Exam 1',
+    'question1'=>'question1',
+    'points1'=>10,
+    'question2'=>'question2',
+    'points2'=>15,
+    'question3'=>'question3',
+    'points3'=>20
+);
+
 //foreach question add to data array
-foreach ($_POST as $key => $value) {
-    //do something
-    echo $key . ' has the value of ' . $value . '<br>';
-    $data[$key]=$value;
-}
+//foreach ($_POST as $key => $value) {
+//    //do something
+//    echo $key . ' has the value of ' . $value . '<br>';
+//    $data[$key]=$value;
+//}
 var_dump($data);
 
 //POST Exam data to backend, backend creates Exam entry

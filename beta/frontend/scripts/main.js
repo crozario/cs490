@@ -1,6 +1,6 @@
 var question_bank_array;
 var question_bank_exams_array;
-var take_exam_name = ""
+var take_exam_name = "";
 
 
 class Question {
@@ -10,7 +10,6 @@ class Question {
         this.difficulty = difficulty;
     }
 }
-
 
 // Login 
 function login_button_pressed() {
@@ -27,7 +26,6 @@ function login_button_pressed() {
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
                 var login_response = json_response.login;
-
                 if (login_response == "student") {
                     location.href = "studenthome.html";
                 } else if (login_response == "instructor") {
@@ -50,7 +48,35 @@ function login_button_pressed() {
     req.send(vars);
 }
 
+// Logout 
 
+function logout_button_pressed() {
+    location.href = "index.html";
+    // alert("hello");
+    // var vars = "get_user_name=true";
+    // var req = new XMLHttpRequest();
+
+    // req.onreadystatechange = function () {
+    //     if (req.readyState == 4) {
+
+    //         if (req.status == 200) {
+    //             // var json_response = JSON.parse(req.responseText);
+    //             alert(req.responseText);
+
+    //             location.href = "index.html";
+                
+    //         } else {
+    //             status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
+    //         }
+    //     }
+    // }
+
+    // req.open("POST", "scripts/request.php", true);
+    // req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // req.send(vars);
+
+   
+}
 
 // Instructor Home 
 function instructorhome_onload() {
@@ -64,35 +90,43 @@ function instructorhome_onload() {
 
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
-                var found_exams = json_response.found_exams;
+                var exams = json_response;
 
-                if (found_exams == true) {
-                    var exams = json_response.exams;
-                    for (var i = 0; i < exams.length; i++) {
-                        var exam = exams[i];
-                        var row = table.insertRow(table.rows.length);
-                        var cell1 = row.insertCell(0);
-                        var cell2 = row.insertCell(1);
-                        var cell3 = row.insertCell(2);
+                for (var i = 0; i < exams.length; i++) {
+                    var exam = exams.exam;
+                    var row = table.insertRow(table.rows.length);
+                    var cell1 = row.insertCell(0);
+                    // var cell2 = row.insertCell(1);
+                    // var cell3 = row.insertCell(2);
 
-                        cell1.innerHTML = exam;
+                    cell1.innerHTML = exam;
 
-                        if (exam.scores_released == true) {
-                            cell2.innerHTML = "Yes"
-                            cell3.innerHTML = "Release Button (OFF)"
-                        } else {
-                            cell2.innerHTML = "No"
-                            cell3.innerHTML = "Review Button"
-                        }
-                    }
+                }
+
+
+                // if (found_exams == true) {
+                //     var exams = json_response.exams;
+                //     for (var i = 0; i < exams.length; i++) {
+                //         var exam = exams[i];
+                //         var row = table.insertRow(table.rows.length);
+                //         var cell1 = row.insertCell(0);
+                //         var cell2 = row.insertCell(1);
+                //         var cell3 = row.insertCell(2);
+
+                //         cell1.innerHTML = exam;
+
+                //         if (exam.scores_released == true) {
+                //             cell2.innerHTML = "Yes"
+                //             cell3.innerHTML = "Release Button (OFF)"
+                //         } else {
+                //             cell2.innerHTML = "No"
+                //             cell3.innerHTML = "Review Button"
+                //         }
+                //     }
 
                     // var row = table.insertRow(0);
 
-                } else if (found_exams == false) {
-                    //don't add any
-                } else {
-                    //error
-                }
+                
                 // status_id.innerHTML = req.responseText;
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
@@ -507,22 +541,23 @@ function take_exam_submit_button_pressed() {
     var questions = new Array();
     var points = new Array();
     var answers = new Array();
+    // var exam_name = 
 
-
-    for (i = 0; i < questions.length - 2; i++) {
-        var question = table.rows[i].cells[1].innerHTML;
-        var point = table.rows[i+1].cells[1].innerHTML;
-        var answer = table.rows[i+2].cells[1].children[0].value;
+    var i = 1;
+    while (i < table.rows.length) {
+        var question = table.rows[i++].cells[0].innerHTML;
+        var point = table.rows[i++].cells[0].innerHTML;
+        var answer = table.rows[i++].cells[0].children[0].value;
         questions.push(question);
         points.push(point);
         answers.push(answer);
-    }
+    } 
 
     questions_stringified = JSON.stringify(questions);
     points_stringified = JSON.stringify(points);
     answers_stringified = JSON.stringify(answers);
 
-    var vars = "take_exam_submit=true";
+    var vars = "take_exam_submit=true"+"&exam_name="+exam_name+"&questions="+questions_stringified+"&points="+points_stringified+"&answers="+answers_stringified;
     var req = new XMLHttpRequest();
 
 
@@ -533,8 +568,7 @@ function take_exam_submit_button_pressed() {
                 alert(req.responseText);
                 // var json_response = JSON.parse(req.responseText);
                 // alert(json_response.added);
-
-
+                // location.href = "login.html";
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
             }

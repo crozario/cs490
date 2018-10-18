@@ -46,16 +46,16 @@
 
 ```
 
-### add_question=true&question="find%20the%20square%20of%20two%20numbers"&function_name="square"&function_parameters=2,2&testcases=
+### add_question=true&question="find the square of two numbers"&function_name="square"&function_parameters=2&test_case_in=2&test_case_out=3
 
 ```json
 
 {
-"question_added" : true
+"added" : true
 }
 
 {
-"question_added" : false
+"added" : false
 }
 
 ```

@@ -32,11 +32,6 @@
                         <th>Difficulty</th>
                         <th>Question</th>
                     </tr>
-                    <tr>
-                        <td>Conditional</td>
-                        <td>Hard</td>
-                        <td>Given a string name, e.g. "Bob", return a greeting of the form "Hello Bob!".</td>
-                    </tr>
 
                 </table>
             </div>
@@ -57,10 +52,10 @@
                     <input type="text" id="function-name" />
                 </div>
 
-                <div>
+                <!-- <div>
                     <label for="function-parameters">Function Parameters:</label>
                     <input type="text" id="function-parameters" />
-                </div>
+                </div> -->
 
 
                 <div>
@@ -83,12 +78,12 @@
                 </div>
 
                 <div>
-                    <label for="test-cases-form">Test Cases:</label>
-                    <table id="test-cases-form">
+                    <label for="test-cases-table">Test Cases:</label>
+                    <table id="test-cases-table">
                         <tr>
                             <th>Input</th>
                             <th>Output</th>  
-                            <th> <button onclick="add_test_case_button();">Add</button> </th> 
+                            <th> <button onclick="add_test_case_button(); return false;">Add</button> </th> 
                         </tr>
                         <tr>
                             <td> <input type="text">  </td>
@@ -97,7 +92,7 @@
                     </table>
                 </div>
                 <div>
-                    <button onclick="add_question_button_pressed();">Add Question</button>
+                    <button onclick="add_question_button_pressed(); return false;">Add Question</button>
                 </div>
 
             </form>

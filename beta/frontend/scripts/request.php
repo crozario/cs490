@@ -8,9 +8,61 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
 
 
 
+} elseif (isset($_POST['add_question'])) {
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/addquestion.php';
+    $ch = curl_init();
+
+    $auth_fields = array(
+        'question' => $_POST['question'],
+        'function_name' =>$_POST['function_name'],
+        'topic' =>$_POST['topic'],
+        'difficulty' =>$_POST['difficulty'],
+        'test_case_in' =>$_POST['test_case_in'],
+        'test_case_out' =>$_POST['test_case_out']
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+   
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    echo $response;
+    
+} elseif (isset($_POST['get_question_bank'])) {
+    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/showquestion.php';
+    $ch = curl_init();
+
+    $auth_fields = array(
+        'get_question_bank' => $_POST['get_question_bank'],
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+   
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    echo $response;
 }
-
-
 
 
 
@@ -22,31 +74,31 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
 //     echo $response;
 // }
 
-// function send_login_info($username, $password) {
-//     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/login.php';
-//     $ch = curl_init();
+function send_login_info($username, $password) {
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/login.php';
+    $ch = curl_init();
 
-//     $auth_fields = array(
-//         'username' => $username,
-//         'password' => $password
-//     ); 
+    $auth_fields = array(
+        'username' => $username,
+        'password' => $password
+    ); 
     
-//     $opt_array = array(
-//         CURLOPT_URL => $URL,
-//         CURLOPT_POST => true,
-//         CURLOPT_POSTFIELDS =>  $auth_fields,
-//         CURLOPT_RETURNTRANSFER => true,
-//         CURLOPT_HEADER => false
-//     );
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
 
-//     curl_setopt_array($ch, $opt_array);
-//     curl_exec($ch); 
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
     
    
-//     $response = curl_exec($ch);
-//     curl_close($ch);
+    $response = curl_exec($ch);
+    curl_close($ch);
 
-//     return $response;
-// }
+    return $response;
+}
 
 ?>

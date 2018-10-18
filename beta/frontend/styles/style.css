@@ -182,7 +182,7 @@ tr:nth-child(even) {
     text-align: left;
 }
 
-#test-cases-form {
+#test-cases-table{
     width: 65%;
     display: inline-block;
     text-align: center;

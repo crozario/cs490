@@ -1,12 +1,14 @@
+<?php  session_start(); ?> 
+
 <?php
 
 if (isset($_POST['username']) && isset($_POST['password'])  ) {
     $uname = $_POST['username'];
     $pword = $_POST['password'];
-    $response = '{"login" : "student"}';
+    $_SESSION["user_name"] = $uname;
+    // $response = '{"login" : "instructor"}';
+    $response = send_login_info($uname, $pword);
     echo $response;
-
-
 
 } elseif (isset($_POST['add_question'])) {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/addquestion.php';
@@ -20,7 +22,8 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
         'test_case_in' =>$_POST['test_case_in'],
         'test_case_out' =>$_POST['test_case_out']
     ); 
-    
+
+
     $opt_array = array(
         CURLOPT_URL => $URL,
         CURLOPT_POST => true,
@@ -91,11 +94,33 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
 } elseif (isset($_POST['take_exam_name'])) {
     echo '{"questions":["asdfasd", "asdfasfd"], "points" : [1,4]}';
 } elseif (isset($_POST['take_exam_submit'])) {
-    echo ($_POST['questions']);
-}
+    echo ($_POST['points']);
+} elseif (isset($_POST['get_user_name'])) {
+    echo  $_SESSION["user_name"];
+} elseif (isset($_POST['get_pending_exams'])) {
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showtest.php';
+    $ch = curl_init();
 
+    $auth_fields = array(
+        'get_pending_exams' => $_POST['get_pending_exams'],
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
 
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
 
+    echo $response;
+} 
 
 // if (isset($_POST['username']) && isset($_POST['password'])  ) {
 //     $uname = $_POST['username'];

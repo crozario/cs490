@@ -12,6 +12,6 @@
 	if ($db->query($sql) === TRUE) {
        	echo '{"Success":"Entry made"}';
 	} else {
-		echo '{"error":"nothing added"}';
+		echo '{"Error":"Nothing added"}';
 	}
 ?>

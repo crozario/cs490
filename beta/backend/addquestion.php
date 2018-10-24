@@ -22,7 +22,7 @@
 		}
 	}
 	else {
-		echo "none added";
+		echo '{"Error":"Inputs not set"}';
 	}
 	
 	$db->close();

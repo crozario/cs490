@@ -6,10 +6,8 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	//$request = $_POST[""];
-
 	$arr = array();
-	$sql = "SELECT questionbody, difficulty, topic from question";
+	$sql = "SELECT DISTINCT questionbody, difficulty, topic FROM question";
 	$result = $db->query($sql);
 
 	while ($row = $result->fetch_assoc()) {

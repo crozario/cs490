@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body onload="student_home_onload(); return false;">
     <div class="nav-bar-container">
         <ul class="nav-bar">
             <li><a href="studenthome.html">Home</a></li>
@@ -20,17 +20,18 @@
     </div>
 
     <div>
-        <table id="pending-exams">
+        <table id="pending-exams-student">
             <tr>
                 <th>Exam Name</th>
-                <th>Status</th>  <!-- Take Button, Completed, Grades Received -->
+                <th>Status</th>  <!-- Take Button(exam not taken), Pending(exam taken), See Grade Button(Released)  -->
             </tr>
             <tr>
                 <td>test1</td>
-                <td><button>Take</button></td>
+                <td><button onclick="location.href='takeexam.html';">Take</button></td>
             </tr>
         </table>
     </div>
 </body>
 
 </html>
+

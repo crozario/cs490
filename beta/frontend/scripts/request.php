@@ -1,12 +1,11 @@
-<?php  session_start(); ?> 
+
 
 <?php
 
 if (isset($_POST['username']) && isset($_POST['password'])  ) {
     $uname = $_POST['username'];
     $pword = $_POST['password'];
-    $_SESSION["user_name"] = $uname;
-    // $response = '{"login" : "instructor"}';
+    // make_cookie($uname);
     $response = send_login_info($uname, $pword);
     echo $response;
 
@@ -91,12 +90,64 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
     curl_close($ch);
 
     echo $response;
-} elseif (isset($_POST['take_exam_name'])) {
-    echo '{"questions":["asdfasd", "asdfasfd"], "points" : [1,4]}';
+} elseif (isset($_POST['take_exam_student'])) {
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showexamtostudent.php';
+    $ch = curl_init();
+
+    $auth_fields = array(
+        'take_exam_student' => $_POST['take_exam_student'],
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    echo $response;
 } elseif (isset($_POST['take_exam_submit'])) {
-    echo ($_POST['points']);
+
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/testSubmitAnswer.php';
+    $ch = curl_init();
+
+    $auth_fields = array(
+        'user_name' => $_POST['user_name'],
+        'answers' => $_POST['answers'],
+        'exam_name' => $_POST['exam_name']
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    echo $response;
+
 } elseif (isset($_POST['get_user_name'])) {
-    echo  $_SESSION["user_name"];
+    // echo  $_SESSION["user_name"];
+    // echo $_COOKIE['user'];
+} elseif (isset($_POST['logout'])) {
+    // destroy_cookie();
+
+} elseif (isset($_POST['get_student_exam_list'])) {
+    // https://web.njit.edu/~ak697/cs490/cs490-beta/showreleasedexamtostudent.php
 } elseif (isset($_POST['get_pending_exams'])) {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showtest.php';
     $ch = curl_init();
@@ -128,6 +179,19 @@ if (isset($_POST['username']) && isset($_POST['password'])  ) {
 //     $response = send_login_info($uname, $pword);
 //     echo $response;
 // }
+
+
+function destroy_cookie() {
+    setcookie("user", "", time() - 3600);
+}
+
+function make_cookie($username) {
+    ob_start();
+    $cookie_name = "user";
+    $cookie_value = $username;
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+    ob_end_flush();
+}
 
 function send_login_info($username, $password) {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/login.php';

@@ -7,7 +7,7 @@
 	}
 
 	$arr = array();
-	$sql = "SELECT DISTINCT questionbody, difficulty, topic FROM question";
+	$sql = "SELECT DISTINCT questionbody, difficulty, topic, testcasesin, testcasesout, functionName, constraints FROM question";
 	$result = $db->query($sql);
 
 	while ($row = $result->fetch_assoc()) {

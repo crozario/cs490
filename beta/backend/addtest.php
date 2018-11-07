@@ -24,5 +24,6 @@ else {
 	echo '{"error":"nothing added"}';
 }
 
-	$db->close();
+    $db->close();
+
 ?>

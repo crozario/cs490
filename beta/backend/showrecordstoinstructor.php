@@ -1,18 +1,17 @@
 <?php
-
+	
 	include "db.php";
-
+	
 	if ($db->connect_error) {
  		die('Connection failed: ' . $db->connect_error);
 	}
-		
-	//$examname = $_POST['examname'];
-	
+
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT exam, question, points FROM examquestionlist WHERE rel = 1");
+	$sql = "SELECT distinct * FROM records";
+	$result = $db->query($sql);
 
 	while ($row = $result->fetch_assoc()) {
-		//printf('{"exam": "%s"}', $row['exam']);
+		//printf('{"questionbody": "%s", "difficulty":"%s", "topic":"%s"}', $row['questionbody'], $row['difficulty'], $row['topic']);
 		array_push($arr, $row);	
 	}
 
@@ -20,5 +19,4 @@
 	echo $json;
 
 	$db->close();
-
 ?>

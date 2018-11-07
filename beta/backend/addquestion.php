@@ -12,9 +12,9 @@
 	$testcasein = $_POST['testcasein'];
 	$testcaseout = $_POST['testcaseout'];
 	$functionName = $_POST['functionName'];
-
-	if (isset($questionbody) && isset($difficulty) && isset($topic) && isset($testcasein) && isset($testcaseout) && isset($functionName)) {	
-		$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName')";	
+	$constraints = $_POST['constraints'];
+	
+		$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName', 'constraints')";	
 		if ($db->query($sql) === True) {
     		echo '{"Success":"Nice"}';
 		} else {

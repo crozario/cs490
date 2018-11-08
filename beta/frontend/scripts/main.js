@@ -51,29 +51,23 @@ function login_button_pressed() {
 // Logout 
 
 function logout_button_pressed() {
-    location.href = "index.php";
-    // alert("hello");
-    // var vars = "get_user_name=true";
-    // var req = new XMLHttpRequest();
+    var vars = "logout=true";
+    var req = new XMLHttpRequest();
 
-    // req.onreadystatechange = function () {
-    //     if (req.readyState == 4) {
+    req.onreadystatechange = function () {
+        if (req.readyState == 4) {
+            if (req.status == 200) {
 
-    //         if (req.status == 200) {
-    //             // var json_response = JSON.parse(req.responseText);
-    //             alert(req.responseText);
-
-    //             location.href = "index.php";
+                location.href = "index.php";
                 
-    //         } else {
-    //             status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
-    //         }
-    //     }
-    // }
-
-    // req.open("POST", "scripts/request.php", true);
-    // req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // req.send(vars);
+            } else {
+                status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
+            }
+        }
+    }
+    req.open("POST", "scripts/request.php", true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send(vars);
 
 }
 

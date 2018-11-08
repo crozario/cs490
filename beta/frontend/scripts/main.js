@@ -27,9 +27,9 @@ function login_button_pressed() {
                 var json_response = JSON.parse(req.responseText);
                 var login_response = json_response.login;
                 if (login_response == "student") {
-                    location.href = "studenthome.html";
+                    location.href = "studenthome.php";
                 } else if (login_response == "instructor") {
-                    location.href = "instructorhome.html";
+                    location.href = "instructorhome.php";
                 } else if (login_response == "fail") {
                     status_id.innerHTML = `<strong>Wrong Username or Password<strong>`;
                 } else {
@@ -51,7 +51,7 @@ function login_button_pressed() {
 // Logout 
 
 function logout_button_pressed() {
-    location.href = "index.html";
+    location.href = "index.php";
     // alert("hello");
     // var vars = "get_user_name=true";
     // var req = new XMLHttpRequest();
@@ -63,7 +63,7 @@ function logout_button_pressed() {
     //             // var json_response = JSON.parse(req.responseText);
     //             alert(req.responseText);
 
-    //             location.href = "index.html";
+    //             location.href = "index.php";
                 
     //         } else {
     //             status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
@@ -75,7 +75,6 @@ function logout_button_pressed() {
     // req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     // req.send(vars);
 
-   
 }
 
 // Instructor Home 
@@ -439,7 +438,7 @@ function create_remove_button_test_case() {
 
 function student_home_onload() {
     // var table = document.getElementById("pending-exams-student");
-    var vars = "get_user_name=true";
+    var vars = "get_username=true";
 
     var req = new XMLHttpRequest();
 
@@ -586,7 +585,7 @@ function take_exam_submit_button_pressed() {
                 alert(req.responseText);
                 // var json_response = JSON.parse(req.responseText);
                 // alert(json_response.added);
-                // location.href = "login.html";
+                // location.href = "login.php";
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
             }
@@ -596,7 +595,7 @@ function take_exam_submit_button_pressed() {
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(vars);
 
-    // var vars = "get_user_name=true";
+    // var vars = "get_username=true";
     // var req = new XMLHttpRequest();
 
 
@@ -608,7 +607,7 @@ function take_exam_submit_button_pressed() {
     //             username = json_response;
     //             // var json_response = JSON.parse(req.responseText);
     //             // alert(json_response.added);
-    //             // location.href = "login.html";
+    //             // location.href = "login.php";
     //         } else {
     //             status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
     //         }

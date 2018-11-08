@@ -5,11 +5,13 @@ session_start();
 if (isset($_POST['username']) && isset($_POST['password'])  ) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $user_type = send_login_info($username, $password);
+    $response = send_login_info($username, $password);
+    $json_array = json_decode($response, true);
+    $user_type = $json_array['login'];
     if ($user_type !== 'fail') {
         session_login($username, $user_type);   
     }
-    echo $user_type;
+    echo $response;
 
 } elseif (isset($_POST['add_question'])) {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/addquestion.php';

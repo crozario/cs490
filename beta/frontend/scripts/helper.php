@@ -2,7 +2,7 @@
 session_start();
 
 function check_session($user_type) {
-    if (is_logged_in() === false) {
+    if (is_logged_in() === false || $user_type !== $_SESSION['user_type']) {
         header('Status: 404 Not Found', false, 404); 
         header('Location: ../404.php'); 
     }

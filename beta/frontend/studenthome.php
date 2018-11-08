@@ -1,3 +1,9 @@
+<?php
+    include_once("scripts/helper.php");
+    session_start();
+    check_session("student");
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -14,7 +20,7 @@
 <body onload="student_home_onload(); return false;">
     <div class="nav-bar-container">
         <ul class="nav-bar">
-            <li><a href="studenthome.html">Home</a></li>
+            <li><a href="studenthome.php">Home</a></li>
         </ul>
         <button onclick="logout_button_pressed(); return false;">Logout</button>
     </div>
@@ -27,7 +33,7 @@
             </tr>
             <tr>
                 <td>test1</td>
-                <td><button onclick="location.href='takeexam.html';">Take</button></td>
+                <td><button onclick="location.href='takeexam.php';">Take</button></td>
             </tr>
         </table>
     </div>

@@ -1,3 +1,9 @@
+<?php
+    include_once("scripts/helper.php");
+    session_start();
+    check_session("instructor");
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -15,9 +21,9 @@
 
         <div class="nav-bar-container">
                 <ul class="nav-bar">
-                    <li><a href="instructorhome.html">Home</a></li>
-                    <li><a href="instructorexams.html">Create Exams</a></li>
-                    <li><a href="questionbank.html">Question Bank</a></li>
+                    <li><a href="instructorhome.php">Home</a></li>
+                    <li><a href="instructorexams.php">Create Exams</a></li>
+                    <li><a href="questionbank.php">Question Bank</a></li>
                 </ul>
                 <button onclick="logout_button_pressed(); return false;">Logout</button>
         

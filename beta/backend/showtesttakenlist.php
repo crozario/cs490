@@ -6,10 +6,10 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 		
-	$examname = $_POST['exam'];
+	//$examname = $_POST['examname'];
 	
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT exam, question FROM examquestionlist WHERE exam = '$examname'");
+	$result = mysqli_query($db, "SELECT DISTINCT * FROM taken");
 
 	while ($row = $result->fetch_assoc()) {
 		//printf('{"exam": "%s"}', $row['exam']);
@@ -20,5 +20,4 @@
 	echo $json;
 
 	$db->close();
-
 ?>

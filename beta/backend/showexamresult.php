@@ -7,9 +7,10 @@
 	}
 		
 	$examname = $_POST['exam'];
+	$user = $_POST['user'];
 	
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT exam, question FROM examquestionlist WHERE exam = '$examname'");
+	$result = mysqli_query($db, "SELECT DISTINCT user, exam, autograde, updategrade, comment FROM records WHERE exam = '$examname' AND user = '$user' AND points = 'NULL'");
 
 	while ($row = $result->fetch_assoc()) {
 		//printf('{"exam": "%s"}', $row['exam']);

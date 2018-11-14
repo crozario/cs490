@@ -7,9 +7,10 @@
 	}
 		
 	$examname = $_POST['exam'];
+	$user = $_POST['user'];
 	
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT exam, question FROM examquestionlist WHERE exam = '$examname'");
+	$result = mysqli_query($db, "SELECT DISTINCT points, testcasesin, testcasesout, expectedtestcasesout, question, answer FROM records WHERE exam = '$examname' AND user = '$user' AND points IS NOT NULL");
 
 	while ($row = $result->fetch_assoc()) {
 		//printf('{"exam": "%s"}', $row['exam']);
@@ -18,7 +19,7 @@
 
 	$json = json_encode($arr);
 	echo $json;
-
+	
 	$db->close();
 
 ?>

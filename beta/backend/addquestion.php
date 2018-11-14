@@ -14,16 +14,12 @@
 	$functionName = $_POST['functionName'];
 	$constraints = $_POST['constraints'];
 	
-		$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName', 'constraints')";	
+	$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName, constraints) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName', 'constraints')";	
 		if ($db->query($sql) === True) {
     		echo '{"Success":"Nice"}';
 		} else {
 			printf('{"Error":"%s"}', mysqli_error($db));
 		}
-	}
-	else {
-		echo '{"Error":"Inputs not set"}';
-	}
 	
 	$db->close();
 

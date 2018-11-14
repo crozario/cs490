@@ -1,5 +1,4 @@
 <?php
-
 	include "db.php";
 
 	if ($db->connect_error) {
@@ -7,12 +6,12 @@
 	}
 		
 	$examname = $_POST['exam'];
+	$user = $_POST['user'];
 	
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT exam, question FROM examquestionlist WHERE exam = '$examname'");
+	$result = mysqli_query($db, "SELECT  DISTINCT answer FROM records WHERE user = '$user' AND exam = '$examname'");
 
 	while ($row = $result->fetch_assoc()) {
-		//printf('{"exam": "%s"}', $row['exam']);
 		array_push($arr, $row);	
 	}
 

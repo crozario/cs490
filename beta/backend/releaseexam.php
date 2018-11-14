@@ -6,7 +6,7 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$examname = "exam1";//$_POST['examname'];
+	$examname = $_POST['examname'];
 
 	$sql = "UPDATE examquestionlist SET rel = 1 WHERE exam = '$examname'";
 

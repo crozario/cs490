@@ -9,6 +9,14 @@
 $JSON = array();
 $data = "";
 
+// jk56, alpha = instructor
+$USER = $_POST['username'];
+$PASS = $_POST['password'];
+
+auth_db($USER, $PASS, $JSON);
+jsonify($JSON, $data);
+print_r($data);
+
 function auth_db($user, $pass, &$JSON){
     $data = array(
         'username' => $user,
@@ -43,10 +51,4 @@ function jsonify($array, &$data){
     }
     $data .= " }";
 }
-// jk56, alpha = instructor
-$USER = $_POST['username'];
-$PASS = $_POST['password'];
 
-auth_db($USER, $PASS, $JSON);
-jsonify($JSON, $data);
-print_r($data);

@@ -16,63 +16,220 @@
 //$questionId = "";
 //$testId = "";
 //echo file_get_contents("php://input");
-$code = $_POST['answer'];
-$testCaseIn = $_POST['testCasesIn'];
-$testCaseOut = $_POST['testCasesOut'];
-$functionName = $_POST['functionName'];
 
-//student has to put in space after function name in def
-$answerArray = explode(' ', $code);
-//echo var_dump($answerArray) . '<br>';
-if ($answerArray[1] == $functionName){
-    $grade += 2;
+//read questions from the showquestiontostudent
+$exam = 'exam1';//$_POST['exam'];
+$user = 'ez90';//$_POST['user'];
+$data = array(
+    'exam'=>$exam,
+    'user'=>$user
+);
+//questions,testcases,etc URL
+$url = "https://web.njit.edu/~eo65/cs490/beta/backend/gradetest.php";
+$info = "";
+retrieveData($info, $url,$data);
+$obj = json_decode($info);
+//arrays to store all the testcases,etc for each question
+
+$testCasesIn = array();
+$testCasesOut = array();
+$functionName = array();
+$questions = array();
+$pointsValue = array();
+$constraints = array();
+
+foreach ($obj as $item)
+{
+    $questions[] = $item->question;
+    $pointsValue[] = $item->points;
+    $testCasesIn[] = $item->testcasein;
+    $testCasesOut[] = $item->testcaseout;
+    $functionName[] = $item->functionName;
+    $constraints[] = $item->constraints;
 }
-else {
-    $answerArray[1] = $functionName;
-    $code = implode(' ', $answerArray);
+
+$url = "https://web.njit.edu/~eo65/cs490/beta/backend/showstudentanswer.php";
+retrieveData($info, $url, $data);
+
+$obj = json_decode($info);
+//array to store all the exam answers
+$answers = array();
+
+foreach ($obj as $item)
+{
+    $answers[] = $item->answer;
+    //add constraint array later
+//    echo 'question: ' . $question . ' points: '.$points . '<br>';
 }
+#TODO: addslashes to testin just to be safe
+foreach ($questions as $key=>$question){
+//    echo '<br>' . $answers[$key] . $testCasesIn[$key] . $testCasesOut[$key] . $functionName[$key] .'<br>';
+//    echo $question . $pointsValue[$key];
+    $testCases = array();
+    stringToArray($testCasesIn[$key], $testCasesOut[$key], $testCases);
+    //bool to keep track of functionname and constraint being correct
+    $funcName = true;
+    $constName = true;
 
-if (strpos($code, 'return') == true){
-    $printOut = true;
-}
-
-$testCases = array();
-stringToArray($testCaseIn, $testCaseOut, $testCases);
-//var_dump($testCases);
-
-$counter = 0;
-foreach($testCases as $testIn=> $testOut){
-    if($printOut){
-        $codeTemp = $code . "\nprint($functionName($testIn))";
+    $code = $answers[$key];
+    $functionName = $functionName[$key];
+    $pointsPerTest = $pointsValue[$key]/(count($testCases));
+    echo "points for question: ". $pointsValue[$key] . " points per test: " .$pointsPerTest . " test cases #: ".count($testCases).'<br>';
+    $totalGrade = 0;
+    //finds function name in answer
+    if (strpos($code, $functionName) == true){
+        echo "functionName was correct";
+//        $pointsPerTest = $originalPointsPerTest;
     }
     else {
-        $codeTemp = $code . "\n$functionName($testIn)";
+        //replace function name if wrong
+        $matches = array();
+        preg_match_all("/[\w\d]+/", $code, $matches);
+        $search = $matches[0][1];
+        $code = str_replace($search,$functionName,$code);
+        echo '<br>';
+        print_r("functionName replaced");
+//        $pointsPerTest = $originalPointsPerTest*0.8;
+        $funcName = false;
     }
-//    echo $codeTemp . '<br>';
-    file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
-    exec("python testCode.py", $output) . '<br>';
-//    echo $out . '<br>';
-    echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
-//    echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
-    if ($testOut == $output[$counter]){
-        $grade += 2;
+//  decides if function call should have print
+    if (strpos($code, 'return') == true){
+        $printOut = true;
     }
-    $counter++;
+//  checks for constraint
+    if (($constraints[$key] == null) == true){
+        //no constraint
+    }
+    elseif (strpos($code, $constraints[$key]) == true){
+        //constraint found
+    }
+    else {
+        //$pointsPerTest = $pointsPerTest - $originalPointsPerTest*0.2;
+        echo '<br>'."constraint not found: ".$constraints[$key].'<br>';
+        $constName = false;
+//        echo '<br>'.$constraints[$key] == null.'<br>';
+    }
+
+    $counter = 0;
+    foreach($testCases as $testIn=> $testOut){
+//  divide pointsValue[x] by testCases[x] and assign that value for each correct test case
+        if($printOut){
+            $codeTemp = $code . "\nprint($functionName($testIn))";
+        }
+        else {
+            $codeTemp = $code . "\n$functionName($testIn)";
+        }
+//  echo $codeTemp . '<br>';
+        file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
+        exec("python testCode.py", $output);
+//  echo $out . '<br>';
+        echo '<br>' ."input: " . $testIn . ' output: ' . $output[$counter] . '<br>';
+        echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
+        $grade = 0;
+        if ($testOut == $output[$counter]){
+            $grade = $pointsPerTest;
+            $totalGrade += $pointsPerTest;
+        }
+//  post to back end records table for each test case, also provide studentid and examid
+        $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>$testOut, 'points'=>$grade, 'testcasesout'=>$output[$counter], 'user'=>$user, 'exam'=>$exam, 'question'=>$questions[$key], 'answer'=>addslashes($code));
+        echo "POST: " . $counter . '<br>';
+        sendGrades($postArray);
+//        echo var_dump($postArray) . '<br>';
+        $counter++;
+    }
+    $postArray = array('user'=>$user, 'exam'=>$exam, 'question'=>$questions[$key], 'answer'=>addslashes($code), 'autograde'=>$totalGrade);
+    sendGrades($postArray);
 }
 
-echo 'Grade: ' . $grade;
+//exit();
+// questions and points are stored in respective arrays
+//echo var_dump($obj[0]) . '<br>';
+//echo $obj[0]->questions . '<br>';
+//echo $obj[0]->points . '<br>';
 
-$testCaseInArray = explode(':', $testCaseIn);
+//read in the following fields:
+//$url = "https://web.njit.edu/~ak697/cs490/cs490-beta/fortestcasesandanswer.php";
 
-$data = array(
-    'userName'=>$userName,
-    'questionId'=>$questionId,
-    'grade'=>$grade
-    );
 
-function sendGrades($data, &$JSON){
+//answers, testCasesIn, testCasesOut, and functionName are stored in respective arrays
 
-    $url = "";
+
+//make sure to return the old answer instead of the modified one
+//$code = "def operatin(op, a, b):
+//    if op == '+':
+//        print  a+b
+//    elif op == '-':
+//        print a-b
+//    elif op == '*':
+//        print a*b
+//    elif op == '/':
+//        print a/b
+//    else:
+//        print \"eror\"";
+//
+//$testCaseIn = "'+',3,4:'-',13,5:'/',20,4:'*',7,7:'#',8,9";
+//$testCaseOut = "7:8:5:49:error";
+//$functionName = "operation";
+
+//finds function name in answer
+//if (strpos($code, $functionName) == true){
+//    print_r('functionName was correct\n');
+//}
+//else {
+//    //replace first occurence of the word before '(' if function name is wrong
+//    $matches = array();
+//    preg_match_all("/[\w\d]+/", $code, $matches);
+//    $search = $matches[0][1];
+//    $code = str_replace($search,$functionName,$code);
+//    echo '<br>';
+//    print_r('functionName replaced');
+//}
+//
+//if (strpos($code, 'return') == true){
+//    $printOut = true;
+//}
+//
+////constraint yet to be defined
+////if (strpos($code, $constraint) == true){
+////    $printOut = true;
+////}
+//
+//$testCases = array();
+//stringToArray($testCaseIn, $testCaseOut, $testCases);
+////var_dump($testCases);
+//
+//$counter = 0;
+//foreach($testCases as $testIn=> $testOut){
+////divide pointsValue[x] by testCases[x] and assign that value for each correct test case
+//    if($printOut){
+//        $codeTemp = $code . "\nprint($functionName($testIn))";
+//    }
+//    else {
+//        $codeTemp = $code . "\n$functionName($testIn)";
+//    }
+////    echo $codeTemp . '<br>';
+//    file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
+//    exec("python testCode.py", $output) . '<br>';
+////    echo $out . '<br>';
+////    echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
+////    echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
+//    if ($testOut == $output[$counter]){
+//        $grade = $pointsValue[$key];
+//    }
+//    else { $grade = 0; }
+//    //post here to back end records table for each test case, also provide studentid and examid
+//    $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>$testOut, 'points'=>$grade, 'testcasesout'=>$output[$counter], 'user'=>'rp567', 'exam'=>'exam2', 'question'=>'write a function that can divide, multiply, add, and subtract based on an op and two integer inputs', 'answer'=>addslashes($code));
+//    echo "POST: " . $counter . '<br>';
+////    sendGrades($postArray);
+//    echo var_dump($postArray) . '<br>';
+//    $counter++;
+//}
+
+//echo 'Grade: ' . $grade;
+
+function sendGrades($data){
+
+    $url = "https://web.njit.edu/~eo65/cs490/beta/backend/addpoints.php";
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -80,11 +237,19 @@ function sendGrades($data, &$JSON){
     $response = curl_exec($ch);
     //should probably print success or fail for adding grades for a test
     print_r($response );
-//    if (strpos($response, 'Welcome') == true){
-//        $JSON['db'] = "success";
-//    } else {
-//        $JSON['db'] = "fail";
-//    }
+
+    curl_close($ch);
+}
+
+function retrieveData(&$response, $url, $data){
+    //https://web.njit.edu/~eo65/cs490/beta/backend/showquestiontostudent.php
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);    
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = (curl_exec($ch));
+    print_r($response);
+    //should probably print success or fail for adding grades for a test
     curl_close($ch);
 }
 

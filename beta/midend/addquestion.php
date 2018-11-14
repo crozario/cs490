@@ -6,15 +6,15 @@
  * Time: 10:44 PM
  */
 
-//echo file_get_contents('php://input');
+//adding a question to backend table
 
 //$questionId = uniqid("", TRUE); //$_POST['questionId'];
-$questionBody = $_POST['question']; //"Write a function named double that doubles an integer input"; //
-$testcasein = $_POST['test_case_in']; //"1:2:3";
-$testcaseout = $_POST['test_case_out']; //"2:4:6";
-$difficulty = $_POST['difficulty']; //'easy';
-$functionName = $_POST['function_name']; //'double';
-$topic = $_POST['topic']; //'function';
+$questionBody = $_POST['question'];
+$testcasein = $_POST['test_case_in'];
+$testcaseout = $_POST['test_case_out'];
+$difficulty = $_POST['difficulty'];
+$functionName = $_POST['function_name'];
+$topic = $_POST['topic'];
 
 $data = array(
     'questionbody'=>$questionBody,

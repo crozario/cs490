@@ -8,8 +8,9 @@
 
 //probably should have testId, questionIds, instructorId
 $examName = $_POST['exam_name']; //'Exam1';
-$questionArray = json_decode($_POST['questions']); //array('This is question1');
-$pointsValue = json_decode($_POST['points']); //array(10);
+$questionArray = array('This is question1'); //json_decode($_POST['questions']);
+$pointsValue = array(10); //json_decode($_POST['points']);
+//echo var_dump($pointsValue);
 
 //echo var_dump($pointsValue). '<br>';
 //echo var_dump($questionArray). '<br>';
@@ -49,11 +50,12 @@ function sendTest($data){
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    var_dump($data);
+//    var_dump($data);
     echo '<br>';
 
     $response = curl_exec($ch) or die("Curl to backend_add_test didn't work");
     //backend should probably print success or fail for adding test
+    echo 'response from backend';
     print_r($response );
 //    if (strpos($response, 'Welcome') == true){
 //        $JSON['db'] = "success";

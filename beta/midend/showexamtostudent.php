@@ -2,15 +2,19 @@
 /**
  * Created by IntelliJ IDEA.
  * User: furqan
- * Date: 11/7/18
- * Time: 9:49 PM
+ * Date: 11/4/18
+ * Time: 2:46 PM
  */
-//shows all created exams to instructor on homepage
-showTest();
-function showTest(){
-    $url = "https://web.njit.edu/~eo65/cs490/beta/backend/examlist.php";
+#show released exam questions to the student
+$data = array(
+    'exam'=>'exam1'
+);
+showTest($data);
+function showTest($data){
+    $url = "https://web.njit.edu/~eo65/cs490/beta/backend/showquestiontostudent.php";
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //    var_dump($data);
 //    echo '<br>';

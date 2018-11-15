@@ -1,5 +1,5 @@
-Write a function that can divide, multiply, add, and subtract based on an op and two integer inputs.
-def operation (op, a, b):
+$question = "write a function that can divide, multiply, add, and subtract based on an op and two integer inputs";
+$code = "def operation (op, a, b):
     if op == '+':
         print  a+b
     elif op == '-':
@@ -9,25 +9,15 @@ def operation (op, a, b):
     elif op == '/':
         print a/b
     else:
-        print "error"
+        print \"eror\"";
 
-'+',3,4:'-',13,5:'/',20,4:'*',7,7:'#',8,9
-7:8:5:49:error
-operation
+$testCaseIn = "'+',3,4:'-',13,5:'/',20,4:'*',7,7:'#',8,9";
+$testCaseOut = "7:8:5:49:error";
+$functionName = "operation";
 
-Create a function called doubleIt that takes in an integer parameter and returns twice it's value. 
-def doubleIt(num):
-    return num*2
+def double (num):
+    print(num*2)"
 
-def sum_double(a, b):
-  sum = a + b
+def multiply (num1, num2):
+    print(num1*num2)"
 
-  if a == b:
-    sum = sum * 2
-  return sum
-
-def subtract(a,b):
-  return a-b
-
-def add(a,b):
-  return a+b

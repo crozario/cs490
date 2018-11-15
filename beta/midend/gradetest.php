@@ -18,8 +18,8 @@
 //echo file_get_contents("php://input");
 
 //read questions from the showquestiontostudent
-$exam = 'exam1';//$_POST['exam'];
-$user = 'ez90';//$_POST['user'];
+$exam = $_POST['exam'];
+$user = $_POST['user'];
 $data = array(
     'exam'=>$exam,
     'user'=>$user
@@ -61,6 +61,8 @@ foreach ($obj as $item)
     //add constraint array later
 //    echo 'question: ' . $question . ' points: '.$points . '<br>';
 }
+
+//exit(); //before grading
 #TODO: addslashes to testin just to be safe
 foreach ($questions as $key=>$question){
 //    echo '<br>' . $answers[$key] . $testCasesIn[$key] . $testCasesOut[$key] . $functionName[$key] .'<br>';
@@ -131,13 +133,13 @@ foreach ($questions as $key=>$question){
             $totalGrade += $pointsPerTest;
         }
 //  post to back end records table for each test case, also provide studentid and examid
-        $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>$testOut, 'points'=>$grade, 'testcasesout'=>$output[$counter], 'user'=>$user, 'exam'=>$exam, 'question'=>$questions[$key], 'answer'=>addslashes($code));
+        $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>addslashes($testOut), 'points'=>$grade, 'testcasesout'=>addslashes($output[$counter]), 'user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code));
         echo "POST: " . $counter . '<br>';
         sendGrades($postArray);
 //        echo var_dump($postArray) . '<br>';
         $counter++;
     }
-    $postArray = array('user'=>$user, 'exam'=>$exam, 'question'=>$questions[$key], 'answer'=>addslashes($code), 'autograde'=>$totalGrade);
+    $postArray = array('user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code), 'autograde'=>$totalGrade);
     sendGrades($postArray);
 }
 
@@ -248,7 +250,7 @@ function retrieveData(&$response, $url, $data){
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);    
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = (curl_exec($ch));
-    print_r($response);
+//    print_r($response);
     //should probably print success or fail for adding grades for a test
     curl_close($ch);
 }

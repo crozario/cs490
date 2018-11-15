@@ -7,7 +7,7 @@
  */
 #show released exam questions to the student
 $data = array(
-    'exam'=>'exam1'
+    'exam'=>'exam1'//$_POST['exam']
 );
 showTest($data);
 function showTest($data){

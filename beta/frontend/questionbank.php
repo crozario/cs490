@@ -1,7 +1,7 @@
 <?php
-    include_once("scripts/helper.php");
-    session_start();
-    check_session("instructor");
+session_start();
+include_once("scripts/helper.php");
+check_session("instructor");
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,32 @@
         
             </div>
 
+    
+
     <div class="question-bank-page">
+        <div class="question-bank-filtering">
+            <h2>Filtering</h2>
+
+            <div id="topic-select-filtering-question-bank">
+                <label for="topic-select-filtering">Topic:</label>
+
+            </div>
+
+            <div id="difficulty-select-filtering-question-bank">
+                <label for="difficulty-select-filtering">Difficulty:</label>
+
+            </div>
+
+            <div>
+                <label for="keyword-filter-name">Keyword:</label>
+                <textarea name="keyword-filter-name" id="keyword-filter-name" cols="50" rows="1"></textarea>
+            </div>
+
+            <button onclick="filter_button_pressed_question_bank(); return false;">Filter</button>
+            <button onclick="filtering_reset_button_pressed_question_bank(); return false;">Reset</button>
+            
+        </div>
+
         <div class="question-bank-container">
             <h2>Question Bank</h2>
             <div>
@@ -59,29 +84,19 @@
                     <input type="text" id="function-name" />
                 </div>
 
-                <!-- <div>
-                    <label for="function-parameters">Function Parameters:</label>
-                    <input type="text" id="function-parameters" />
-                </div> -->
-
-
-                <div>
+                <div id="topic-select-question-bank">
                     <label for="topic-select">Topic:</label>
-                    <select id="topic-select">
-                        <option value="conditionals">Conditionals</option>
-                        <option value="recursion">Recursion</option>
-                        <option value="loops">Loops</option>
-                        <option value="strings">Strings</option>
-                    </select>
+
                 </div>
 
-                <div>
+                <div id="difficulty-select-question-bank">
                     <label for="difficulty-select">Difficulty:</label>
-                    <select id="difficulty-select">
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
+
+                </div>
+
+                <div id="constraint-select-question-bank">
+                    <label for="constraint-select">Constraint:</label>
+
                 </div>
 
                 <div>

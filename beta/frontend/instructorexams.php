@@ -1,7 +1,7 @@
 <?php
-    include_once("scripts/helper.php");
-    session_start();
-    check_session("instructor");
+session_start();
+include_once("scripts/helper.php");
+check_session("instructor");
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +55,29 @@
 
         </div> -->
 
+        <div class="question-bank-filtering">
+            <h2>Filtering</h2>
+
+            <div id="topic-select-filtering-instructor-exam">
+                <label for="topic-select-filtering-instructor">Topic:</label>
+
+            </div>
+
+            <div id="difficulty-select-filtering-instructor-exam">
+                <label for="difficulty-select-filtering-instructor">Difficulty:</label>
+
+            </div>
+
+            <div>
+                <label for="keyword-filter-name-instructor">Keyword:</label>
+                <textarea name="keyword-filter-name-instructor" id="keyword-filter-name-instructor" cols="50" rows="1"></textarea>
+            </div>
+
+            <button onclick="filter_button_pressed_instructor_exam(); return false;">Filter</button>
+            <button onclick="filtering_reset_button_pressed_instructor_exam(); return false;">Reset</button>
+            
+        </div>
+
 
         <div class="question-bank-container">
             <h2>Question Bank</h2>
@@ -65,13 +88,6 @@
                         <th>Difficulty</th>
                         <th>Question</th>
                     </tr>
-                    <!-- <tr>
-                        <td>Conditional</td>
-                        <td>Hard</td>
-                        <td>Given a string name, e.g. "Bob", return a greeting of the form "Hello Bob!".</td>
-                        <td><button>Add</button></td>
-                    </tr> -->
-
                 </table>
             </div>
 

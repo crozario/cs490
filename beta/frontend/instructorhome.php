@@ -1,7 +1,7 @@
 <?php
-    include_once("scripts/helper.php");
-    session_start();
-    check_session("instructor");
+session_start();
+include_once("scripts/helper.php");
+check_session("instructor");
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +35,6 @@
             <table id="pending-exams">
                 <tr>
                     <th>Exam Name</th>
-                    <th>Scores Released</th>
                     <th>Review</th>  
                 </tr>
             </table>

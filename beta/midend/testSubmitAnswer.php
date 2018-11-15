@@ -30,6 +30,7 @@
 
 //exit();
 //
+
 $answersArray = json_decode($_POST['answers']);
 $username = 'ez90';//$_POST['user_name'];
 $examname= 'exam1';//$_POST['exam_name'];
@@ -43,6 +44,7 @@ for ($x=0; $x<count($answersArray);$x++){
     );
     sendAnswers($data, $url);
 }
+
 
 var_dump($_POST);
 echo '<br>';

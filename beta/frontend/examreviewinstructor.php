@@ -17,7 +17,7 @@ check_session("instructor");
 
 </head>
 
-<body onload="exam_review_list_onload(); return false;">
+<body onload="exam_review_instructor_onload(); return false;">
     <div class="nav-bar-container">
             <ul class="nav-bar">
                 <li><a href="instructorhome.php">Home</a></li>
@@ -27,15 +27,20 @@ check_session("instructor");
             <button onclick="logout_button_pressed(); return false;">Logout</button>
     </div>
 
-            <div>
-                <table id="exam-review-list">
-                    <tr>
-                        <th>Student</th>
-                        <th>Grade</th>
-                        <th>Review</th>
-                    </tr>
-                </table>
-            </div>
+    <div>
+        <h2 id="exam-review-instructor-exam-name"></h2>
+        <h2 id="exam-review-instructor-student-name"></h2>
+        <table id="exam-review-instructor-table">
+            <tr>
+            
+            </tr>
+
+        </table>
+
+    </div>
+    <div>
+        <button class="release-exam" onclick="release_exam_button_pressed(); return false;">Release Exam</button>
+    </div>
 
 </body>
 

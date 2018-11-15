@@ -1,7 +1,8 @@
 <?php
-    include_once("scripts/helper.php");
-    session_start();
-    check_session("student");
+session_start();
+include_once("scripts/helper.php");
+check_session("student");
+
 ?>
 
 <!DOCTYPE html>
@@ -17,13 +18,26 @@
 
 </head>
 
-<body>
+<body onload="exam_review_student_onload(); return false;">
     <div class="nav-bar-container">
         <ul class="nav-bar">
             <li><a href="studenthome.php">Home</a></li>
         </ul>
+        <button onclick="logout_button_pressed(); return false;">Logout</button>
+    </div>
+
+    <div>
+        <h2 id="exam-review-student-exam-name"></h2>
+    
+        <table id="exam-review-student-table">
+            <tr>
+            
+            </tr>
+
+        </table>
 
     </div>
+
 </body>
 
 </html>

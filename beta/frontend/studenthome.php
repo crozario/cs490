@@ -1,7 +1,7 @@
 <?php
-    include_once("scripts/helper.php");
-    session_start();
-    check_session("student");
+session_start();
+include_once("scripts/helper.php");
+check_session("student");
 ?>
 
 <!DOCTYPE html>
@@ -30,10 +30,6 @@
             <tr>
                 <th>Exam Name</th>
                 <th>Status</th>  <!-- Take Button(exam not taken), Pending(exam taken), See Grade Button(Released)  -->
-            </tr>
-            <tr>
-                <td>test1</td>
-                <td><button onclick="location.href='takeexam.php';">Take</button></td>
             </tr>
         </table>
     </div>

@@ -1,7 +1,7 @@
 <?php
-    include_once("scripts/helper.php");
-    session_start();
-    check_session("student");
+session_start();
+include_once("scripts/helper.php");
+check_session("student");
 ?>
 
 <!DOCTYPE html>
@@ -30,8 +30,7 @@
     
         <table id="take-exam-table">
             <tr>
-                <!-- <label>Question:</label>
-                <label class="take-exam-question"></label> -->
+
             </tr>
 
         </table>

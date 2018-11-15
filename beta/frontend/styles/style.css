@@ -153,6 +153,13 @@ tr:nth-child(even) {
 }
 
 /* Question Bank */
+.question-bank-filtering {
+    padding: 10px;
+    width: 50%;
+    float: top;
+    border: 1px solid #ccc;
+    /* display: inline-block; */
+}
 
 .question-bank-container {
     padding: 10px;

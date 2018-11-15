@@ -1,4 +1,4 @@
-$question = "write a function that can divide, multiply, add, and subtract based on an op and two integer inputs";
+Write a function that can divide, multiply, add, and subtract based on an op and two integer inputs";
 $code = "def operation (op, a, b):
     if op == '+':
         print  a+b
@@ -21,3 +21,12 @@ def double (num):
 def multiply (num1, num2):
     print(num1*num2)"
 
+Given a string name, e.g. "Bob", return a greeting of the form "Hello Bob!". Name the function hello_name().
+def hello_name(a):
+    return("Hello " + a +"!")
+    
+Given a non-empty string and an int n, return a new string where the char at index n has been removed. The value of n will be a valid index of a char in the original string (i.e. n will be in the range 0..len(str)-1 inclusive).
+def missing_char(str, n):
+  front = str[:n]
+  back = str[n+1:]
+  return front + back

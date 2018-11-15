@@ -18,8 +18,16 @@ operation
 Create a function called doubleIt that takes in an integer parameter and returns twice it's value. 
 def doubleIt(num):
     return num*2
-    
-Create a function called multiply that takes in two integer parameters and returns their product.
-def multiply(num1, num2):
-    return num1*num2
 
+def sum_double(a, b):
+  sum = a + b
+
+  if a == b:
+    sum = sum * 2
+  return sum
+
+def subtract(a,b):
+  return a-b
+
+def add(a,b):
+  return a+b

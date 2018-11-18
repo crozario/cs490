@@ -6,8 +6,11 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 	
+	$examname = $_POST['exam'];
+	$user = $_POST['user'];
+
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT * FROM records");
+	$result = mysqli_query($db, "SELECT DISTINCT * FROM records WHERE user = '$user' AND exam = '$examname' AND question IS NOT NULL");
 
 	while ($row = $result->fetch_assoc()) {
 		//printf('{"exam": "%s"}', $row['exam']);

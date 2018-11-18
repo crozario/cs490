@@ -9,7 +9,7 @@
 	$user = $_POST['user'];
 	
 	$arr = array();
-	$result = mysqli_query($db, "SELECT  DISTINCT answer FROM records WHERE user = '$user' AND exam = '$examname'");
+	$result = mysqli_query($db, "SELECT DISTINCT answer FROM records WHERE user = '$user' AND exam = '$examname'");
 
 	while ($row = $result->fetch_assoc()) {
 		array_push($arr, $row);	

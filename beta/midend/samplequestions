@@ -36,3 +36,94 @@ missing_char('kitten', 1) → 'ktten'
 missing_char('kitten', 0) → 'itten'
 missing_char('kitten', 4) → 'kittn'
 
+Given an int n, return True if it is within 10 of 100 or 200. Note: abs(num) computes the absolute value of a number.
+
+def near_hundred(n):
+  return ((abs(100 - n) <= 10) or (abs(200 - n) <= 10))
+  
+near_hundred(93) → True
+near_hundred(90) → True
+near_hundred(89) → False
+
+We have two monkeys, a and b, and the parameters a_smile and b_smile indicate if each is smiling. We are in trouble if they are both smiling or if neither of them is smiling. Return True if we are in trouble.
+
+def monkey_trouble(a_smile, b_smile):
+  if a_smile and b_smile:
+    return True
+  if not a_smile and not b_smile:
+    return True
+  return False
+  
+monkey_trouble(True, True) → True
+monkey_trouble(False, False) → True
+monkey_trouble(True, False) → False
+
+Given a string, return a new string where "not " has been added to the front. However, if the string already begins with "not", return the string unchanged. Name it not_string().
+
+def not_string(str):
+  if len(str) >= 3 and str[:3] == "not":
+    return str
+  return "not " + str
+  
+not_string('candy') → 'not candy'
+not_string('x') → 'not x'
+not_string('not bad') → 'not bad'
+
+Given a string, return a new string where the first and last chars have been exchanged. Name it front_back().
+
+def front_back(str):
+  if len(str) <= 1:
+    return str
+ 
+  mid = str[1:len(str)-1]  
+  
+  return str[len(str)-1] + mid + str[0]
+  
+front_back('code') → 'eodc'
+front_back('a') → 'a'
+front_back('ab') → 'ba'
+
+Given 2 ints, a and b, return True if one of them is 10 or if their sum is 10. Name it makes10().
+
+def makes10(a, b):
+  return (a == 10 or b == 10 or a+b == 10)
+  
+makes10(9, 10) → True
+makes10(9, 9) → False
+makes10(1, 9) → True
+
+Given a string and a non-negative int n, return a larger string that is n copies of the original string. Name it string_times(). Use a for loop.
+
+def string_times(str, n):
+  result = ""
+  for i in range(n):  
+    result = result + str 
+  return result
+  
+string_times('Hi', 2) → 'HiHi'
+string_times('Hi', 3) → 'HiHiHi'
+string_times('Hi', 1) → 'Hi'
+
+Given a string, return a new string made of every other char starting with the first, so "Hello" yields "Hlo".
+
+def string_bits(str):
+  result = ""
+  for i in range(len(str)):
+    if i % 2 == 0:
+      result = result + str[i]
+  return result
+
+def string_bits(str):
+  result = ""
+  i = 0
+  while i < len(str):
+    if i % 2 == 0:
+      result = result + str[i]
+    i += 2
+  return result
+  
+string_bits('Hello') → 'Hlo'
+string_bits('Hi') → 'H'
+string_bits('Heeololeo') → 'Hello'
+
+

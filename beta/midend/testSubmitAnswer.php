@@ -29,29 +29,44 @@
 //sendAnswers($data, $url);
 
 //exit();
-//
 
-$answersArray = json_decode($_POST['answers']);
-$username = 'ez90';//$_POST['user_name'];
-$examname= 'exam1';//$_POST['exam_name'];
+
+// $answersArray = json_decode($_POST['answers']);
+// $username = 'ez90';//$_POST['user_name'];
+// $examname= 'exam1';//$_POST['exam_name'];
+// $url = "https://web.njit.edu/~eo65/cs490/beta/backend/testSubmitQuestion.php";
+
+//should actually receive the user and exam name from front
+$answer = trim(urldecode($_POST['answer']), '"');
+$username = $_POST['user_name'];
+$examname= $_POST['exam_name'];
+
+$data = array(
+    'user'=>$username,
+    'exam'=>$examname,
+    "answer"=>addslashes($answer)
+);
 $url = "https://web.njit.edu/~eo65/cs490/beta/backend/testSubmitQuestion.php";
-
-for ($x=0; $x<count($answersArray);$x++){
-    $data = array(
-        'user'=>$username,
-        'exam'=>$examname,
-        "answer"=>addslashes($answersArray[$x])
-    );
-    sendAnswers($data, $url);
-}
+sendAnswers($data, $url);
 
 
 var_dump($_POST);
-echo '<br>';
+echo $_POST;
+echo $_POST['answers'];
+//for ($x=0; $x<count($answersArray);$x++){
+//    $data = array(
+//        'user'=>$username,
+//        'exam'=>$examname,
+//        "answer"=>addslashes($answersArray[$x])
+//    );
+//    sendAnswers($data, $url);
+//}
+
 //backend table format: userid, examid, question, answer
 // grade answers
 $url = "https://web.njit.edu/~ak697/cs490/cs490-beta/gradetest.php";
 sendAnswers($data, $url);
+
 function sendAnswers($data, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -59,8 +74,8 @@ function sendAnswers($data, $url){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //    echo '<br>';
     //die is also called if the response is empty
-    $response = curl_exec($ch) or die("Curl to submitAnswer didn't work");
-    var_dump($data);
-    print_r($response );
+    $response = curl_exec($ch) or die("Curl to $url didn't work");
+//    var_dump($data);
+//    print_r($response );
     curl_close($ch);
 }

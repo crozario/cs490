@@ -4,7 +4,7 @@ var take_exam_name = "";
 
 var topic_options_array = ["functions", "loops", "strings", "conditionals"];
 var difficulty_options_array = ["easy", "medium", "hard"];
-var constraint_options_array = ["for loop", "while loop", "recursion"];
+var constraint_options_array = ["none", "for loop", "while loop", "recursion"];
 var difficulty_options_filtering_array= ["none", "easy", "medium", "hard"];
 var topic_options_filtering_array = ["none", "functions", "loops", "strings", "conditionals"];
 
@@ -723,7 +723,7 @@ function student_home_onload() {
                         if(json[i].user == student_username) {
                             var student_info = json[i];
                             var row = document.createElement("tr");
-                            if (student_info.graded == 0) { // exam not taken
+                            if (student_info.graded == 0 && student_info.rel == 0) { // exam not taken
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode(student_info.exam));
@@ -731,7 +731,7 @@ function student_home_onload() {
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
                                 table.children[0].appendChild(row);
-                            } else if(student_info.rel == 0) {  // taken but not released
+                            } else if(student_info.graded > 0 && student_info.rel == 0) {  // taken but not released
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode(student_info.exam));
@@ -878,30 +878,62 @@ function get_exam_and_student(callback) {
 
 // Exam Review Student
 
-// function exam_review_student_onload() {
-//     check_grade_and_student(received_exam_and_student);
+function exam_review_student_onload() {
+    check_grade_exam_and_student(received_exam_and_student);
 
-//     function received_exam_and_student(data) {
-//         json_data = JSON.parse(data);
+    function received_exam_and_student(data) {
+        json_data = JSON.parse(data);
 
-//         var vars = "exam_review_student=true" + "&exam=" + json_data.exam + "&user=" + json_data.student;
-//         var req = new XMLHttpRequest();
-//         req.onreadystatechange = function () {
-//             if (req.readyState == 4) {
+        var vars = "exam_review_student=true" + "&exam=" + json_data.exam + "&user=" + json_data.student;
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (req.readyState == 4) {
     
-//                 if (req.status == 200) {
-//                     // alert(JSON.parse(req.responseText)[0].question);
-//                     alert(data);
-//                 } else {
-//                     status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
-//                 }
-//             }
-//         }
+                if (req.status == 200) {
+                    alert(req.responseText);
+                    // var obj = JSON
+                    // var table = document.getElementById("exam-review-student-table");
+                    // var exam_name = document.getElementById("exam-review-student-exam-name");
+                    // exam_name.innerHTML = json_data.exam;
+                    
+                //     for (i = 0; i < questions.length; i++) {
+                //         var row = document.createElement("tr");
+                //         var cell1 = document.createElement("label");
+                //         var cell2 = document.createElement("td");
+                //         cell1.appendChild(document.createTextNode("Question:"));
+                //         cell2.appendChild(document.createTextNode(questions[i].question));
+                //         row.appendChild(cell1);
+                //         row.appendChild(cell2);
+                //         table.children[0].appendChild(row);
     
-//         req.open("POST", "scripts/request.php", true);
-//         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//         req.send(vars);
-// }
+                //         row = document.createElement("tr");
+                //         cell1 = document.createElement("label");
+                //         cell2 = document.createElement("td");
+                //         cell1.appendChild(document.createTextNode("Points:"));
+                //         cell2.appendChild(document.createTextNode(questions[i].points));
+                //         row.appendChild(cell1);
+                //         row.appendChild(cell2);
+                //         table.children[0].appendChild(row);
+    
+                //         row = document.createElement("tr");
+                //         cell1 = document.createElement("label");
+                //         cell2 = document.createElement("td");
+                //         cell1.appendChild(document.createTextNode("Answer:"));
+                //         cell2.appendChild(add_answer_textarea());
+                //         row.appendChild(cell1);
+                //         row.appendChild(cell2);
+                //         table.children[0].appendChild(row);
+                    // }
+
+                } 
+            }
+        }
+    
+        req.open("POST", "scripts/request.php", true);
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        req.send(vars);
+    }
+}
 
 
 // Take Exam

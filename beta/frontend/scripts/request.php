@@ -3,16 +3,16 @@ session_start();
 include_once("helper.php");
 
 
-$mid_endpoints = array(
-    'login' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/login.php',
-    'add_question' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/addquestion.php',
-    'get_question_bank' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showquestionstofront.php',
-    'send_exam' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/addtest.php',
-    'take_exam_student' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showexamtostudent.php',
-    'take_exam_submit' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/testSubmitAnswer.php',
-    'get_pending_exams' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showtest.php'
+// $mid_endpoints = array(
+//     'login' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/login.php',
+//     'add_question' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/addquestion.php',
+//     'get_question_bank' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showquestionstofront.php',
+//     'send_exam' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/addtest.php',
+//     'take_exam_student' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showexamtostudent.php',
+//     'take_exam_submit' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/testSubmitAnswer.php',
+//     'get_pending_exams' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showtest.php'
 
-);
+// );
 
 if (isset($_POST['login'])) {
     $response = login();
@@ -81,8 +81,35 @@ if (isset($_POST['login'])) {
     echo $response;
 } 
 
+function exam_review_student() {
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showgradetostudent.php';  
+    $ch = curl_init();
+
+
+    $auth_fields = array(
+        'user' => $_POST['user'],
+        'exam' => $_POST['exam'],
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+   
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response;    
+}
+
 function release_exam() {
-    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/updategrade.php';  
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/updategrade.php';  
     $ch = curl_init();
 
 
@@ -157,35 +184,35 @@ function get_exam_review_list() {
     return json_encode($json_array);
 }
 
-function exam_review_student() {
-    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/showstudentexamtoins.php';  
-    $ch = curl_init();
+// function exam_review_student() {
+//     $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/showstudentexamtoins.php';  
+//     $ch = curl_init();
 
 
-    $auth_fields = array(
-        'username' => $_POST['username'],
-        'password' => $_POST['password']
-    ); 
+//     $auth_fields = array(
+//         'username' => $_POST['username'],
+//         'password' => $_POST['password']
+//     ); 
     
-    $opt_array = array(
-        CURLOPT_URL => $URL,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS =>  $auth_fields,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER => false
-    );
+//     $opt_array = array(
+//         CURLOPT_URL => $URL,
+//         CURLOPT_POST => true,
+//         CURLOPT_POSTFIELDS =>  $auth_fields,
+//         CURLOPT_RETURNTRANSFER => true,
+//         CURLOPT_HEADER => false
+//     );
 
-    curl_setopt_array($ch, $opt_array);
-    curl_exec($ch); 
+//     curl_setopt_array($ch, $opt_array);
+//     curl_exec($ch); 
     
    
-    $response = curl_exec($ch);
-    curl_close($ch);
-    $response = "hello";
-    return $response; 
-}
+//     $response = curl_exec($ch);
+//     curl_close($ch);
+//     $response = "hello";
+//     return $response; 
+// }
 function exam_review_instructor() {
-    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/showstudentexamtoins.php'; //change this
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showstudentexamtoins.php';
     $ch = curl_init();
 
 
@@ -360,7 +387,7 @@ function take_exam_submit() {
         $data = array(
             'user_name' => $_POST['user_name'],
             'exam_name' => $_POST['exam_name'],
-            "answer"=>json_encode(urlencode($ans[$x]))
+            "answer"=> rawurlencode($ans[$x])
         );
         $res = sendAnswers($data, $URL);
     }
@@ -386,9 +413,9 @@ function take_exam_submit() {
     $response = curl_exec($ch);
     curl_close($ch);
 
-    return $response;
-    // return json_decode($ans);
     // return $res;
+    // return urldecode($ans[0]);
+    return $res;
 }
 
 function sendAnswers($data, $url){

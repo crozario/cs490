@@ -16,7 +16,8 @@ $difficulty = $_POST['difficulty'];
 $functionName = $_POST['function_name'];
 $topic = $_POST['topic'];
 $constraint = $_POST['constraint'];
-
+ 
+var_dump($_POST);
 //echo $questionBody .' '. $testcasein .' '. $testcaseout .' '. $difficulty .' '. $functionName .' '. $topic;
 $data = array(
     'questionbody'=>addslashes($questionBody),

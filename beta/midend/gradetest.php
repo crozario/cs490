@@ -65,21 +65,21 @@ foreach ($obj as $item)
 //exit(); //before grading
 #TODO: addslashes to testin just to be safe
 foreach ($questions as $key=>$question){
-//    echo '<br>' . $answers[$key] . $testCasesIn[$key] . $testCasesOut[$key] . $functionName[$key] .'<br>';
-//    echo $question . $pointsValue[$key];
+//    echo '<br>' . $answers[$key] . '<br>' . $testCasesIn[$key] . '<br>' . $testCasesOut[$key] . '<br>' . $functionName[$key] .'<br>';
+//    echo $question . '<br>' . $pointsValue[$key] . '<br>';
     $testCases = array();
     stringToArray($testCasesIn[$key], $testCasesOut[$key], $testCases);
     //bool to keep track of functionname and constraint being correct
-    $funcName = true;
-    $constName = true;
+    $validFuncName = true;
+    $validConstName = true;
 
     $code = $answers[$key];
-    $functionName = $functionName[$key];
+    $funcName = $functionName[$key];
     $pointsPerTest = $pointsValue[$key]/(count($testCases));
     echo "points for question: ". $pointsValue[$key] . " points per test: " .$pointsPerTest . " test cases #: ".count($testCases).'<br>';
     $totalGrade = 0;
     //finds function name in answer
-    if (strpos($code, $functionName) == true){
+    if (strpos($code, $funcName) == true){
         echo "functionName was correct";
 //        $pointsPerTest = $originalPointsPerTest;
     }
@@ -88,59 +88,72 @@ foreach ($questions as $key=>$question){
         $matches = array();
         preg_match_all("/[\w\d]+/", $code, $matches);
         $search = $matches[0][1];
-        $code = str_replace($search,$functionName,$code);
+        $code = str_replace($search,$funcName,$code);
         echo '<br>';
         print_r("functionName replaced");
 //        $pointsPerTest = $originalPointsPerTest*0.8;
-        $funcName = false;
+        $validFuncName = false;
     }
 //  decides if function call should have print
     if (strpos($code, 'return') == true){
         $printOut = true;
     }
 //  checks for constraint
-    if (($constraints[$key] == null) == true){
+    if (($constraints[$key] == 'none') == true){
         //no constraint
     }
+    elseif (($constraints[$key] == 'recursion') == true){
+        //doesn't matter
+    }
     elseif (strpos($code, $constraints[$key]) == true){
-        //constraint found
+        //constraint found (while or for)
     }
     else {
         //$pointsPerTest = $pointsPerTest - $originalPointsPerTest*0.2;
         echo '<br>'."constraint not found: ".$constraints[$key].'<br>';
-        $constName = false;
+        $validConstName = false;
 //        echo '<br>'.$constraints[$key] == null.'<br>';
     }
-
+    if (!$validFuncName && !$validConstName){
+        $pointsPerTest = $pointsPerTest * .8;
+    }
+    elseif ($validFuncName && $validConstName){
+        //do nothing
+    }
+    else {
+        //10% off for having either funcName or Const wrong
+        $pointsPerTest = $pointsPerTest * .9;
+    }
     $counter = 0;
+    $output = array();
     foreach($testCases as $testIn=> $testOut){
 //  divide pointsValue[x] by testCases[x] and assign that value for each correct test case
         if($printOut){
-            $codeTemp = $code . "\nprint($functionName($testIn))";
+            $codeTemp = $code . "\nprint($funcName($testIn))";
         }
         else {
-            $codeTemp = $code . "\n$functionName($testIn)";
+            $codeTemp = $code . "\n$funcName($testIn)";
         }
 //  echo $codeTemp . '<br>';
         file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
         exec("python testCode.py", $output);
 //  echo $out . '<br>';
-        echo '<br>' ."input: " . $testIn . ' output: ' . $output[$counter] . '<br>';
+        echo '<br>' ."input: " . $testIn;
         echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
         $grade = 0;
         if ($testOut == $output[$counter]){
             $grade = $pointsPerTest;
-            $totalGrade += $pointsPerTest;
+//            $totalGrade += $pointsPerTest;
         }
 //  post to back end records table for each test case, also provide studentid and examid
-        $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>addslashes($testOut), 'points'=>$grade, 'testcasesout'=>addslashes($output[$counter]), 'user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code));
+        $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>addslashes($testOut), 'points'=>$pointsPerTest, 'autograde'=>$grade, 'testcasesout'=>addslashes($output[$counter]), 'user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code));
         echo "POST: " . $counter . '<br>';
         sendGrades($postArray);
-//        echo var_dump($postArray) . '<br>';
+//        var_dump($postArray) . '<br>';
         $counter++;
     }
-    $postArray = array('user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code), 'autograde'=>$totalGrade);
-    sendGrades($postArray);
+//    $postArray = array('user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code), 'autograde'=>$totalGrade);
+//    sendGrades($postArray);
 }
 
 //exit();
@@ -238,7 +251,7 @@ function sendGrades($data){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     //should probably print success or fail for adding grades for a test
-    print_r($response );
+//    print_r($response );
 
     curl_close($ch);
 }

@@ -28,6 +28,7 @@ $pointsValue = json_decode($_POST['points']);//array('10', '20', '30'); //
 for ($x=0; $x<count($questionArray);$x++){
     $data = array(
         'examName'=>$examName,
+        //using urlencode to preserve '+' and other special chars
         'question'=>addslashes($questionArray[$x]),
         'points'=>$pointsValue[$x]
     );
@@ -56,10 +57,5 @@ function sendTest($data){
     //backend should probably print success or fail for adding test
 //    echo 'response from backend';
 //    print_r($response );
-//    if (strpos($response, 'Welcome') == true){
-//        $JSON['db'] = "success";
-//    } else {
-//        $JSON['db'] = "fail";
-//    }
     curl_close($ch);
 }

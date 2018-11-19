@@ -5,11 +5,12 @@
 	if ($db->connect_error) {
  		die('Connection failed: ' . $db->connect_error);
 	}
-		
-	$examname = $_POST['exam'];
 	
+	$examname = 'exam1';//$_POST['exam'];
+	$user = 'ez90';//$_POST['user'];
+
 	$arr = array();
-	$result = mysqli_query($db, "SELECT DISTINCT exam, question, points FROM examquestionlist WHERE exam = '$examname'");
+	$result = mysqli_query($db, "SELECT DISTINCT * FROM records WHERE user = '$user' AND exam = '$examname' AND question IS NOT NULL");
 
 	while ($row = $result->fetch_assoc()) {
 		//printf('{"exam": "%s"}', $row['exam']);

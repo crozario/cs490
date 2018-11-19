@@ -6,9 +6,9 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$examname = $_POST['examname'];
+	$examname = $_POST['exam'];
 
-	$sql = "UPDATE examquestionlist SET rel = 1 WHERE exam = '$examname'";
+	$sql = "UPDATE taken SET rel = 1 WHERE exam = '$examname'";
 
 	if ($db->query($sql) === TRUE) {
        	echo '{"Success":"Entry made"}';

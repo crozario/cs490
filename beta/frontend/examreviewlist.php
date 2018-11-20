@@ -27,7 +27,7 @@ check_session("instructor");
             <button onclick="logout_button_pressed(); return false;">Logout</button>
     </div>
 
-            <div>
+            <div class="exam-review-list-page">
                 <table id="exam-review-list">
                     <tr>
                         <th>Student</th>

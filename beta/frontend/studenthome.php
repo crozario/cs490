@@ -29,6 +29,7 @@ check_session("student");
         <table id="pending-exams-student">
             <tr>
                 <th>Exam Name</th>
+                <!-- <th>Grade</th> -->
                 <th>Status</th>  <!-- Take Button(exam not taken), Pending(exam taken), See Grade Button(Released)  -->
             </tr>
         </table>

@@ -66,13 +66,19 @@ button:hover {
 
 .instructor-home-page {
     text-align: center;
-    
 }
 
 #pending-exams {
     text-align: center;
     display: inline-block;
 }
+
+
+/* exam review list */
+.exam-review-list-page {
+    text-align: center;
+}
+
 
 
 
@@ -204,3 +210,10 @@ tr:nth-child(even) {
     border: 1px solid #ccc;
 }
 
+/* .exam-review-instructor-body {
+    text-align: center;
+} */
+
+/* #exam-review-instructor-table {
+    
+} */

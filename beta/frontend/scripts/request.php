@@ -3,17 +3,6 @@ session_start();
 include_once("helper.php");
 
 
-// $mid_endpoints = array(
-//     'login' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/login.php',
-//     'add_question' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/addquestion.php',
-//     'get_question_bank' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showquestionstofront.php',
-//     'send_exam' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/addtest.php',
-//     'take_exam_student' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showexamtostudent.php',
-//     'take_exam_submit' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/testSubmitAnswer.php',
-//     'get_pending_exams' => 'https://web.njit.edu/~ak697/cs490/cs490-beta/showtest.php'
-
-// );
-
 if (isset($_POST['login'])) {
     $response = login();
     $json_array = json_decode($response, true);
@@ -79,7 +68,39 @@ if (isset($_POST['login'])) {
 } elseif (isset($_POST['release_exam'])) {
     $response = release_exam();
     echo $response;
+} elseif (isset($_POST['get_test_cases'])) {
+    $response = get_test_cases();
+    echo $response;
 } 
+
+
+function get_test_cases() {
+    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/displaytestcase.php';  
+    $ch = curl_init();
+
+
+    $auth_fields = array(
+        'user' => $_POST['user'],
+        'exam' => $_POST['exam'],
+    ); 
+    
+    $opt_array = array(
+        CURLOPT_URL => $URL,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS =>  $auth_fields,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HEADER => false
+    );
+
+    curl_setopt_array($ch, $opt_array);
+    curl_exec($ch); 
+    
+   
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return $response; 
+    // return $_POST['exam'];   
+}
 
 function exam_review_student() {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showgradetostudent.php';  
@@ -117,7 +138,8 @@ function release_exam() {
         'user' => $_POST['username'],
         'exam' => $_POST['examname'],
         'points' => $_POST['new_points'],
-        'comments' => $_POST['comments']
+        'comments' => $_POST['comments'],
+        'questions' => $_POST['questions']
     ); 
     
     $opt_array = array(
@@ -130,12 +152,12 @@ function release_exam() {
 
     curl_setopt_array($ch, $opt_array);
     curl_exec($ch); 
-    
-    $arr = $_POST['new_points'];
    
     $response = curl_exec($ch);
     curl_close($ch);
-    return $response; 
+    return $response;
+    
+    // return $_POST['new_points'];
     // return $arr;
 }
 
@@ -213,6 +235,7 @@ function get_exam_review_list() {
 // }
 function exam_review_instructor() {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showstudentexamtoins.php';
+    
     $ch = curl_init();
 
 
@@ -378,32 +401,20 @@ function take_exam_student() {
 
 function take_exam_submit() {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/testSubmitAnswer.php';
-    
-    $res = NULL;
-    $ans = json_decode($_POST['answers']);
-
-
-    for ($x=0; $x<count($ans); $x++){
-        $data = array(
-            'user_name' => $_POST['user_name'],
-            'exam_name' => $_POST['exam_name'],
-            "answer"=> rawurlencode($ans[$x])
-        );
-        $res = sendAnswers($data, $URL);
-    }
-
-    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/gradetest.php';
     $ch = curl_init();
     $auth_fields = array(
         'user_name' => $_POST['user_name'],
-        'exam_name' => $_POST['exam_name']
+        'exam_name' => $_POST['exam_name'],
+        'points' => $_POST['points'],
+        'questions' => $_POST['questions'],
+        "answers" => $_POST['answers']
     ); 
     
     $opt_array = array(
         CURLOPT_URL => $URL,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS =>  $auth_fields,
-        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_RETURNTRANSFER => false,
         CURLOPT_HEADER => false
     );
 
@@ -413,20 +424,23 @@ function take_exam_submit() {
     $response = curl_exec($ch);
     curl_close($ch);
 
-    // return $res;
-    // return urldecode($ans[0]);
-    return $res;
+    
+    // return rawurlencode($ans[0]);
+    // return $ans;
+    // return $_POST['answers'];
+    return $response;
+    // return $_POST['questions'];
 }
 
-function sendAnswers($data, $url){
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch) or die("Curl to submitAnswer didn't work");
-    curl_close($ch);
-    return $response;
-}
+// function sendAnswers($data, $url){
+//     $ch = curl_init($url);
+//     curl_setopt($ch, CURLOPT_POST, true);
+//     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     $response = curl_exec($ch) or die("Curl to submitAnswer didn't work");
+//     curl_close($ch);
+//     return $response;
+// }
 
 function get_pending_exams() {
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/showtest.php';

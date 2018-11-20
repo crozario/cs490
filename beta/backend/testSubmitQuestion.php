@@ -8,13 +8,15 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$user = 'ez90';//$_POST['user'];
-	$examid = 'exam1';//$_POST['exam'];
-	$answer = 'answer2';//$_POST['answer'];	
+	$user = $_POST['user'];
+	$examid = $_POST['exam'];
+	$points = $_POST['points'];
+	$question = rawurldecode($_POST['question']);
+	$answer = rawurldecode($_POST['answer']);	
 
 
 	$arr = array();
-	$sql = "INSERT INTO records (user, exam, answer) VALUES ('$user', '$examid', '$answer')";
+	$sql = "INSERT INTO records (user, points, exam, question, answer) VALUES ('$user', '$points', '$examid', '$question', '$answer')";
 		
 	if ($db->query($sql) === TRUE) {
     //	echo '{"Success":"Submittion successfull"}';

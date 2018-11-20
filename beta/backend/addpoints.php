@@ -6,15 +6,15 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	$user = 'ez90';//$_POST['user'];
-	$points = 4;//$_POST['points'];
-	$examid = 'exam1';//$_POST['exam'];
-	$testcasesin = '2';//$_POST['testcasesin'];
-	$testcasesout = '4';//$_POST['testcasesout'];
-	$expectedtestcaseout = '4';//$_POST['expectedtestcaseout'];
-	$question = 'question2';//$_POST['question'];
-	$answer = 'answer2';//$_POST['answer'];
-	$totalgrade = 6;//$_POST['autograde'];
+	$user = $_POST['user'];
+	$points = $_POST['points'];
+	$examid = $_POST['exam'];
+	$testcasesin = rawurldecode($_POST['testcasesin']);
+	$testcasesout = rawurldecode($_POST['testcasesout']);
+	$expectedtestcaseout = rawurldecode($_POST['expectedtestcaseout']);
+	$question = rawurldecode($_POST['question']);
+	$answer = rawurldecode($_POST['answer']);
+	$totalgrade = $_POST['autograde'];
 
 
 	$sql = "INSERT INTO records (user, points, exam, testcasesin, testcasesout, expectedtestcasesout, question, answer, autograde) VALUES ('$user', '$points', '$examid', '$testcasesin', '$testcasesout', '$expectedtestcaseout', '$question', '$answer', '$totalgrade')";
@@ -26,22 +26,23 @@
     	$sql1 = "UPDATE records SET autograde = autograde + '$points' WHERE user = '$user' AND points = 'NULL'";
     	$db->query($sql1); */
 
-		$sql3 = "UPDATE records SET autograde = '$totalgrade' WHERE user = '$user' AND points IS NULL AND answer = '$answer'";
+		$sql3 = "UPDATE records SET autograde = autograde + '$totalgrade' WHERE user = '$user' AND testcasesin IS NULL AND answer = '$answer'";
 		$db->query($sql3);
 
 		$arr1 = array();
 		//$sql5 = "SELECT DISTINCT autograde FROM records WHERE user = '$user' AND answer = '$answer' AND points IS NULL AND autograde IS NOT NULL";
 		$t = 0;
-		$sql5 = "SELECT autograde FROM records WHERE points IS NULL AND autograde IS NOT NULL";
+		$sql5 = "SELECT DISTINCT answer, autograde FROM records WHERE testcasesout IS NULL AND testcasesin IS NULL";
 		$result5 = $db->query($sql5);
     	while($row5 = $result5->fetch_assoc()) {
         	$arr1[] = $row5;		 
     	}
    		
-   		for ($i = 0; $i <= count(arr1); $i++) {
+   		for ($i = 0; $i <= count($arr1); $i++) {
    			$t = $t + $arr1[$i]['autograde'];
+   			//echo $arr1[$i]['autograde'];
    		}
-   		echo $t;
+   		//echo $t;
 
    		$sql4 = "UPDATE taken SET graded = '$t' WHERE user = '$user'";
 		$db->query($sql4);

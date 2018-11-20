@@ -7,7 +7,7 @@
     }
 
 
-    $sql = "SELECT DISTINCT * FROM records";
+    $sql = "SELECT * FROM records";
     //	echo '{"Success":"Submittion successfull"}';
     $result = $db->query($sql);
 		//if ($result->num_rows > 0) {

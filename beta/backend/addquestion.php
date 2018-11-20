@@ -6,15 +6,15 @@
 	}
 
 	
-	$questionbody = $_POST['questionbody'];
+	$questionbody = rawurldecode($_POST['questionbody']);
 	$difficulty = $_POST['difficulty'];
 	$topic = $_POST['topic'];
-	$testcasein = $_POST['testcasein'];
-	$testcaseout = $_POST['testcaseout'];
+	$testcasein = rawurldecode($_POST['testcasein']);
+	$testcaseout = rawurldecode($_POST['testcaseout']);
 	$functionName = $_POST['functionName'];
-	//$constraints = $_POST['constraints'];
+	$constraints = $_POST['constraint'];
 	
-	$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName')";	
+	$sql = "INSERT INTO question (questionbody, difficulty, topic, testcasein, testcaseout, functionName, constraints) VALUES ('$questionbody', '$difficulty', '$topic', '$testcasein', '$testcaseout', '$functionName', '$constraints')";	
 		if ($db->query($sql) === True) {
     		echo '{"Success":"Nice"}';
 		} else {

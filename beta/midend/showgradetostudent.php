@@ -6,8 +6,8 @@
  * Time: 1:25 PM
  */
 $data = array(
-    $user=>$_POST['user'],
-    $exam=>$_POST['exam']
+    'user'=>$_POST['user'],
+    'exam'=>$_POST['exam']
 );
 
 sendQuestion($data);
@@ -23,10 +23,5 @@ function sendQuestion($data){
 
     $response = curl_exec($ch) or die("Curl to backendgrades didn't work");
     print_r($response );
-//    if (strpos($response, 'Welcome') == true){
-//        $JSON['db'] = "success";
-//    } else {
-//        $JSON['db'] = "fail";
-//    }
     curl_close($ch);
 }

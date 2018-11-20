@@ -18,6 +18,7 @@
 //echo file_get_contents("php://input");
 
 //read questions from the showquestiontostudent
+// var_dump post
 $exam = $_POST['exam'];
 $user = $_POST['user'];
 $data = array(
@@ -61,17 +62,18 @@ foreach ($obj as $item)
     //add constraint array later
 //    echo 'question: ' . $question . ' points: '.$points . '<br>';
 }
-
+var_dump($questions);
 //exit(); //before grading
 #TODO: addslashes to testin just to be safe
 foreach ($questions as $key=>$question){
-//    echo '<br>' . $answers[$key] . '<br>' . $testCasesIn[$key] . '<br>' . $testCasesOut[$key] . '<br>' . $functionName[$key] .'<br>';
-//    echo $question . '<br>' . $pointsValue[$key] . '<br>';
+    echo '<br>' . $answers[$key] . '<br>' . $testCasesIn[$key] . '<br>' . $testCasesOut[$key] . '<br>' . $functionName[$key] .'<br>';
+    echo $question . '<br>' . $pointsValue[$key] . '<br>';
     $testCases = array();
     stringToArray($testCasesIn[$key], $testCasesOut[$key], $testCases);
     //bool to keep track of functionname and constraint being correct
     $validFuncName = true;
     $validConstName = true;
+    $printOut = false;
 
     $code = $answers[$key];
     $funcName = $functionName[$key];
@@ -89,8 +91,8 @@ foreach ($questions as $key=>$question){
         preg_match_all("/[\w\d]+/", $code, $matches);
         $search = $matches[0][1];
         $code = str_replace($search,$funcName,$code);
-        echo '<br>';
         print_r("functionName replaced");
+        echo '<br>'.'old name: '.strlen($funcName). ' new name: '. strlen($search) . '<br>';
 //        $pointsPerTest = $originalPointsPerTest*0.8;
         $validFuncName = false;
     }
@@ -99,7 +101,7 @@ foreach ($questions as $key=>$question){
         $printOut = true;
     }
 //  checks for constraint
-    if (($constraints[$key] == 'none') == true){
+    if (($constraints[$key] == 'none' || $constraints[$key] == '') == true){
         //no constraint
     }
     elseif (($constraints[$key] == 'recursion') == true){
@@ -136,7 +138,7 @@ foreach ($questions as $key=>$question){
         }
 //  echo $codeTemp . '<br>';
         file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
-        exec("python testCode.py", $output);
+        exec("timeout 5 python testCode.py", $output);
 //  echo $out . '<br>';
         echo '<br>' ."input: " . $testIn;
         echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';

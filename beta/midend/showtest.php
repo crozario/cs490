@@ -17,10 +17,5 @@ function showTest(){
     $response = curl_exec($ch) or die("Curl to backend_add_test didn't work");
     //backend should probably print success or fail for adding test
     print_r($response );
-//    if (strpos($response, 'Welcome') == true){
-//        $JSON['db'] = "success";
-//    } else {
-//        $JSON['db'] = "fail";
-//    }
     curl_close($ch);
 }

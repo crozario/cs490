@@ -13,10 +13,5 @@ function showGrades($data){
 
     $response = curl_exec($ch) or die("Curl to backend_get_questions didn't work");
     print_r($response );
-//    if (strpos($response, 'Welcome') == true){
-//        $JSON['db'] = "success";
-//    } else {
-//        $JSON['db'] = "fail";
-//    }
     curl_close($ch);
 }

@@ -8,8 +8,8 @@
 
 
 $data = array(
-    $user=> $_POST['user'],
-    $exam => $_POST['exam']
+    'user'=> 'ez90',//$_POST['user'],
+    'exam' => 'exam1'//$_POST['exam']
 );
 
 sendAnswers($data);
@@ -24,6 +24,6 @@ function sendAnswers($data){
     //die is also called if the response is empty
     $response = curl_exec($ch) or die("Curl to $url didn't work");
 //    var_dump($data);
-//    print_r($response );
+    print_r($response );
     curl_close($ch);
 }

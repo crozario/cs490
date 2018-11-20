@@ -31,33 +31,42 @@ var_dump($_POST);
 
 //exit();
 //should actually receive the user and exam name from front
-$answer = $_POST['answer'];
+$answer = $_POST['answers'];
 $username = $_POST['user_name'];
 $examname= $_POST['exam_name'];
+$questions = $_POST['questions'];
+$points = $_POST['points'];
 
-$data = array(
-    'user'=>$username,
-    'exam'=>$examname,
-    'answer'=>rawurlencode($answer)
-);
-echo rawurldecode($_POST['answer']);
+process($answer);
+process($questions);
+process($points);
 
-//for ($x=0; $x<count($answersArray);$x++){
-//    $data = array(
-//        'user'=>$username,
-//        'exam'=>$examname,
-//        "answer"=>addslashes($answersArray[$x])
-//    );
-//    sendAnswers($data, $url);
-//}
+//echo var_dump(json_decode($_POST['answer']));
+//echo 'test';
+$url = "https://web.njit.edu/~eo65/cs490/beta/backend/testSubmitQuestion.php";
+for ($x=0; $x<count($answer);$x++){
+    echo "post: ". $x.'<br>';
+    $data = array(
+        'user'=>$username,
+        'exam'=>$examname,
+        'answer'=>addslashes($answer[$x]),
+        'question'=>$questions[$x],
+        'points'=>$points[$x]
+    );
+    sendAnswers($data, $url);
+}
 
 //backend table format: userid, examid, question, answer
 // grade answers
-//$url = "https://web.njit.edu/~ak697/cs490/cs490-beta/gradetest.php";
-sendAnswers($data);
+$url = "https://web.njit.edu/~ak697/cs490/cs490-beta/gradetest.php";
+sendAnswers($data, $url);
 
-function sendAnswers($data){
-    $url = "https://web.njit.edu/~eo65/cs490/beta/backend/testSubmitQuestion.php";
+function process(&$str){
+    $str = trim($str,"\"[]");
+    $str = explode("\",\"", $str);
+}
+
+function sendAnswers($data, $url){
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

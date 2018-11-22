@@ -1,5 +1,5 @@
 $question = "write a function that can divide, multiply, add, and subtract based on an op and two integer inputs";
-$code = "def operation (op, a, b):
+def operation(op, a, b):
     if op == '+':
         print  a+b
     elif op == '-':
@@ -9,7 +9,7 @@ $code = "def operation (op, a, b):
     elif op == '/':
         print a/b
     else:
-        print \"eror\"";
+        print ("error")
 
 $testCaseIn = "'+',3,4:'-',13,5:'/',20,4:'*',7,7:'#',8,9";
 $testCaseOut = "7:8:5:49:error";

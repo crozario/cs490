@@ -90,7 +90,7 @@ function instructorhome_onload() {
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
                 var exams = json_response;
-                alert(req.responseText);
+                // alert(req.responseText);
 
                 for (var i = 0; i < exams.length; i++) {
                     var exam = exams[i].exam;
@@ -143,7 +143,7 @@ function instructor_exams_onload() {
 
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
-                alert(req.responseText);
+                // alert(req.responseText);
 
                 // alert(json_response[0].difficulty);
                 question_bank_exams_array = new Array();
@@ -230,7 +230,7 @@ function add_exam_button_pressed() {
                 // var json_response = JSON.parse(req.responseText);
                 
                 // alert("hello");
-                alert(req.responseText);
+                // alert(req.responseText);
                 clear_create_exam();
                 
 
@@ -247,18 +247,14 @@ function add_exam_button_pressed() {
 
 }
 
-function clear_create_exam() {
+function clear_create_exam(){
     var table = document.getElementById("add-exam-table");
     document.getElementById("add-exam-input").value = "";
-    // alert("hello");
-    if (table.rows.length > 1) {
-        for (var r = 1, n = table.rows.length; r < n; r++) {
-            table.deleteRow(r);
-        }
-        // table.deleteRow(table.rows.length);
-    }
-     
+    // alert("hello"); 
+    while (table.rows.length > 1) {
+        table.deleteRow(table.rows.length-1);
 
+    }
 }
 
 function get_exam_questions() {
@@ -301,7 +297,7 @@ function question_bank_onload() {
 
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
-                alert(req.responseText);
+                // alert(req.responseText);
 
                 // alert(json_response[0].difficulty);
                 question_bank_array = new Array();
@@ -616,7 +612,7 @@ function add_question_button_pressed() {
 
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);
-                alert(req.responseText);
+                // alert(req.responseText);
                 if (json_response.added == true) {
                     // alert("hello");
                     var question_temp = new Question(question, topic, difficulty);
@@ -715,7 +711,7 @@ function student_home_onload() {
         req.onreadystatechange = function() {
             if (req.readyState == 4) {
                 if (req.status == 200) {
-                    alert(req.responseText);
+                    // alert(req.responseText);
                     var json = JSON.parse(req.responseText);
 
                     var student_username = data;
@@ -731,17 +727,15 @@ function student_home_onload() {
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
                                 table.children[0].appendChild(row);
-
                                 //student_info.graded == 0 && 
-                            // } else if(student_info.graded > 0 && student_info.rel == 0) {  // taken but not released
-                            //     var cell1 = document.createElement("td");
-                            //     var cell2 = document.createElement("td");
-                            //     cell1.appendChild(document.createTextNode(student_info.exam));
-                            //     cell2.appendChild(document.createTextNode("Pending..."));
-                            //     row.appendChild(cell1);
-                            //     row.appendChild(cell2);
-                            //     table.children[0].appendChild(row);
-                         
+                            } else if(student_info.graded > 0 && student_info.rel == 0) {  // taken but not released
+                                var cell1 = document.createElement("td");
+                                var cell2 = document.createElement("td");
+                                cell1.appendChild(document.createTextNode(student_info.exam));
+                                cell2.appendChild(document.createTextNode("Pending..."));
+                                row.appendChild(cell1);
+                                row.appendChild(cell2);
+                                table.children[0].appendChild(row);                        
                             } else if(student_info.rel == 1) { // taken and released
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
@@ -893,64 +887,185 @@ function exam_review_student_onload() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-                    var info = JSON.parse(req.responseText);
-                    alert(req.responseText);
-                    // var obj = JSON
-                    var table = document.getElementById("exam-review-student-table");
-                    var exam_name = document.getElementById("exam-review-student-exam-name");
-                    exam_name.innerHTML = json_data.exam;
+
+                    get_test_cases(json_data.student, json_data.exam, got_test_cases);
+
+                    function got_test_cases(callback_data) {
+                        // alert(callback_data);
+                        var info = JSON.parse(req.responseText);
+                        var test_case_data = JSON.parse(callback_data);
+                        // alert(callback_data);
+                        //  alert(req.responseText);
+                        var review_info = parse_test_cases(test_case_data, info);
+                        var review_info_length = Object.keys(review_info).length;
+                                           
+                        // alert(info[0].question);
+                        var table = document.getElementById("exam-review-student-table");
+                        var exam_name = document.getElementById("exam-review-student-exam-name");
+                    
+                    
+                
+                        // alert(req.responseText);
+
+                        exam_name.innerHTML = json_data.exam;
+
+
+                        Object.keys(review_info).forEach(function(key) {
+                            var row = document.createElement("tr");
+                            var cell1 = document.createElement("td");
+                            var cell2 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Question:"));
+                            cell2.appendChild(document.createTextNode(key));
+                            row.appendChild(cell1);
+                            row.appendChild(cell2);
+                            table.children[0].appendChild(row);
+
+                            row = document.createElement("tr");
+                            cell1 = document.createElement("td");
+                            cell2 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Points Received:"));
+                            cell2.appendChild(document.createTextNode(review_info[key].question_grade));
+                            row.appendChild(cell1);
+                            row.appendChild(cell2);
+                            table.children[0].appendChild(row);
+
+                            row = document.createElement("tr");
+                            cell1 = document.createElement("td");
+                            cell2 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Total Points:"));
+                            cell2.appendChild(document.createTextNode(review_info[key].question_points));
+                            row.appendChild(cell1);
+                            row.appendChild(cell2);
+                            table.children[0].appendChild(row);
+
+                            var row2 = document.createElement("tr");
+                            var cell1 = document.createElement("td");
+                            var cell2 = document.createElement("td");
+                            var cell3 = document.createElement("td");
+                            var cell4 = document.createElement("td");
+                            var cell5 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("testcasein:"));
+                            cell2.appendChild(document.createTextNode("testcaseout:"));
+                            cell3.appendChild(document.createTextNode("expectedtestcaseout:"));
+                            cell4.appendChild(document.createTextNode("testcasepointsreceived:"));
+                            cell5.appendChild(document.createTextNode("testcasetotalpoints:"));
+                            row2.appendChild(cell1);
+                            row2.appendChild(cell2);
+                            row2.appendChild(cell3);
+                            row2.appendChild(cell4);
+                            row2.appendChild(cell5);
+                            table.children[0].appendChild(row2);
+
+                            // alert(review_info[key].test_case_in.length);
+                            for (i = 0; i < review_info[key].test_case_in.length; i++) {
+                                var current_test_case_in = review_info[key].test_case_in[i];
+                                var current_test_case_out = review_info[key].test_case_out[i];
+                                var current_expected_test_case_out = review_info[key].expected_test_case_out[i];
+                                var current_test_case_total_points = review_info[key].test_case_total_points[i];
+                                var current_test_case_total_grade = review_info[key].test_case_total_grade[i];
+
+                                var row2 = document.createElement("tr");
+                                var cell1 = document.createElement("td");
+                                var cell2 = document.createElement("td");
+                                var cell3 = document.createElement("td");
+                                var cell4 = document.createElement("td");
+                                var cell5 = document.createElement("td");
+                                cell1.appendChild(document.createTextNode(current_test_case_in));
+                                cell2.appendChild(document.createTextNode(current_test_case_out));
+                                cell3.appendChild(document.createTextNode(current_expected_test_case_out));
+                                cell4.appendChild(document.createTextNode(current_test_case_total_grade));
+                                cell5.appendChild(document.createTextNode(current_test_case_total_points));
+                                row2.appendChild(cell1);
+                                row2.appendChild(cell2);
+                                row2.appendChild(cell3);
+                                row2.appendChild(cell4);
+                                row2.appendChild(cell5);
+                                table.children[0].appendChild(row2);
+
+                            }
+
+                            row = document.createElement("tr");
+                            cell1 = document.createElement("td");
+                            cell2 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Answer:"));
+                            cell2.appendChild(document.createTextNode(review_info[key].answer));
+                            row.appendChild(cell1);
+                            row.appendChild(cell2);
+                            table.children[0].appendChild(row);
+
+                            row = document.createElement("tr");
+                            cell1 = document.createElement("td");
+                            cell2 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Comment:"));
+                            cell2.appendChild(document.createTextNode(review_info[key].comment));
+                            row.appendChild(cell1);
+                            row.appendChild(cell2);
+                            table.children[0].appendChild(row);
+
+
+                            // alert(key);
+                            // console.log(key, review_info[key]);
+                        });
+
+                    }
+
+                    // var info = JSON.parse(req.responseText);
+                    // alert(req.responseText);
+                    // var table = document.getElementById("exam-review-student-table");
+                    // var exam_name = document.getElementById("exam-review-student-exam-name");
+                    // exam_name.innerHTML = json_data.exam;
                     
 
          
-                    // alert(info[0].question);                
+                    // // alert(info[0].question);                
                  
-                    for (i = 1; i < info.length; i++) {
-                        // alert(info[i].student);
-                        var row = document.createElement("tr");
-                        var cell1 = document.createElement("label");
-                        var cell2 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode("Question:"));
-                        cell2.appendChild(document.createTextNode(info[i].question));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                    // for (i = 1; i < info.length; i++) {
+                    //     // alert(info[i].student);
+                    //     var row = document.createElement("tr");
+                    //     var cell1 = document.createElement("label");
+                    //     var cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Question:"));
+                    //     cell2.appendChild(document.createTextNode(info[i].question));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
 
-                        row = document.createElement("tr");
-                        cell1 = document.createElement("label");
-                        cell2 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode("Points Received:"));
-                        cell2.appendChild(document.createTextNode(info[i].autograde));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                    //     row = document.createElement("tr");
+                    //     cell1 = document.createElement("label");
+                    //     cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Points Received:"));
+                    //     cell2.appendChild(document.createTextNode(info[i].autograde));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
     
-                        row = document.createElement("tr");
-                        cell1 = document.createElement("label");
-                        cell2 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode("Total Points:"));
-                        cell2.appendChild(document.createTextNode(info[i].points));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                    //     row = document.createElement("tr");
+                    //     cell1 = document.createElement("label");
+                    //     cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Total Points:"));
+                    //     cell2.appendChild(document.createTextNode(info[i].points));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
     
-                        row = document.createElement("tr");
-                        cell1 = document.createElement("label");
-                        cell2 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode("Answer:"));
-                        cell2.appendChild(document.createTextNode(info[i].answer));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                    //     row = document.createElement("tr");
+                    //     cell1 = document.createElement("label");
+                    //     cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Answer:"));
+                    //     cell2.appendChild(document.createTextNode(info[i].answer));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
 
-                        row = document.createElement("tr");
-                        cell1 = document.createElement("label");
-                        cell2 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode("Comment:"));
-                        cell2.appendChild(document.createTextNode(info[i].comment));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        table.children[0].appendChild(row);
-                    }
+                    //     row = document.createElement("tr");
+                    //     cell1 = document.createElement("label");
+                    //     cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Comment:"));
+                    //     cell2.appendChild(document.createTextNode(info[i].comment));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
+                    // }
                 } 
             }
         }
@@ -979,7 +1094,7 @@ function take_exam_onload() {
                 if (req.status == 200) {
                     // alert(JSON.parse(req.responseText)[0].question);
                     // alert(data);
-                    alert(req.responseText);
+                    // alert(req.responseText);
                     var questions = JSON.parse(req.responseText);
                     // var exam = getParameterByName('exam');
                             
@@ -1085,7 +1200,7 @@ function take_exam_submit_button_pressed() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-                    alert(req.responseText);
+                    // alert(req.responseText);
                     location.href = "studenthome.php";
                     // var json_response = JSON.parse(req.responseText);
                     // alert(json_response.added);
@@ -1113,7 +1228,7 @@ function exam_review_list_onload() {
         if (req.readyState == 4) {
 
             if (req.status == 200) {
-                alert(req.responseText);
+                // alert(req.responseText);
                 var json = JSON.parse(req.responseText);
                 
                 for(i = 0; i < json.length; i++) {
@@ -1178,7 +1293,7 @@ function exam_review_instructor_onload() {
                         var info = JSON.parse(req.responseText);
                         var test_case_data = JSON.parse(callback_data);
                         // alert(callback_data);
-                         alert(req.responseText);
+                        //  alert(req.responseText);
                         var review_info = parse_test_cases(test_case_data, info);
                         var review_info_length = Object.keys(review_info).length;
                        
@@ -1321,12 +1436,14 @@ class ReviewInfo {
         this.question_points = "";
         this.question_grade = "";
         this.answer = "";
+        this.comment = "";
 
         this.test_case_in.push(test_in);
         this.test_case_out.push(test_out);
         this.expected_test_case_out.push(expected_out);
         this.test_case_total_points.push(test_case_points);
         this.test_case_total_grade.push(test_case_grade);
+
     }
 }
 
@@ -1362,6 +1479,7 @@ function parse_test_cases(test_case_data, question_data) {
             dict[current_question_data.question].question_points = current_question_data.points;
             dict[current_question_data.question].question_grade = current_question_data.autograde;
             dict[current_question_data.question].answer = current_question_data.answer;
+            dict[current_question_data.question].comment = current_question_data.comment;
         } else {
             // if here then very bad
         }
@@ -1471,7 +1589,7 @@ function release_exam_button_pressed() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-                    alert(req.responseText);
+                    // alert(req.responseText);
                     // location.href = "instructorhome.php";
                     // var json_response = JSON.parse(req.responseText);
                     // alert(json_response.added);
@@ -1520,4 +1638,9 @@ function save_exam_review_list(student_user, student_exam) {
     req.open("POST", "scripts/request.php", true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(vars);
+}
+
+
+function student_review_done_button_pressed() {
+    location.href = "studenthome.php";
 }

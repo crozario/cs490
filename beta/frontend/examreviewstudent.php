@@ -37,7 +37,9 @@ check_session("student");
         </table>
 
     </div>
-
+    <div>
+        <button class="done-review-exam" onclick="student_review_done_button_pressed(); return false;">Done</button>
+    </div>
 </body>
 
 </html>

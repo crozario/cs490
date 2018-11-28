@@ -136,7 +136,7 @@ tr:nth-child(even) {
 
 /* nav bar */
 
-.nav-bar {
+/* .nav-bar {
     list-style: none;
     text-align: center;
     padding: 20px 0;  
@@ -149,14 +149,48 @@ tr:nth-child(even) {
 
 .nav-bar li a{
     text-decoration: none;
-    /* background-color: skyblue; */
     color: white;
 }
+*/
 
-.nav-bar-container {
+/* .nav-bar-container {
     text-align: center;
     background-color: #005792;
+}  */
+.nav-bar-container {
+    overflow: hidden;
+    background-color: #005792;
+  }
+
+.nav-bar-left a { 
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 12pt;
 }
+
+.nav-bar-left a:hover {
+    color: beige;
+}
+
+.active {
+    color: #757882;
+    /* background-color: #455d7a; */
+    background-color: #1c819e;
+}
+
+.nav-bar-container .nav-bar-right {
+    float: right;
+    display: block;
+    padding: 0px 12px;
+    color: white;
+    text-align: center;
+    font-size: 12pt;
+}
+
 
 /* Question Bank */
 .question-bank-filtering {

@@ -77,8 +77,21 @@ function logout_button_pressed() {
 
 }
 
+function set_navbar_user_info(user_type) {
+    get_username(gotUsername);
+
+    function gotUsername(data) {
+        var username = data;
+        var user_info = document.getElementsByClassName("nav-bar-user");
+        user_info[0].innerHTML = user_type + " | " + username;
+    }
+}
+
 // Instructor Home 
 function instructorhome_onload() {
+
+    set_navbar_user_info("Instructor");
+
     var table = document.getElementById("pending-exams");
     var vars = "get_pending_exams=true";
     var req = new XMLHttpRequest();
@@ -133,6 +146,9 @@ function add_review_list_button() {
 function instructor_exams_onload() {
     add_topic_options_filtering_instructor_exams();
     add_difficulty_options_filtering_instructor_exams(); 
+
+    set_navbar_user_info("Instructor");
+
     var table = document.getElementById("question-bank-table-exams");
     var vars = "get_question_bank=true";
     var req = new XMLHttpRequest();
@@ -286,6 +302,8 @@ function question_bank_onload() {
     add_constraint_options();
     add_difficulty_options_filtering_question_bank()
     add_topic_options_filtering_question_bank()
+
+    set_navbar_user_info("Instructor");
 
     var table = document.getElementById("question-bank-table");
     var vars = "get_question_bank=true";
@@ -715,6 +733,10 @@ function student_home_onload() {
                     var json = JSON.parse(req.responseText);
 
                     var student_username = data;
+
+                    var user_info = document.getElementsByClassName("nav-bar-user");
+                    user_info[0].innerHTML = "Student | " + student_username;
+                
                     for (var i = 0; i < json.length; i++) {
                         if(json[i].user == student_username) {
                             var student_info = json[i];
@@ -879,7 +901,9 @@ function exam_review_student_onload() {
     check_grade_exam_and_student(received_exam_and_student);
 
     function received_exam_and_student(data) {
-        json_data = JSON.parse(data);
+        var json_data = JSON.parse(data);
+        var user_info = document.getElementsByClassName("nav-bar-user");
+        user_info[0].innerHTML = "Student | " + json_data.student;
 
         var vars = "exam_review_student=true" + "&exam=" + json_data.exam + "&user=" + json_data.student;
         var req = new XMLHttpRequest();
@@ -887,7 +911,7 @@ function exam_review_student_onload() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-
+                    // alert(json_data.student);
                     get_test_cases(json_data.student, json_data.exam, got_test_cases);
 
                     function got_test_cases(callback_data) {
@@ -895,16 +919,14 @@ function exam_review_student_onload() {
                         var info = JSON.parse(req.responseText);
                         var test_case_data = JSON.parse(callback_data);
                         // alert(callback_data);
-                        //  alert(req.responseText);
+                        // alert(req.responseText);
                         var review_info = parse_test_cases(test_case_data, info);
                         var review_info_length = Object.keys(review_info).length;
                                            
                         // alert(info[0].question);
                         var table = document.getElementById("exam-review-student-table");
                         var exam_name = document.getElementById("exam-review-student-exam-name");
-                    
-                    
-                
+                                   
                         // alert(req.responseText);
 
                         exam_name.innerHTML = json_data.exam;
@@ -937,6 +959,7 @@ function exam_review_student_onload() {
                             row.appendChild(cell1);
                             row.appendChild(cell2);
                             table.children[0].appendChild(row);
+
 
                             var row2 = document.createElement("tr");
                             var cell1 = document.createElement("td");
@@ -1008,64 +1031,6 @@ function exam_review_student_onload() {
                         });
 
                     }
-
-                    // var info = JSON.parse(req.responseText);
-                    // alert(req.responseText);
-                    // var table = document.getElementById("exam-review-student-table");
-                    // var exam_name = document.getElementById("exam-review-student-exam-name");
-                    // exam_name.innerHTML = json_data.exam;
-                    
-
-         
-                    // // alert(info[0].question);                
-                 
-                    // for (i = 1; i < info.length; i++) {
-                    //     // alert(info[i].student);
-                    //     var row = document.createElement("tr");
-                    //     var cell1 = document.createElement("label");
-                    //     var cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Question:"));
-                    //     cell2.appendChild(document.createTextNode(info[i].question));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-
-                    //     row = document.createElement("tr");
-                    //     cell1 = document.createElement("label");
-                    //     cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Points Received:"));
-                    //     cell2.appendChild(document.createTextNode(info[i].autograde));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-    
-                    //     row = document.createElement("tr");
-                    //     cell1 = document.createElement("label");
-                    //     cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Total Points:"));
-                    //     cell2.appendChild(document.createTextNode(info[i].points));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-    
-                    //     row = document.createElement("tr");
-                    //     cell1 = document.createElement("label");
-                    //     cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Answer:"));
-                    //     cell2.appendChild(document.createTextNode(info[i].answer));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-
-                    //     row = document.createElement("tr");
-                    //     cell1 = document.createElement("label");
-                    //     cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Comment:"));
-                    //     cell2.appendChild(document.createTextNode(info[i].comment));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-                    // }
                 } 
             }
         }
@@ -1085,6 +1050,8 @@ function take_exam_onload() {
 
     function got_exam_and_student(data) {
         json_data = JSON.parse(data);
+        var user_info = document.getElementsByClassName("nav-bar-user");
+        user_info[0].innerHTML = "Student | " + json_data.student;
 
         var vars = "take_exam_student=true" + "&exam=" + json_data.exam;
         var req = new XMLHttpRequest();
@@ -1219,6 +1186,8 @@ function take_exam_submit_button_pressed() {
 
 
 function exam_review_list_onload() {
+    set_navbar_user_info("Instructor");
+
     var table = document.getElementById("exam-review-list");
     var vars = "exam_review_list=true";
     var req = new XMLHttpRequest();
@@ -1271,6 +1240,7 @@ function review_exam_by_student_button(student_user, student_exam) {
 // Exam Review Instructor 
 
 function exam_review_instructor_onload() {
+    set_navbar_user_info("Instructor");
     
     get_exam_review_list(got_exam_review_list);
 

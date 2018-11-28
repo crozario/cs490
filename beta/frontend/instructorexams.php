@@ -19,41 +19,19 @@ check_session("instructor");
 
 <body onload="instructor_exams_onload(); return false;">
 
-    <div>
-        <div class="nav-bar-container">
-            <ul class="nav-bar">
-                <li><a href="instructorhome.php">Home</a></li>
-                <li><a href="instructorexams.php">Create Exams</a></li>
-                <li><a href="questionbank.php">Question Bank</a></li>
-            </ul>
+    <div class="nav-bar-container">
+        <div class="nav-bar-left">
+            <a href="instructorhome.php">Home</a>
+            <a class="active" href="instructorexams.php">Create Exams</a>
+            <a href="questionbank.php">Question Bank</a>
+        </div>
+          
+        <div class="nav-bar-right">
+            <a class="nav-bar-user"></a>
             <button onclick="logout_button_pressed(); return false;">Logout</button>
         </div>
-
-
-        <!-- <div class="exam-list">
-            <h2>Exam List</h2>
-            <div></div>
-            <div class="add-exam-container">
-                <input class="add-exam-input" type="text" placeholder="Enter Exam Name" name="exam_name" required>
-                <button class="add-exam-button" type="button" onclick="add_exam_button_pressed();">Add Exam</button>
-            </div>
-            <div>
-                <table id="exam-list-table">
-                    <tr>
-                        <th>Exam Name</th>
-                        <th>Graded</th>
-                        <th>Grades Released</th>
-                    </tr>
-                    <tr>
-                        <td>Testasdfas101</td>
-                        <td>N/td>
-                        <td>logic, turtle</td>
-
-                    </tr>
-                </table>
-            </div>
-
-        </div> -->
+        
+    </div>
 
         <div class="question-bank-filtering">
             <h2>Filtering</h2>

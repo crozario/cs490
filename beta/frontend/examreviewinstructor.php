@@ -19,13 +19,20 @@ check_session("instructor");
 
 <body onload="exam_review_instructor_onload(); return false;">
     <div class="nav-bar-container">
-            <ul class="nav-bar">
-                <li><a href="instructorhome.php">Home</a></li>
-                <li><a href="instructorexams.php">Create Exams</a></li>
-                <li><a href="questionbank.php">Question Bank</a></li>
-            </ul>
+        <div class="nav-bar-left">
+            <a class="active" href="instructorhome.php">Home</a>
+            <a href="instructorexams.php">Create Exams</a>
+            <a href="questionbank.php">Question Bank</a>
+        </div>
+          
+        <div class="nav-bar-right">
+            <a class="nav-bar-user"></a>
             <button onclick="logout_button_pressed(); return false;">Logout</button>
+        </div>
+        
     </div>
+
+    
 
     <div class="exam-review-instructor-body">
         <h2 id="exam-review-instructor-exam-name"></h2>

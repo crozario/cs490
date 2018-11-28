@@ -18,18 +18,19 @@ check_session("instructor");
 </head>
 
 <body onload="question_bank_onload(); return false;">
-
-        <div class="nav-bar-container">
-                <ul class="nav-bar">
-                    <li><a href="instructorhome.php">Home</a></li>
-                    <li><a href="instructorexams.php">Create Exams</a></li>
-                    <li><a href="questionbank.php">Question Bank</a></li>
-                </ul>
-                <button onclick="logout_button_pressed(); return false;">Logout</button>
+    <div class="nav-bar-container">
+        <div class="nav-bar-left">
+            <a href="instructorhome.php">Home</a>
+            <a href="instructorexams.php">Create Exams</a>
+            <a class="active"  href="questionbank.php">Question Bank</a>
+        </div>
+          
+        <div class="nav-bar-right">
+            <a class="nav-bar-user"></a>
+            <button onclick="logout_button_pressed(); return false;">Logout</button>
+        </div>
         
-            </div>
-
-    
+    </div>
 
     <div class="question-bank-page">
         <div class="question-bank-filtering">

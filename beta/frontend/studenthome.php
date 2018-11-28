@@ -19,10 +19,15 @@ check_session("student");
 
 <body onload="student_home_onload(); return false;">
     <div class="nav-bar-container">
-        <ul class="nav-bar">
-            <li><a href="studenthome.php">Home</a></li>
-        </ul>
-        <button onclick="logout_button_pressed(); return false;">Logout</button>
+        <div class="nav-bar-left">
+            <a class="active" href="studenthome.php">Home</a>
+        </div>
+          
+        <div class="nav-bar-right">
+            <a class="nav-bar-user"></a>
+            <button onclick="logout_button_pressed(); return false;">Logout</button>
+        </div>
+        
     </div>
 
     <div>

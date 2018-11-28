@@ -754,7 +754,7 @@ function student_home_onload() {
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode(student_info.exam));
-                                cell2.appendChild(document.createTextNode("Pending..."));
+                                cell2.appendChild(document.createTextNode("Pending"));
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
                                 table.children[0].appendChild(row);                        
@@ -1201,7 +1201,7 @@ function exam_review_list_onload() {
                 var json = JSON.parse(req.responseText);
                 
                 for(i = 0; i < json.length; i++) {
-                    if(json[i].graded != null) {
+                    if(json[i].graded != null && json[i].graded > 0) {
                         var row = document.createElement("tr");
                         var cell1 = document.createElement("td");
                         var cell2 = document.createElement("td");

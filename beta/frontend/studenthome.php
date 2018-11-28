@@ -30,7 +30,7 @@ check_session("student");
         
     </div>
 
-    <div>
+    <div class="list-table">
         <table id="pending-exams-student">
             <tr>
                 <th>Exam Name</th>

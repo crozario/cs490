@@ -33,15 +33,15 @@ check_session("instructor");
         
     </div>
 
-            <div class="exam-review-list-page">
-                <table id="exam-review-list">
-                    <tr>
-                        <th>Student</th>
-                        <th>Grade</th>
-                        <th>Review</th>
-                    </tr>
-                </table>
-            </div>
+    <div class="exam-review-list-page">
+        <table id="exam-review-list">
+            <tr>
+                <th>Student</th>
+                <th>Grade</th>
+                <th>Review</th>
+            </tr>
+        </table>
+    </div>
 
 </body>
 

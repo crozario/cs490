@@ -32,6 +32,7 @@ button:hover {
 }
 
 /* Login */
+/* ------------------------------------------------------------ */
 
 #login-form {
     text-align: center;
@@ -56,6 +57,7 @@ button:hover {
 } 
 
 /* Instructor Home */
+/* ------------------------------------------------------------ */
 
 .instructor-home-page {
     margin-top: 15px;
@@ -76,27 +78,10 @@ button:hover {
     padding: 5px;
 } 
 
-/* .list-table {
-    margin-top: 15px;
-    text-align: center;
-}
-
-#pending-exams-student {
-    display: inline-block;
-}
-
-#pending-exams-student th{
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-}
-
-#pending-exams-student td {
-    border-bottom: 1px solid #ddd;
-    padding: 5px;
-} */
-
 
 /* Exam Review List*/
+/* ------------------------------------------------------------ */
+
 .exam-review-list-page {
     margin-top: 15px;
     text-align: center;
@@ -144,13 +129,6 @@ tr:nth-child(even) {
     background-color: #dddddd;
 } */
 
-/* Student Home */
-
-
-/* Student Exam List */
-
-
-/* ------------------------------------------------------------ */
 
 /* Question Bank */
 
@@ -200,6 +178,7 @@ tr:nth-child(even) {
 
 /* Student Home */
 /* ------------------------------------------------------------ */
+
 .list-table {
     margin-top: 15px;
     text-align: center;
@@ -218,9 +197,27 @@ tr:nth-child(even) {
     border-bottom: 1px solid #ddd;
     padding: 5px;
 }
+/* Exam Review Student */
+/* ------------------------------------------------------------ */
+
+
+.exam-review-student-page {
+    margin-top: 15px;
+    /* text-align: center; */
+}
+
+#exam-review-student-exam-name {
+    text-align: center;
+}
+
+.done-review-exam {
+    text-align: center;
+}
 
 
 /* Question Bank */
+/* ------------------------------------------------------------ */
+
 .question-bank-filtering {
     padding: 10px;
     width: 50%;
@@ -264,6 +261,7 @@ tr:nth-child(even) {
 }
 
 /* Instructor Exam */
+/* ------------------------------------------------------------ */
 
 .add-exam-container {
     width: 45%;

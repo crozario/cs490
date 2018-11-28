@@ -17,7 +17,7 @@ check_session("instructor");
 
 </head>
 
-<body onload="instructorhome_onload(); return false;">
+<body onload="instructor_home_onload(); return false;">
     <div class="nav-bar-container">
         <div class="nav-bar-left">
             <a class="active" href="instructorhome.php">Home</a>

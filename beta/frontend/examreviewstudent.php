@@ -32,7 +32,7 @@ check_session("student");
         </div>  
     </div>
 
-    <div>
+    <div class="exam-review-student-page">
         <h2 id="exam-review-student-exam-name"></h2>
     
         <table id="exam-review-student-table">
@@ -41,10 +41,10 @@ check_session("student");
             </tr>
 
         </table>
-
     </div>
-    <div>
-        <button class="done-review-exam" onclick="student_review_done_button_pressed(); return false;">Done</button>
+
+    <div class="done-review-exam">
+        <button onclick="student_review_done_button_pressed(); return false;">Done</button>
     </div>
 </body>
 

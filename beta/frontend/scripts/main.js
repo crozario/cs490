@@ -88,7 +88,7 @@ function set_navbar_user_info(user_type) {
 }
 
 // Instructor Home 
-function instructorhome_onload() {
+function instructor_home_onload() {
 
     set_navbar_user_info("Instructor");
 
@@ -104,7 +104,7 @@ function instructorhome_onload() {
                 var json_response = JSON.parse(req.responseText);
                 var exams = json_response;
                 // alert(req.responseText);
-
+                // alert(exams.length);
                 for (var i = 0; i < exams.length; i++) {
                     var exam = exams[i].exam;
                     var row = document.createElement("tr");
@@ -118,6 +118,9 @@ function instructorhome_onload() {
 
                 }
 
+                if(exams.length == 0) {
+                    no_exams_available(table);
+                }
                 
                 // status_id.innerHTML = req.responseText;
             } else {
@@ -770,12 +773,15 @@ function student_home_onload() {
                                 var cell1 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode("No exams available"));
                                 row.appendChild(cell1);
-                                table.children[0].appendChild(row);
+                                table.children[0].appendChild(row);                              
                             }
 
                         }
                     }
-
+                    // alert(json.length);
+                    if(json.length == 0) {
+                        no_exams_available(table);
+                    }
                                                               
                 } else {
                     status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
@@ -788,6 +794,14 @@ function student_home_onload() {
         req.send(vars);
     }
 
+}
+
+function no_exams_available(table) {
+    var row = document.createElement("tr");
+    var cell1 = document.createElement("td");                                            
+    cell1.appendChild(document.createTextNode("No exams available"));
+    row.appendChild(cell1);
+    table.children[0].appendChild(row); 
 }
 
 function get_username(callback) {

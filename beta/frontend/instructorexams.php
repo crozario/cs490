@@ -33,6 +33,7 @@ check_session("instructor");
         
     </div>
 
+    <div class="question-bank-filtering-instructor-exam-page">
         <div class="question-bank-filtering">
             <h2>Filtering</h2>
 
@@ -70,6 +71,8 @@ check_session("instructor");
             </div>
 
         </div>
+    </div>  
+        
 
         <div class="add-exam-container">
             <h2>Create Exam</h2>

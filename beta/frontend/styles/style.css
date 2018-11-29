@@ -2,19 +2,15 @@
     font-family: Arial;
 }
 
-
-/* body {
-    text-align: center;
-} */
-
-
 button {
-    background-color:#005792;
+    background-color:#1c819e;
     color: white;
     cursor: pointer;
     padding: 6px 6px; 
     margin: 8px 0;
-    font-size: 10pt;
+    font-size: 11pt;
+    border-radius: 5px;
+    border: 0px;
 }
 
 textarea {
@@ -55,6 +51,42 @@ button:hover {
     border: 1px solid #ccc;
     box-sizing: border-box;
 } 
+
+/* Nav Bar */
+/* ------------------------------------------------------------ */
+.nav-bar-container {
+    overflow: hidden;
+    background-color: #005792;
+  }
+
+.nav-bar-left a { 
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 12pt;
+}
+
+.nav-bar-left a:hover {
+    color: beige;
+}
+
+.active {
+    color: #757882;
+    /* background-color: #455d7a; */
+    background-color: #1c819e;
+}
+
+.nav-bar-container .nav-bar-right {
+    float: right;
+    display: block;
+    padding: 0px 12px;
+    color: white;
+    text-align: center;
+    font-size: 12pt;
+}
 
 /* Instructor Home */
 /* ------------------------------------------------------------ */
@@ -101,80 +133,6 @@ button:hover {
     padding: 5px;
 } 
 
-/* .add-exam-container {
-    display: inline-block;
-    width: 20%;
-    margin: 8px;
-}
-
-.add-exam-input {
-    width: 50%;
-}
-.add-exam-button {
-    width: 40%;
-}   
-
-.exam-list {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td, th {
-    border: 0.5px solid #dddddd;
-    text-align: center;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-} */
-
-
-/* Question Bank */
-
-/* .question-bank-page { */
-    /* align-items: center; */
-    /* text-align: center; */
-    /* display: inline-block; */
-    /* width: 100%; */
-/* } */
-
-/* Nav Bar */
-/* ------------------------------------------------------------ */
-.nav-bar-container {
-    overflow: hidden;
-    background-color: #005792;
-  }
-
-.nav-bar-left a { 
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 12pt;
-}
-
-.nav-bar-left a:hover {
-    color: beige;
-}
-
-.active {
-    color: #757882;
-    /* background-color: #455d7a; */
-    background-color: #1c819e;
-}
-
-.nav-bar-container .nav-bar-right {
-    float: right;
-    display: block;
-    padding: 0px 12px;
-    color: white;
-    text-align: center;
-    font-size: 12pt;
-}
-
 
 /* Student Home */
 /* ------------------------------------------------------------ */
@@ -217,29 +175,50 @@ tr:nth-child(even) {
 
 /* Question Bank */
 /* ------------------------------------------------------------ */
+/* .question-bank-page {
+    float: left;
+} */
 
-.question-bank-filtering {
+/* .question-bank-filtering {
     padding: 10px;
     width: 50%;
-    float: top;
+    float: left;
     border: 1px solid #ccc;
-    /* display: inline-block; */
+    margin: 0px 0px;
 }
+
 
 .question-bank-container {
     padding: 10px;
     width: 50%;
     float: left;
     border: 1px solid #ccc;
-    /* display: inline-block; */
+    clear: left;
+    margin: 0px 0px;
+} */
+
+
+
+.question-bank-filtering-question-bank-page {
+    margin-top: 15px;
+    padding: 10px;
+    width: 56%;
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #63686e;
+    color: #fbf9fa;
+    border-radius: 5px;
 }
 
 .create-question-container {
+    margin-top: 15px;
     padding: 10px;
-    width: 45%;
+    width: 40%;
     float: right;
     border: 1px solid #ccc;
-    /* display: inline-block; */
+    background-color: #63686e;
+    color: #fbf9fa;
+    border-radius: 5px;
 }
 
 .question-label-textarea {
@@ -262,18 +241,24 @@ tr:nth-child(even) {
 
 /* Instructor Exam */
 /* ------------------------------------------------------------ */
-
-.add-exam-container {
-    width: 45%;
-    float: right;
+.question-bank-filtering-instructor-exam-page {
+    margin-top: 15px;
     padding: 10px;
+    width: 56%;
+    float: left;
     border: 1px solid #ccc;
+    background-color: #63686e;
+    color: #fbf9fa;
+    border-radius: 5px;
+}
+.add-exam-container {
+    margin-top: 15px;
+    padding: 10px;
+    width: 40%;
+    float: right;
+    border: 1px solid #ccc;
+    background-color: #63686e;
+    color: #fbf9fa;
+    border-radius: 5px;
 }
 
-/* .exam-review-instructor-body {
-    text-align: center;
-} */
-
-/* #exam-review-instructor-table {
-    
-} */

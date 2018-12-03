@@ -16,6 +16,7 @@ button {
 textarea {
     font-size: 10pt;
     resize: none;
+    border-radius: 5px;
 }
 
 input {
@@ -30,15 +31,28 @@ button:hover {
 /* Login */
 /* ------------------------------------------------------------ */
 
+#take-exam-body {
+    /* background-color: #1c819e; */
+    background-color: #fafafa;
+}
+
 #login-form {
+    width: 40%;
+    margin: auto;
     text-align: center;
+    color: #005792;
+    margin-top: 20%;
+    /* background-color: #ccc; */
 }
 
 .login-form-container {
     padding: 16px;
-    border: 4px solid #13334c;
-    display: inline-block;
-    margin-top: 15%;
+    border: 4px solid #005792;
+    background-color: white;
+    display: block;
+    margin-top: 5%;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 .login-button {
@@ -50,13 +64,26 @@ button:hover {
     margin: 8px 0;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    border-radius: 5px;
+    color: #005792;
 } 
+
+#status {
+    display: block;
+    padding: 10px;
+    background-color: #ff5959;
+    color: white;
+    border-radius: 5px;
+    /* border: 4px solid #005792; */
+}
+
 
 /* Nav Bar */
 /* ------------------------------------------------------------ */
 .nav-bar-container {
     overflow: hidden;
     background-color: #005792;
+    border-radius: 5px;
   }
 
 .nav-bar-left a { 
@@ -226,8 +253,7 @@ button:hover {
 }
 
 #create-question-form label{
-    display: inline-block;
-    /* float: left; */   
+    display: inline-block; 
     vertical-align: top;
     width: 30%;
     text-align: left;
@@ -262,3 +288,30 @@ button:hover {
     border-radius: 5px;
 }
 
+/* Take Exam */
+/* ------------------------------------------------------------ */
+
+/* #take-exam-name {
+    text-align: center;
+} */
+
+.submit-exam {
+    text-align: center;
+}
+#exam-container {
+    text-align: center;
+}
+#take-exam-container {
+    display: inline-block;  
+    text-align: left;
+    
+}
+#take-exam-container table{
+    margin: 15px 0;
+    background-color: #63686e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fbf9fa;
+    width: 100%;
+    padding: 20px;
+}

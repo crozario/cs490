@@ -30,8 +30,12 @@ check_session("student");
         </div>  
     </div>
 
-    <div>
+    <div id="exam-container">
         <h2 id="take-exam-name"></h2>
+
+        <div id="take-exam-container">
+        
+        </div>
     
         <table id="take-exam-table">
             <tr>
@@ -41,8 +45,8 @@ check_session("student");
         </table>
 
     </div>
-    <div>
-        <button class="submit-exam" onclick="take_exam_submit_button_pressed(); return false;">Submit</button>
+    <div class="submit-exam">
+        <button onclick="take_exam_submit_button_pressed(); return false;">Submit</button>
     </div>
 </body>
 

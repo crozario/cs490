@@ -17,6 +17,11 @@ class Question {
     }
 }
 
+function index_onload() {
+    var status_id = document.getElementById("status");  
+    status_id.style.display = "none";
+}
+
 // Login 
 function login_button_pressed() {
     var username = document.getElementsByName("username")[0].value;
@@ -32,17 +37,18 @@ function login_button_pressed() {
             if (req.status == 200) {
                 var json_response = JSON.parse(req.responseText);   
                 var login_response = json_response.login;
+                // alert(req.responseText);
                 if (login_response == "student") {
                     location.href = "studenthome.php";
                 } else if (login_response == "instructor") {
                     location.href = "instructorhome.php";
                 } else if (login_response == "fail") {
-                    status_id.innerHTML = `<strong>Wrong Username or Password<strong>`;
+                    
+                    incorrect_username_or_password_notification();
                 } else {
                     // error
                     status_id.innerHTML = login_response;
                 }
-                // status_id.innerHTML = req.responseText;
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
             }
@@ -53,6 +59,34 @@ function login_button_pressed() {
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send(vars);
 }
+
+function incorrect_username_or_password_notification() {
+    document.getElementById("login-form").reset();
+    var status_id = document.getElementById("status");
+    status_id.style.display = "block";
+    status_id.style.opacity = 1;
+    status_id.addEventListener('click', fadeOutEffect);
+    setTimeout(function(){ 
+        status_id.click();
+    }, 1500);
+}
+
+
+function fadeOutEffect() {
+    var fadeTarget = document.getElementById("status");
+    var fadeEffect = setInterval(function () {
+        if (!fadeTarget.style.opacity) {
+            fadeTarget.style.opacity = 1;
+        }
+        if (fadeTarget.style.opacity > 0) {
+            fadeTarget.style.opacity -= 0.1;
+        } else {
+            clearInterval(fadeEffect);
+        }
+    }, 50); 
+}
+
+
 
 // Logout 
 
@@ -744,7 +778,7 @@ function student_home_onload() {
                         if(json[i].user == student_username) {
                             var student_info = json[i];
                             var row = document.createElement("tr");
-                            if (student_info.rel == 0) { // exam not taken
+                            if (student_info.rel == 0 ) { // exam not taken
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");                              
                                 cell1.appendChild(document.createTextNode(student_info.exam));
@@ -752,8 +786,7 @@ function student_home_onload() {
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
                                 table.children[0].appendChild(row);
-                                //student_info.graded == 0 && 
-                            } else if(student_info.graded > 0 && student_info.rel == 0) {  // taken but not released
+                            } else if(student_info.rel == 0 && student_info.graded > 0) {  // taken but not released
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode(student_info.exam));
@@ -1077,18 +1110,20 @@ function take_exam_onload() {
                     // alert(data);
                     // alert(req.responseText);
                     var questions = JSON.parse(req.responseText);
+                    var exam_name = document.getElementById("take-exam-name");
+                    exam_name.innerHTML = questions[0].exam;
                     // var exam = getParameterByName('exam');
                             
                     // alert(questions.length);
     
                     // var questions = json_response.questions;
                     // var points = json_response.points;
-                    
-                    var table = document.getElementById("take-exam-table");
-                    var exam_name = document.getElementById("take-exam-name");
-                    exam_name.innerHTML = questions[0].exam;
-                    
+                    var container = document.getElementById("take-exam-container");
+                    // alert(questions.length);
+
                     for (i = 0; i < questions.length; i++) {
+                        var table = document.createElement('table');
+                        
                         var row = document.createElement("tr");
                         var cell1 = document.createElement("label");
                         var cell2 = document.createElement("td");
@@ -1096,7 +1131,7 @@ function take_exam_onload() {
                         cell2.appendChild(document.createTextNode(questions[i].question));
                         row.appendChild(cell1);
                         row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                        table.appendChild(row);
     
                         row = document.createElement("tr");
                         cell1 = document.createElement("label");
@@ -1105,7 +1140,7 @@ function take_exam_onload() {
                         cell2.appendChild(document.createTextNode(questions[i].points));
                         row.appendChild(cell1);
                         row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                        table.appendChild(row);
     
                         row = document.createElement("tr");
                         cell1 = document.createElement("label");
@@ -1114,8 +1149,46 @@ function take_exam_onload() {
                         cell2.appendChild(add_answer_textarea());
                         row.appendChild(cell1);
                         row.appendChild(cell2);
-                        table.children[0].appendChild(row);
+                        table.appendChild(row);
+
+                        container.appendChild(table);
                     }
+
+
+
+                    // var table = document.getElementById("take-exam-table");
+                                   
+                    // for (i = 0; i < questions.length; i++) {
+                    //     var row = document.createElement("tr");
+                    //     var cell1 = document.createElement("label");
+                    //     var cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Question:"));
+                    //     cell2.appendChild(document.createTextNode(questions[i].question));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
+    
+                    //     row = document.createElement("tr");
+                    //     cell1 = document.createElement("label");
+                    //     cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Points:"));
+                    //     cell2.appendChild(document.createTextNode(questions[i].points));
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
+    
+                    //     row = document.createElement("tr");
+                    //     cell1 = document.createElement("label");
+                    //     cell2 = document.createElement("td");
+                    //     cell1.appendChild(document.createTextNode("Answer:"));
+                    //     cell2.appendChild(add_answer_textarea());
+                    //     row.appendChild(cell1);
+                    //     row.appendChild(cell2);
+                    //     table.children[0].appendChild(row);
+                    // }
+
+
+
                 } else {
                     status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
                 }
@@ -1131,8 +1204,8 @@ function take_exam_onload() {
 
 function add_answer_textarea() {
     var input = document.createElement("textarea");
-    input.cols = "50";
-    input.rows = "5";
+    input.cols = "80";
+    input.rows = "10";
 
     return input;
 }

@@ -14,9 +14,10 @@ include_once("scripts/helper.php");
     <script src="scripts/main.js"></script>  
 
 </head>
-    <body>
+    <body id="take-exam-body" onload="index_onload(); return false;">
         <div>
             <form id="login-form" method="POST" onsubmit="login_button_pressed(); return false;">
+                <h2>Sign In</h2>
                 <div class="login-form-container">
                     <label for="username"><b>Username</b></label>
                     <input class="login-input-username" type="text" placeholder="Enter Username" name="username" required>
@@ -24,8 +25,8 @@ include_once("scripts/helper.php");
                     <input class="login-input-password" type="password" placeholder="Enter Password" name="password" required>
                   <button class="login-button" type="submit">Login</button>
                 </div>   
-                <div id="status"> </div>    
-                 
+
+                <div id="status"><strong>Incorrect username or password<strong></div>    
             </form>
         </div>
        

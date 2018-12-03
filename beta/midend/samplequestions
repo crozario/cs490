@@ -127,3 +127,11 @@ def string_bits(str):
 string_bits('Hello') → 'Hlo'
 string_bits('Hi') → 'H'
 string_bits('Heeololeo') → 'Hello'
+
+Given two int values, return their sum. Unless the two values are the same, then return double their sum. Name it sum_double().
+
+def sum_double(a, b):
+  sum = a + b  
+  if a == b:
+    sum = sum * 2
+  return sum

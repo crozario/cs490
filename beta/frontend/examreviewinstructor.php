@@ -36,17 +36,21 @@ check_session("instructor");
 
     <div class="exam-review-instructor-body">
         <h2 id="exam-review-instructor-exam-name"></h2>
-        <h2 id="exam-review-instructor-student-name"></h2>
-        <table id="exam-review-instructor-table">
-            <tr>
-            
-            </tr>
 
-        </table>
+        <h3 id="exam-review-instructor-student-name"></h3>
+
+        <div id="exam-review-instructor-info-container">
+        
+        </div>
+
+        <div id="exam-review-instructor-container">
+        
+        </div>
 
     </div>
-    <div>
-        <button class="release-exam" onclick="release_exam_button_pressed(); return false;">Release Exam</button>
+
+    <div class="release-exam">
+        <button onclick="release_exam_button_pressed(); return false;">Release Exam</button>
     </div>
 
 </body>

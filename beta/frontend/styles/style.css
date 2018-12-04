@@ -41,7 +41,7 @@ button:hover {
     margin: auto;
     text-align: center;
     color: #005792;
-    margin-top: 20%;
+    margin-top: 15%;
     /* background-color: #ccc; */
 }
 
@@ -150,7 +150,7 @@ button:hover {
     display: inline-block;
 }
 
-#exam-review-list th{
+#exam-review-list th {
     border-bottom: 1px solid #ddd;
     padding: 10px;
 }
@@ -159,6 +159,8 @@ button:hover {
     border-bottom: 1px solid #ddd;
     padding: 5px;
 } 
+
+
 
 
 /* Student Home */
@@ -182,48 +184,127 @@ button:hover {
     border-bottom: 1px solid #ddd;
     padding: 5px;
 }
-/* Exam Review Student */
+/* Exam Review Instructor */
 /* ------------------------------------------------------------ */
-
-
-.exam-review-student-page {
-    margin-top: 15px;
-    /* text-align: center; */
-}
-
-#exam-review-student-exam-name {
+.release-exam {
     text-align: center;
 }
+
+.exam-review-instructor-body {
+    text-align: center;
+}
+
+
+#exam-review-instructor-info-container {
+    text-align: center;
+}
+
+#exam-review-instructor-info-container table {
+    margin: 15px 0;
+    background-color: #63686e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fbf9fa;
+    display: inline-block; 
+    /* width: 100%; */
+    padding: 20px;  
+}
+
+#exam-review-instructor-info-container table td {
+    padding: 5px;
+} 
+
+#exam-review-instructor-container {
+    display: inline-block;  
+    text-align: left;
+}
+
+#exam-review-instructor-container table {
+    margin: 15px 0;
+    background-color: #63686e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fbf9fa;
+    width: 100%;
+    padding: 20px;
+} 
+
+/* 
+#take-exam-container {
+    display: inline-block;  
+    text-align: left;
+    
+}
+
+#take-exam-container table{
+    margin: 15px 0;
+    background-color: #63686e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fbf9fa;
+    width: 100%;
+    padding: 20px;
+} */
+
+/* Exam Review Student */
+/* ------------------------------------------------------------ */
 
 .done-review-exam {
     text-align: center;
 }
 
-
-/* Question Bank */
-/* ------------------------------------------------------------ */
-/* .question-bank-page {
-    float: left;
-} */
-
-/* .question-bank-filtering {
-    padding: 10px;
-    width: 50%;
-    float: left;
-    border: 1px solid #ccc;
-    margin: 0px 0px;
+.exam-review-student-page {
+    text-align: center;
 }
 
 
-.question-bank-container {
-    padding: 10px;
-    width: 50%;
-    float: left;
+#exam-review-student-info-container {
+    text-align: center;
+}
+
+#exam-review-student-info-container table {
+    margin: 15px 0;
+    background-color: #63686e;
     border: 1px solid #ccc;
-    clear: left;
-    margin: 0px 0px;
+    border-radius: 5px;
+    color: #fbf9fa;
+    display: inline-block; 
+    /* width: 100%; */
+    padding: 20px;  
+}
+
+#exam-review-student-info-container table td {
+    padding: 5px;
+} 
+
+#exam-review-student-container {
+    display: inline-block;  
+    text-align: left;
+}
+
+#exam-review-student-container table {
+    margin: 15px 0;
+    background-color: #63686e;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #fbf9fa;
+    width: 100%;
+    padding: 20px;
+} 
+
+/* .exam-review-student-page {
+    margin-top: 15px;
 } */
 
+/* #exam-review-student-exam-name {
+    text-align: center;
+} */
+
+
+
+
+/* Question Bank */
+/* ------------------------------------------------------------ */
 
 
 .question-bank-filtering-question-bank-page {
@@ -237,6 +318,8 @@ button:hover {
     border-radius: 5px;
 }
 
+
+
 .create-question-container {
     margin-top: 15px;
     padding: 10px;
@@ -246,6 +329,10 @@ button:hover {
     background-color: #63686e;
     color: #fbf9fa;
     border-radius: 5px;
+}
+
+.create-question-container * {
+    margin: 2px 2px;
 }
 
 .question-label-textarea {
@@ -298,14 +385,17 @@ button:hover {
 .submit-exam {
     text-align: center;
 }
+
 #exam-container {
     text-align: center;
 }
+
 #take-exam-container {
     display: inline-block;  
     text-align: left;
     
 }
+
 #take-exam-container table{
     margin: 15px 0;
     background-color: #63686e;
@@ -315,3 +405,7 @@ button:hover {
     width: 100%;
     padding: 20px;
 }
+
+/* #take-exam-container table td{
+    text-align: left;
+} */

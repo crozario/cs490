@@ -34,13 +34,15 @@ check_session("student");
 
     <div class="exam-review-student-page">
         <h2 id="exam-review-student-exam-name"></h2>
-    
-        <table id="exam-review-student-table">
-            <tr>
-            
-            </tr>
 
-        </table>
+        <div id="exam-review-student-info-container">
+        
+        </div>
+
+        <div id="exam-review-student-container">
+        
+        </div>
+    
     </div>
 
     <div class="done-review-exam">

@@ -38,16 +38,16 @@ check_session("instructor");
                 <h2>Filtering</h2>
 
                 <div id="topic-select-filtering-question-bank">
-                    <label for="topic-select-filtering">Topic:</label>
+                    <label for="topic-select-filtering"><b>Topic:</b></label>
                 </div>
 
                 <div id="difficulty-select-filtering-question-bank">
-                    <label for="difficulty-select-filtering">Difficulty:</label>
+                    <label for="difficulty-select-filtering"><b>Difficulty:</b></label>
 
                 </div>
 
                 <div>
-                    <label for="keyword-filter-name">Keyword:</label>
+                    <label for="keyword-filter-name"><b>Keyword:</b></label>
                     <textarea name="keyword-filter-name" id="keyword-filter-name" cols="50" rows="1"></textarea>
                 </div>
 
@@ -76,33 +76,33 @@ check_session("instructor");
             <h2>Create Question</h2>
             <form id="create-question-form">
                 <div class="question-label-textarea">
-                    <label for="question">Question: </label>
+                    <label for="question"><b>Question:</b></label>
                     <textarea name="question" id="question" cols="50" rows="5"></textarea>
                 </div>
 
 
                 <div>
-                    <label for="function-name">Function Name:</label>
+                    <label for="function-name"><b>Function Name:</b></label>
                     <input type="text" id="function-name" />
                 </div>
 
                 <div id="topic-select-question-bank">
-                    <label for="topic-select">Topic:</label>
+                    <label for="topic-select"><b>Topic:</b></label>
 
                 </div>
 
                 <div id="difficulty-select-question-bank">
-                    <label for="difficulty-select">Difficulty:</label>
+                    <label for="difficulty-select"><b>Difficulty:</b></label>
 
                 </div>
 
                 <div id="constraint-select-question-bank">
-                    <label for="constraint-select">Constraint:</label>
+                    <label for="constraint-select"><b>Constraint:</b></label>
 
                 </div>
 
                 <div>
-                    <label for="test-cases-table">Test Cases:</label>
+                    <label for="test-cases-table"><b>Test Cases:</b></label>
                     <table id="test-cases-table">
                         <tr>
                             <th>Input</th>

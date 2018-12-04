@@ -36,14 +36,6 @@ check_session("student");
         <div id="take-exam-container">
         
         </div>
-    
-        <table id="take-exam-table">
-            <tr>
-
-            </tr>
-
-        </table>
-
     </div>
     <div class="submit-exam">
         <button onclick="take_exam_submit_button_pressed(); return false;">Submit</button>

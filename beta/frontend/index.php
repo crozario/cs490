@@ -26,7 +26,8 @@ include_once("scripts/helper.php");
                   <button class="login-button" type="submit">Login</button>
                 </div>   
 
-                <div id="status"><strong>Incorrect username or password<strong></div>    
+                <div id="status" style="display: none;"><strong>Incorrect username or password<strong></div>   
+                
             </form>
         </div>
        

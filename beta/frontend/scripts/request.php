@@ -75,7 +75,9 @@ if (isset($_POST['login'])) {
 
 
 function get_test_cases() {
-    $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/displaytestcase.php';  
+    // $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/displaytestcase.php';
+    $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/displaytestcase.php';
+     
     $ch = curl_init();
 
 

@@ -17,10 +17,10 @@ class Question {
     }
 }
 
-function index_onload() {
-    var status_id = document.getElementById("status");  
-    status_id.style.display = "none";
-}
+// function index_onload() {
+//     var status_id = document.getElementById("status");  
+//     status_id.style.display = "none";
+// }
 
 // Login 
 function login_button_pressed() {
@@ -962,119 +962,228 @@ function exam_review_student_onload() {
                     get_test_cases(json_data.student, json_data.exam, got_test_cases);
 
                     function got_test_cases(callback_data) {
-                        // alert(callback_data);
                         var info = JSON.parse(req.responseText);
                         var test_case_data = JSON.parse(callback_data);
-                        // alert(callback_data);
-                        // alert(req.responseText);
                         var review_info = parse_test_cases(test_case_data, info);
-                        var review_info_length = Object.keys(review_info).length;
                                            
-                        // alert(info[0].question);
-                        var table = document.getElementById("exam-review-student-table");
                         var exam_name = document.getElementById("exam-review-student-exam-name");
                                    
                         // alert(req.responseText);
 
                         exam_name.innerHTML = json_data.exam;
 
+                        var exam_info_container = document.getElementById("exam-review-student-info-container");
+
+                        var exam_info_table = document.createElement('table');
+                        var row = document.createElement("tr");
+                        var cell1 = document.createElement("td");
+                        var cell2 = document.createElement("td");
+                        var cell3 = document.createElement("td");
+                        var cell4 = document.createElement("td");
+                        cell1.appendChild(document.createTextNode("Exam Percentage:"));
+                        cell1.style.fontWeight = 'bold';
+                        cell2.appendChild(document.createTextNode("N/A"));
+                        cell3.appendChild(document.createTextNode("Exam Grade:"));
+                        cell3.style.fontWeight = 'bold';
+                        cell4.appendChild(document.createTextNode("N/A"));
+                        row.appendChild(cell1);
+                        row.appendChild(cell2);
+                        row.appendChild(cell3);
+                        row.appendChild(cell4);
+                        exam_info_table.appendChild(row);
+
+                        exam_info_container.appendChild(exam_info_table);
+                        
+                        var container = document.getElementById("exam-review-student-container");
+
 
                         Object.keys(review_info).forEach(function(key) {
+                            var table = document.createElement('table');
+
                             var row = document.createElement("tr");
+
                             var cell1 = document.createElement("td");
                             var cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Question:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(document.createTextNode(key));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Points Received:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(document.createTextNode(review_info[key].question_grade));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Total Points:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(document.createTextNode(review_info[key].question_points));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
+                            row = document.createElement("tr");
+                            cell1 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Test Cases:"));
+                            cell1.style.fontWeight = 'bold';
+                            
+                            var test_case_table = document.createElement('table');
 
-                            var row2 = document.createElement("tr");
-                            var cell1 = document.createElement("td");
-                            var cell2 = document.createElement("td");
-                            var cell3 = document.createElement("td");
-                            var cell4 = document.createElement("td");
-                            var cell5 = document.createElement("td");
-                            cell1.appendChild(document.createTextNode("testcasein:"));
-                            cell2.appendChild(document.createTextNode("testcaseout:"));
-                            cell3.appendChild(document.createTextNode("expectedtestcaseout:"));
-                            cell4.appendChild(document.createTextNode("testcasepointsreceived:"));
-                            cell5.appendChild(document.createTextNode("testcasetotalpoints:"));
-                            row2.appendChild(cell1);
-                            row2.appendChild(cell2);
-                            row2.appendChild(cell3);
-                            row2.appendChild(cell4);
-                            row2.appendChild(cell5);
-                            table.children[0].appendChild(row2);
+                            var tc_row = document.createElement("tr");
+                            var tc_cell1 = document.createElement("td");
+                            var tc_cell2 = document.createElement("td");
+                            var tc_cell3 = document.createElement("td");
+                            var tc_cell4 = document.createElement("td");
+                            var tc_cell5 = document.createElement("td");
+                            var tc_cell6 = document.createElement("td");
+                            tc_cell1.appendChild(document.createTextNode("Input"));
+                            tc_cell1.style.fontWeight = 'bold';
+                            tc_cell2.appendChild(document.createTextNode("Expected"));
+                            tc_cell2.style.fontWeight = 'bold';
+                            tc_cell3.appendChild(document.createTextNode("Output"));
+                            tc_cell3.style.fontWeight = 'bold';
+                            tc_cell4.appendChild(document.createTextNode("Points Received"));
+                            tc_cell4.style.fontWeight = 'bold';
+                            tc_cell5.appendChild(document.createTextNode("Points Total"));
+                            tc_cell5.style.fontWeight = 'bold';
+                            tc_cell6.appendChild(document.createTextNode("Status"));
+                            tc_cell6.style.fontWeight = 'bold';
+                            tc_row.appendChild(tc_cell1);
+                            tc_row.appendChild(tc_cell2);
+                            tc_row.appendChild(tc_cell3);
+                            tc_row.appendChild(tc_cell4);
+                            tc_row.appendChild(tc_cell5);
+                            tc_row.appendChild(tc_cell6);
+                            test_case_table.appendChild(tc_row);
 
-                            // alert(review_info[key].test_case_in.length);
                             for (i = 0; i < review_info[key].test_case_in.length; i++) {
                                 var current_test_case_in = review_info[key].test_case_in[i];
                                 var current_test_case_out = review_info[key].test_case_out[i];
-                                var current_expected_test_case_out = review_info[key].expected_test_case_out[i];
-                                var current_test_case_total_points = review_info[key].test_case_total_points[i];
-                                var current_test_case_total_grade = review_info[key].test_case_total_grade[i];
+                                var current_expected_test_case_out = review_info[key].expected_test_case_out[i];           
+                                var current_test_case_points_received = review_info[key].test_case_total_grade[i];
+                                var current_test_case_points_total = review_info[key].test_case_total_points[i];
+                                
+                                tc_row = document.createElement("tr");
+                                tc_cell1 = document.createElement("td");
+                                tc_cell2 = document.createElement("td");
+                                tc_cell3 = document.createElement("td");
+                                tc_cell4 = document.createElement("td");
+                                tc_cell5 = document.createElement("td");
+                                tc_cell6 = document.createElement("td");
+                                tc_cell1.appendChild(document.createTextNode(current_test_case_in));
+                                tc_cell2.appendChild(document.createTextNode(current_expected_test_case_out));
+                                tc_cell3.appendChild(document.createTextNode(current_test_case_out));
+                                tc_cell4.appendChild(document.createTextNode(current_test_case_points_received));
+                                tc_cell5.appendChild(document.createTextNode(current_test_case_points_total));
+                                
+                                if(current_expected_test_case_out == current_test_case_out && current_test_case_points_received == current_test_case_points_total) {
+                                    tc_cell6.appendChild(document.createTextNode("\u2713"));
+                                    tc_cell6.style.backgroundColor = "#23a393";
+                                    tc_cell6.style.textAlign = "center"
+                                } else {
+                                    tc_cell6.appendChild(document.createTextNode("\u0058"));
+                                    tc_cell6.style.backgroundColor = "#ff5959";
+                                    tc_cell6.style.textAlign = "center"
+                                }
+                                
+                                tc_row.appendChild(tc_cell1);
+                                tc_row.appendChild(tc_cell2);
+                                tc_row.appendChild(tc_cell3);
+                                tc_row.appendChild(tc_cell4);
+                                tc_row.appendChild(tc_cell5);
+                                tc_row.appendChild(tc_cell6);
 
-                                var row2 = document.createElement("tr");
-                                var cell1 = document.createElement("td");
-                                var cell2 = document.createElement("td");
-                                var cell3 = document.createElement("td");
-                                var cell4 = document.createElement("td");
-                                var cell5 = document.createElement("td");
-                                cell1.appendChild(document.createTextNode(current_test_case_in));
-                                cell2.appendChild(document.createTextNode(current_test_case_out));
-                                cell3.appendChild(document.createTextNode(current_expected_test_case_out));
-                                cell4.appendChild(document.createTextNode(current_test_case_total_grade));
-                                cell5.appendChild(document.createTextNode(current_test_case_total_points));
-                                row2.appendChild(cell1);
-                                row2.appendChild(cell2);
-                                row2.appendChild(cell3);
-                                row2.appendChild(cell4);
-                                row2.appendChild(cell5);
-                                table.children[0].appendChild(row2);
+
+                                test_case_table.appendChild(tc_row);
+                            }
+
+
+                            var extra_info_table = document.createElement('table');
+
+                            if (review_info[key].function_name == "1") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("function name is correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else if (review_info[key].function_name == "0") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("function name is not correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else {
+                                
+                            }
+
+                            extra_info_table.appendChild(tc_row2);
+
+                            if (review_info[key].constraint == "1") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("constraint is correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else if (review_info[key].constraint == "0") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("constraint is not correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else {
 
                             }
+
+                            extra_info_table.appendChild(tc_row2);
+
+                            row.appendChild(cell1);
+                            row.appendChild(test_case_table);
+                            row.appendChild(extra_info_table);
+                            table.appendChild(row);
+    
+                            
+                            var table_td_collection = test_case_table.getElementsByTagName("td");
+                            for(var i=0; i<table_td_collection.length; i++) {
+                                var td = table_td_collection[i];
+                                td.style.border = "1px solid white";
+                                td.style.padding = "8px";
+                            }
+
+                            var extra_table_td_collection = extra_info_table.getElementsByTagName("td");
+                            for(var i=0; i<extra_table_td_collection.length; i++) {
+                                var td = extra_table_td_collection[i];
+                                td.style.border = "1px solid white";
+                                td.style.padding = "8px";
+                            }
+                            
 
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Answer:"));
-                            cell2.appendChild(document.createTextNode(review_info[key].answer));
+                            cell1.style.fontWeight = 'bold';
+                            cell2.appendChild(non_editable_in_text_area(review_info[key].answer));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
-
+                            table.appendChild(row);
+                            
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Comment:"));
-                            cell2.appendChild(document.createTextNode(review_info[key].comment));
+                            cell1.style.fontWeight = 'bold';
+                            cell2.appendChild(non_editable_in_text_area(review_info[key].comment));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
+                            container.appendChild(table);
 
-                            // alert(key);
-                            // console.log(key, review_info[key]);
                         });
 
                     }
@@ -1106,20 +1215,11 @@ function take_exam_onload() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-                    // alert(JSON.parse(req.responseText)[0].question);
-                    // alert(data);
-                    // alert(req.responseText);
                     var questions = JSON.parse(req.responseText);
                     var exam_name = document.getElementById("take-exam-name");
                     exam_name.innerHTML = questions[0].exam;
-                    // var exam = getParameterByName('exam');
-                            
-                    // alert(questions.length);
     
-                    // var questions = json_response.questions;
-                    // var points = json_response.points;
                     var container = document.getElementById("take-exam-container");
-                    // alert(questions.length);
 
                     for (i = 0; i < questions.length; i++) {
                         var table = document.createElement('table');
@@ -1128,6 +1228,7 @@ function take_exam_onload() {
                         var cell1 = document.createElement("label");
                         var cell2 = document.createElement("td");
                         cell1.appendChild(document.createTextNode("Question:"));
+                        cell1.style.fontWeight = 'bold';
                         cell2.appendChild(document.createTextNode(questions[i].question));
                         row.appendChild(cell1);
                         row.appendChild(cell2);
@@ -1137,6 +1238,7 @@ function take_exam_onload() {
                         cell1 = document.createElement("label");
                         cell2 = document.createElement("td");
                         cell1.appendChild(document.createTextNode("Points:"));
+                        cell1.style.fontWeight = 'bold';
                         cell2.appendChild(document.createTextNode(questions[i].points));
                         row.appendChild(cell1);
                         row.appendChild(cell2);
@@ -1146,6 +1248,7 @@ function take_exam_onload() {
                         cell1 = document.createElement("label");
                         cell2 = document.createElement("td");
                         cell1.appendChild(document.createTextNode("Answer:"));
+                        cell1.style.fontWeight = 'bold';
                         cell2.appendChild(add_answer_textarea());
                         row.appendChild(cell1);
                         row.appendChild(cell2);
@@ -1153,41 +1256,6 @@ function take_exam_onload() {
 
                         container.appendChild(table);
                     }
-
-
-
-                    // var table = document.getElementById("take-exam-table");
-                                   
-                    // for (i = 0; i < questions.length; i++) {
-                    //     var row = document.createElement("tr");
-                    //     var cell1 = document.createElement("label");
-                    //     var cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Question:"));
-                    //     cell2.appendChild(document.createTextNode(questions[i].question));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-    
-                    //     row = document.createElement("tr");
-                    //     cell1 = document.createElement("label");
-                    //     cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Points:"));
-                    //     cell2.appendChild(document.createTextNode(questions[i].points));
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-    
-                    //     row = document.createElement("tr");
-                    //     cell1 = document.createElement("label");
-                    //     cell2 = document.createElement("td");
-                    //     cell1.appendChild(document.createTextNode("Answer:"));
-                    //     cell2.appendChild(add_answer_textarea());
-                    //     row.appendChild(cell1);
-                    //     row.appendChild(cell2);
-                    //     table.children[0].appendChild(row);
-                    // }
-
-
 
                 } else {
                     status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
@@ -1211,34 +1279,35 @@ function add_answer_textarea() {
 }
 
 function take_exam_submit_button_pressed() {
-    var table = document.getElementById("take-exam-table");
-    // var exam_name = document.getElementById("take-exam-name").innerHTML;
+    var exam_container = document.getElementById("take-exam-container");
+
     var questions = new Array();
     var points = new Array();
     var answers = new Array();
-    // alert("hello");
-    // alert(table.rows.length);
-    var i = 1;
-    while (i < table.rows.length) {
-        // var question = table.rows[i++].cells[0].innerHTML;
-        var question = table.rows[i++].cells[0].innerHTML;
-        var point = table.rows[i++].cells[0].innerHTML;
-        var answer = table.rows[i++].cells[0].children[0].value;
-        // i+=3;
+
+    
+    var i = 0;
+    while (i < exam_container.childElementCount) {
+        var table = exam_container.children[i];
+
+        var question = table.rows[0].cells[0].innerHTML;
+        var point = table.rows[1].cells[0].innerHTML;
+        var answer = table.rows[2].cells[0].children[0].value;
+
+        if(answer == "") {
+            alert("All questions were not answered.");
+            return;
+        }
+ 
         questions.push(question);
         points.push(point);
         answers.push(encodeURIComponent(answer));
-        // answers.push(answer);
+        i++;
     } 
 
     var questions_stringified = JSON.stringify(questions);
     var points_stringified = JSON.stringify(points);
     var answers_stringified = JSON.stringify(answers);
-
-    // alert(answers_stringified);
-    
-    
-    // alert(answers[0]);
 
     get_exam_and_student(got_exam_and_student);
 
@@ -1254,11 +1323,7 @@ function take_exam_submit_button_pressed() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-                    // alert(req.responseText);
                     location.href = "studenthome.php";
-                    // var json_response = JSON.parse(req.responseText);
-                    // alert(json_response.added);
-                    // location.href = "login.php";
                 } else {
                     status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
                 }
@@ -1286,9 +1351,10 @@ function exam_review_list_onload() {
             if (req.status == 200) {
                 // alert(req.responseText);
                 var json = JSON.parse(req.responseText);
+                var not_taken = 0;
                 
                 for(i = 0; i < json.length; i++) {
-                    if(json[i].graded != null && json[i].graded > 0) {
+                    if(json[i].graded != null && json[i].graded > 0 && json[i].rel == 0) {
                         var row = document.createElement("tr");
                         var cell1 = document.createElement("td");
                         var cell2 = document.createElement("td");
@@ -1300,8 +1366,30 @@ function exam_review_list_onload() {
                         row.appendChild(cell2);
                         row.appendChild(cell3);
                         table.children[0].appendChild(row);
-                    }                  
+                    } else if(json[i].rel == 1) {
+                        var row = document.createElement("tr");
+                        var cell1 = document.createElement("td");
+                        var cell2 = document.createElement("td");
+                        var cell3 = document.createElement("td");
+                        cell1.appendChild(document.createTextNode(json[i].user));
+                        cell2.appendChild(document.createTextNode(json[i].graded));
+                        cell3.appendChild(document.createTextNode("exam released"));
+                        row.appendChild(cell1);
+                        row.appendChild(cell2);
+                        row.appendChild(cell3);
+                        table.children[0].appendChild(row);
+                    } else {
+                        not_taken++;
+                    }
                 }
+                if(json.length == not_taken) {
+                    var row = document.createElement("tr");
+                    var cell1 = document.createElement("td");
+                    cell1.appendChild(document.createTextNode("students have not taken exam"));
+                    row.appendChild(cell1);
+                    table.children[0].appendChild(row);
+                }
+                
             
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
@@ -1341,128 +1429,242 @@ function exam_review_instructor_onload() {
             if (req.readyState == 4) {
     
                 if (req.status == 200) {
-                    // alert(data);
-
+                    
+                    // alert(req.responseText);
                     get_test_cases(json_data.student_user, json_data.student_exam, got_test_cases);
 
                     function got_test_cases(callback_data) {
-                        // alert(callback_data);
                         var info = JSON.parse(req.responseText);
                         var test_case_data = JSON.parse(callback_data);
-                        // alert(callback_data);
-                        //  alert(req.responseText);
-                        var review_info = parse_test_cases(test_case_data, info);
-                        var review_info_length = Object.keys(review_info).length;
-                       
-                        
-                        // alert(info[0].question);
-                    
-                        var table = document.getElementById("exam-review-instructor-table");
-                    
-                        var exam_name = document.getElementById("exam-review-instructor-exam-name");
-                   
+                        var review_info = parse_test_cases(test_case_data, info);          
+                            
+                        var exam_name = document.getElementById("exam-review-instructor-exam-name");                   
                         var student_name = document.getElementById("exam-review-instructor-student-name");
-                        // alert(req.responseText);
-
                         exam_name.innerHTML = json_data.student_exam;
                         student_name.innerHTML = json_data.student_user;
 
+                        var exam_info_container= document.getElementById("exam-review-instructor-info-container");
+
+                        var exam_info_table = document.createElement('table');
+                        var row = document.createElement("tr");
+                        var cell1 = document.createElement("td");
+                        var cell2 = document.createElement("td");
+                        var cell3 = document.createElement("td");
+                        var cell4 = document.createElement("td");
+                        var cell5 = document.createElement("td");
+                        var cell6 = document.createElement("td");
+                        cell1.appendChild(document.createTextNode("Student:"));
+                        cell1.style.fontWeight = 'bold';
+                        cell2.appendChild(document.createTextNode(json_data.student_user));   
+                        cell3.appendChild(document.createTextNode("Exam Percentage:"));
+                        cell3.style.fontWeight = 'bold';
+                        cell4.appendChild(document.createTextNode("N/A"));
+                        cell5.appendChild(document.createTextNode("Exam Grade:"));
+                        cell5.style.fontWeight = 'bold';
+                        cell6.appendChild(document.createTextNode("N/A"));
+                        row.appendChild(cell1);
+                        row.appendChild(cell2);
+                        row.appendChild(cell3);
+                        row.appendChild(cell4);
+                        row.appendChild(cell5);
+                        row.appendChild(cell6);
+                        exam_info_table.appendChild(row);
+
+                        exam_info_container.appendChild(exam_info_table);
+                        
+                        var container = document.getElementById("exam-review-instructor-container");
 
                         Object.keys(review_info).forEach(function(key) {
+                            var table = document.createElement('table');
+
                             var row = document.createElement("tr");
+
                             var cell1 = document.createElement("td");
                             var cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Question:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(document.createTextNode(key));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Points Received:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(create_points_textbox(review_info[key].question_grade));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Total Points:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(document.createTextNode(review_info[key].question_points));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
-                            var row2 = document.createElement("tr");
-                            var cell1 = document.createElement("td");
-                            var cell2 = document.createElement("td");
-                            var cell3 = document.createElement("td");
-                            var cell4 = document.createElement("td");
-                            var cell5 = document.createElement("td");
-                            cell1.appendChild(document.createTextNode("testcasein:"));
-                            cell2.appendChild(document.createTextNode("testcaseout:"));
-                            cell3.appendChild(document.createTextNode("expectedtestcaseout:"));
-                            cell4.appendChild(document.createTextNode("testcasepointsreceived:"));
-                            cell5.appendChild(document.createTextNode("testcasetotalpoints:"));
-                            row2.appendChild(cell1);
-                            row2.appendChild(cell2);
-                            row2.appendChild(cell3);
-                            row2.appendChild(cell4);
-                            row2.appendChild(cell5);
-                            table.children[0].appendChild(row2);
+                            row = document.createElement("tr");
+                            cell1 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("Test Cases:"));
+                            cell1.style.fontWeight = 'bold';
+                            
+                            var test_case_table = document.createElement('table');
 
-                            // alert(review_info[key].test_case_in.length);
+                            var tc_row = document.createElement("tr");
+                            var tc_cell1 = document.createElement("td");
+                            var tc_cell2 = document.createElement("td");
+                            var tc_cell3 = document.createElement("td");
+                            var tc_cell4 = document.createElement("td");
+                            var tc_cell5 = document.createElement("td");
+                            var tc_cell6 = document.createElement("td");
+                            tc_cell1.appendChild(document.createTextNode("Input"));
+                            tc_cell1.style.fontWeight = 'bold';
+                            tc_cell2.appendChild(document.createTextNode("Expected"));
+                            tc_cell2.style.fontWeight = 'bold';
+                            tc_cell3.appendChild(document.createTextNode("Output"));
+                            tc_cell3.style.fontWeight = 'bold';
+                            tc_cell4.appendChild(document.createTextNode("Points Received"));
+                            tc_cell4.style.fontWeight = 'bold';
+                            tc_cell5.appendChild(document.createTextNode("Points Total"));
+                            tc_cell5.style.fontWeight = 'bold';
+                            tc_cell6.appendChild(document.createTextNode("Status"));
+                            tc_cell6.style.fontWeight = 'bold';
+                            tc_row.appendChild(tc_cell1);
+                            tc_row.appendChild(tc_cell2);
+                            tc_row.appendChild(tc_cell3);
+                            tc_row.appendChild(tc_cell4);
+                            tc_row.appendChild(tc_cell5);
+                            tc_row.appendChild(tc_cell6);
+                            test_case_table.appendChild(tc_row);
+
                             for (i = 0; i < review_info[key].test_case_in.length; i++) {
                                 var current_test_case_in = review_info[key].test_case_in[i];
                                 var current_test_case_out = review_info[key].test_case_out[i];
-                                var current_expected_test_case_out = review_info[key].expected_test_case_out[i];
-                                var current_test_case_total_points = review_info[key].test_case_total_points[i];
-                                var current_test_case_total_grade = review_info[key].test_case_total_grade[i];
+                                var current_expected_test_case_out = review_info[key].expected_test_case_out[i];           
+                                var current_test_case_points_received = review_info[key].test_case_total_grade[i];
+                                var current_test_case_points_total = review_info[key].test_case_total_points[i];
+                                
+                                tc_row = document.createElement("tr");
+                                tc_cell1 = document.createElement("td");
+                                tc_cell2 = document.createElement("td");
+                                tc_cell3 = document.createElement("td");
+                                tc_cell4 = document.createElement("td");
+                                tc_cell5 = document.createElement("td");
+                                tc_cell6 = document.createElement("td");
+                                tc_cell1.appendChild(document.createTextNode(current_test_case_in));
+                                tc_cell2.appendChild(document.createTextNode(current_expected_test_case_out));
+                                tc_cell3.appendChild(document.createTextNode(current_test_case_out));
+                                tc_cell4.appendChild(document.createTextNode(current_test_case_points_received));
+                                tc_cell5.appendChild(document.createTextNode(current_test_case_points_total));
+                                
+                                if(current_expected_test_case_out == current_test_case_out && current_test_case_points_received == current_test_case_points_total) {
+                                    tc_cell6.appendChild(document.createTextNode("\u2713"));
+                                    tc_cell6.style.backgroundColor = "#23a393";
+                                    tc_cell6.style.textAlign = "center"
+                                } else {
+                                    tc_cell6.appendChild(document.createTextNode("\u0058"));
+                                    tc_cell6.style.backgroundColor = "#ff5959";
+                                    tc_cell6.style.textAlign = "center"
+                                }
+                                
+                                tc_row.appendChild(tc_cell1);
+                                tc_row.appendChild(tc_cell2);
+                                tc_row.appendChild(tc_cell3);
+                                tc_row.appendChild(tc_cell4);
+                                tc_row.appendChild(tc_cell5);
+                                tc_row.appendChild(tc_cell6);
 
-                                var row2 = document.createElement("tr");
-                                var cell1 = document.createElement("td");
-                                var cell2 = document.createElement("td");
-                                var cell3 = document.createElement("td");
-                                var cell4 = document.createElement("td");
-                                var cell5 = document.createElement("td");
-                                cell1.appendChild(document.createTextNode(current_test_case_in));
-                                cell2.appendChild(document.createTextNode(current_test_case_out));
-                                cell3.appendChild(document.createTextNode(current_expected_test_case_out));
-                                cell4.appendChild(document.createTextNode(current_test_case_total_grade));
-                                cell5.appendChild(document.createTextNode(current_test_case_total_points));
-                                row2.appendChild(cell1);
-                                row2.appendChild(cell2);
-                                row2.appendChild(cell3);
-                                row2.appendChild(cell4);
-                                row2.appendChild(cell5);
-                                table.children[0].appendChild(row2);
+
+                                test_case_table.appendChild(tc_row);
+                            }
+
+
+                            var extra_info_table = document.createElement('table');
+
+                            if (review_info[key].function_name == "1") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("function name is correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else if (review_info[key].function_name == "0") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("function name is not correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else {
+                                
+                            }
+
+                            extra_info_table.appendChild(tc_row2);
+
+                            if (review_info[key].constraint == "1") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("constraint is correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else if (review_info[key].constraint == "0") {
+                                var tc_row2 = document.createElement("tr");
+                                var tc_cell7 = document.createElement("td");
+                                tc_cell7.appendChild(document.createTextNode("constraint is not correct."));
+                                tc_row2.appendChild(tc_cell7);
+                            } else {
 
                             }
+
+                            extra_info_table.appendChild(tc_row2);
+                        
+                            // cell2.appendChild(test_case_table);
+                            // cell2.appendChild(extra_info_table);
+                            row.appendChild(cell1);
+                            // row.appendChild(cell2);
+                            row.appendChild(test_case_table);
+                            row.appendChild(extra_info_table);
+                            table.appendChild(row);
+    
+                            
+                            var table_td_collection = test_case_table.getElementsByTagName("td");
+                            for(var i=0; i<table_td_collection.length; i++) {
+                                var td = table_td_collection[i];
+                                td.style.border = "1px solid white";
+                                td.style.padding = "8px";
+                            }
+
+                            var extra_table_td_collection = extra_info_table.getElementsByTagName("td");
+                            for(var i=0; i<extra_table_td_collection.length; i++) {
+                                var td = extra_table_td_collection[i];
+                                td.style.border = "1px solid white";
+                                td.style.padding = "8px";
+                            }
+                            
 
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Answer:"));
-                            cell2.appendChild(document.createTextNode(review_info[key].answer));
+                            cell1.style.fontWeight = 'bold';
+                            cell2.appendChild(non_editable_in_text_area(review_info[key].answer));
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
-
+                            table.appendChild(row);
+                            
                             row = document.createElement("tr");
                             cell1 = document.createElement("td");
                             cell2 = document.createElement("td");
                             cell1.appendChild(document.createTextNode("Comment:"));
+                            cell1.style.fontWeight = 'bold';
                             cell2.appendChild(add_comment_textarea());
                             row.appendChild(cell1);
                             row.appendChild(cell2);
-                            table.children[0].appendChild(row);
+                            table.appendChild(row);
 
 
-                            // alert(key);
-                            // console.log(key, review_info[key]);
+                            container.appendChild(table);
+
                         });
 
                     }
@@ -1481,6 +1683,16 @@ function exam_review_instructor_onload() {
     }
 }
 
+
+function non_editable_in_text_area(text) {
+    var input = document.createElement("textarea");
+    input.cols = "80";
+    input.rows = "10";
+    input.defaultValue = text;
+    input.readOnly = true;
+    return input;
+}
+
 class ReviewInfo {
 
     constructor(test_in, test_out, expected_out, test_case_points, test_case_grade) {
@@ -1494,6 +1706,8 @@ class ReviewInfo {
         this.question_grade = "";
         this.answer = "";
         this.comment = "";
+        this.constraint = "";
+        this.function_name = ""; 
 
         this.test_case_in.push(test_in);
         this.test_case_out.push(test_out);
@@ -1506,9 +1720,6 @@ class ReviewInfo {
 
 
 function parse_test_cases(test_case_data, question_data) {
-    // alert(test_case_data);
-    // alert(question_data.length);
-    // alert(test_case_data.length);
     var dict = {};
 
     for(i = 0; i < test_case_data.length; i++) {
@@ -1521,10 +1732,13 @@ function parse_test_cases(test_case_data, question_data) {
             dict[current_test_case_data.question].expected_test_case_out.push(current_test_case_data.expectedtestcasesout);
             dict[current_test_case_data.question].test_case_total_points.push(current_test_case_data.points);
             dict[current_test_case_data.question].test_case_total_grade.push(current_test_case_data.autograde);
+            
         } else {
             // alert("out");
 
             dict[current_test_case_data.question] = new ReviewInfo(current_test_case_data.testcasesin, current_test_case_data.testcasesout, current_test_case_data.expectedtestcasesout, current_test_case_data.points, current_test_case_data.autograde);
+            dict[current_test_case_data.question].constraint = current_test_case_data.constraints;
+            dict[current_test_case_data.question].function_name = current_test_case_data.funcName;
             // alert(dict[current_test_case_data.question].test_case_in);
         }
     }
@@ -1564,77 +1778,52 @@ function create_points_textbox(text) {
     var input = document.createElement("input");
     input.type = "text";
     input.value = text;
+    input.size = 4;
     return input;
 
 }
 
 function add_comment_textarea() {
     var input = document.createElement("textarea");
-    input.cols = "50";
-    input.rows = "5";
+    input.cols = "80";
+    input.rows = "10";
 
     return input;
 }
 
 function release_exam_button_pressed() {
-    
-    var table = document.getElementById("exam-review-instructor-table");
+    var exam_container = document.getElementById("exam-review-instructor-container");
+
     var new_points = new Array();
     var comments = new Array();
     var questions = new Array();
-    var i = 1;
-    // while (i < table.rows.length) {
-    //     var question = table.rows[i++].cells[0].innerHTML;
-    //     var points_received = table.rows[i++].cells[0].children[0].value;
-    //     var total_points = table.rows[i++].cells[0].innerHTML;
-    //     var answer = table.rows[i++].cells[0].innerHTML;
-    //     var comment = table.rows[i++].cells[0].children[0].value;
-    //     // alert("i="+i + "*question*" + question + "*points*" + points_received + "*totalpoints*" + total_points + "*answer*" + answer + "*comment*" + comment);
-    //     new_points.push(points_received);
-    //     comments.push(comment);
-    //     answers.push(answer);
-    // }
 
-    while (i < table.rows.length) {
-        var label = table.rows[i].cells[0].innerHTML;
-        // alert("hello");
-        // alert(label);
-        if (label == "Points Received:") {
-            var points_received = table.rows[i].cells[1].children[0].value;
-            // alert(points_received);
-            new_points.push(points_received);
-        } else if(label == "Comment:") {
-            var comment = table.rows[i].cells[1].children[0].value;
-            comments.push(comment);
-        } else if(label == "Question:") {
-            // alert(table.rows[i].cells[1].innerHTML);
-            var question = table.rows[i].cells[1].innerHTML;
-            questions.push(question);
-        }     
+    var i = 0;
+    while (i < exam_container.childElementCount) {
+        var table = exam_container.children[i];
+
+        // alert(table.rows.length);
+        for(var j=0; j < table.rows.length; j++) {
+            var label = table.rows[j].cells[0].innerHTML;
+            if (label == "Points Received:") {
+                var points_received = table.rows[j].cells[1].children[0].value;
+                new_points.push(points_received);
+            } else if(label == "Comment:") {
+                var comment = table.rows[j].cells[1].children[0].value;
+                comments.push(comment);
+            } else if(label == "Question:") {
+                var question = table.rows[j].cells[1].innerHTML;
+                questions.push(question);
+            }
+        }
+             
         i++;
-
-        //     var question = table.rows[i++].cells[0].innerHTML;
-        //     var points_received = table.rows[i++].cells[0].children[0].value;
-        //     var total_points = table.rows[i++].cells[0].innerHTML;
-        //     var answer = table.rows[i++].cells[0].innerHTML;
-        //     var comment = table.rows[i++].cells[0].children[0].value;
-        //     // alert("i="+i + "*question*" + question + "*points*" + points_received + "*totalpoints*" + total_points + "*answer*" + answer + "*comment*" + comment);
-        //     new_points.push(points_received);
-        //     comments.push(comment);
-        //     answers.push(answer);
     } 
-
-
-    // alert(new_points);
-    // alert(comments);
-    // alert(questions);
-    // alert('ddeeeee');
-
+    
     var new_points_stringified = JSON.stringify(new_points);
     var comments_stringified = JSON.stringify(comments);
     var questions_stringified = JSON.stringify(questions);
-    // alert(answers_stringified);
-    
+
     var user_name = document.getElementById('exam-review-instructor-student-name').innerHTML;
     var exam_name = document.getElementById('exam-review-instructor-exam-name').innerHTML;
 
@@ -1647,7 +1836,7 @@ function release_exam_button_pressed() {
     
                 if (req.status == 200) {
                     // alert(req.responseText);
-                    // location.href = "instructorhome.php";
+                    location.href = "instructorhome.php";
                     // var json_response = JSON.parse(req.responseText);
                     // alert(json_response.added);
                     // location.href = "login.php";

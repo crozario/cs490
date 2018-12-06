@@ -66,6 +66,7 @@ check_session("instructor");
                         <th>Topic</th>
                         <th>Difficulty</th>
                         <th>Question</th>
+                        <th>Add</th>
                     </tr>
                 </table>
             </div>
@@ -76,8 +77,9 @@ check_session("instructor");
 
         <div class="add-exam-container">
             <h2>Create Exam</h2>
-            <div>
+            <div class="create-exam-container">
                 <input id="add-exam-input" type="text" placeholder="Enter Exam Name" name="exam_name" required>
+                <button class="add-exam-button" type="button" onclick="add_exam_button_pressed(); return false;">Add Exam</button>
             </div>
             <div>
                 <table id="add-exam-table">
@@ -89,9 +91,6 @@ check_session("instructor");
                     </tr>
 
                 </table>
-            </div>
-            <div>
-                <button class="add-exam-button" type="button" onclick="add_exam_button_pressed(); return false;">Add Exam</button>
             </div>
 
         </div>

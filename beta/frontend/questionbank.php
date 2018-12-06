@@ -115,7 +115,7 @@ check_session("instructor");
                         </tr>
                     </table>
                 </div>
-                <div>
+                <div class="add-question-container">
                     <button onclick="add_question_button_pressed(); return false;">Add Question</button>
                 </div>
 

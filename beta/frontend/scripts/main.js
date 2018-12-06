@@ -145,7 +145,7 @@ function instructor_home_onload() {
                     var cell1 = document.createElement("td");
                     var cell2 = document.createElement("td");
                     cell1.appendChild(document.createTextNode(exam));
-                    cell2.appendChild(add_review_list_button());
+                    cell2.appendChild(add_review_list_button(exam));
                     row.appendChild(cell1);
                     row.appendChild(cell2);
                     table.children[0].appendChild(row);
@@ -168,15 +168,49 @@ function instructor_home_onload() {
     req.send(vars);
 }
 
-function add_review_list_button() {
+function add_review_list_button(exam) {
     var button = document.createElement("button");
     button.innerHTML = "Review";
     button.onclick = function () {
-        location.href = "examreviewlist.php";
+        
+        save_instructor_home_review(exam);
     };
     return button;
 }
 
+function save_instructor_home_review(exam) {
+    var vars = "save_instructor_home_review=" + exam;
+    var req = new XMLHttpRequest();
+
+    req.onreadystatechange = function () {
+        if (req.readyState == 4) {
+            if (req.status == 200) {                       
+                location.href = "examreviewlist.php";
+            } else {
+                status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
+            }
+        }
+    }
+
+    req.open("POST", "scripts/request.php", true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send(vars);
+}
+
+function get_instructor_home_review(callback) {
+    var vars = "get_instructor_home_review=true";
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+            if (req.status == 200) {
+                callback(req.responseText);
+            }
+        }
+    }
+    req.open("POST", "scripts/request.php", true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send(vars);
+}
 
 // Instructor Exams
 
@@ -778,7 +812,8 @@ function student_home_onload() {
                         if(json[i].user == student_username) {
                             var student_info = json[i];
                             var row = document.createElement("tr");
-                            if (student_info.rel == 0 ) { // exam not taken
+
+                            if (student_info.tk == 0 && student_info.rel == 0) { // exam not taken
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");                              
                                 cell1.appendChild(document.createTextNode(student_info.exam));
@@ -786,15 +821,15 @@ function student_home_onload() {
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
                                 table.children[0].appendChild(row);
-                            } else if(student_info.rel == 0 && student_info.graded > 0) {  // taken but not released
+                            } else if(student_info.tk == 1 && student_info.rel == 0) {  // taken but not released
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode(student_info.exam));
-                                cell2.appendChild(document.createTextNode("Pending"));
+                                cell2.appendChild(document.createTextNode("Exam Release Pending..."));
                                 row.appendChild(cell1);
                                 row.appendChild(cell2);
                                 table.children[0].appendChild(row);                        
-                            } else if(student_info.rel == 1) { // taken and released
+                            } else if(student_info.tk == 1 && student_info.rel == 1) { // taken and released
                                 var cell1 = document.createElement("td");
                                 var cell2 = document.createElement("td");
                                 cell1.appendChild(document.createTextNode(student_info.exam));
@@ -965,7 +1000,8 @@ function exam_review_student_onload() {
                         var info = JSON.parse(req.responseText);
                         var test_case_data = JSON.parse(callback_data);
                         var review_info = parse_test_cases(test_case_data, info);
-                                           
+                        var exam_grade = calculate_exam_grade_and_percentage_student(info);
+
                         var exam_name = document.getElementById("exam-review-student-exam-name");
                                    
                         // alert(req.responseText);
@@ -982,10 +1018,12 @@ function exam_review_student_onload() {
                         var cell4 = document.createElement("td");
                         cell1.appendChild(document.createTextNode("Exam Percentage:"));
                         cell1.style.fontWeight = 'bold';
-                        cell2.appendChild(document.createTextNode("N/A"));
+                        cell2.appendChild(document.createTextNode(`${exam_grade[2]}%`));
+                        // cell2.appendChild(document.createTextNode("hi"));
                         cell3.appendChild(document.createTextNode("Exam Grade:"));
                         cell3.style.fontWeight = 'bold';
-                        cell4.appendChild(document.createTextNode("N/A"));
+                        cell4.appendChild(document.createTextNode(`${exam_grade[0]} / ${exam_grade[1]}`));
+                        // cell4.appendChild(document.createTextNode("hello"));
                         row.appendChild(cell1);
                         row.appendChild(cell2);
                         row.appendChild(cell3);
@@ -995,11 +1033,10 @@ function exam_review_student_onload() {
                         exam_info_container.appendChild(exam_info_table);
                         
                         var container = document.getElementById("exam-review-student-container");
-
-
+                        
                         Object.keys(review_info).forEach(function(key) {
                             var table = document.createElement('table');
-
+                            
                             var row = document.createElement("tr");
 
                             var cell1 = document.createElement("td");
@@ -1085,7 +1122,7 @@ function exam_review_student_onload() {
                                 tc_cell4.appendChild(document.createTextNode(current_test_case_points_received));
                                 tc_cell5.appendChild(document.createTextNode(current_test_case_points_total));
                                 
-                                if(current_expected_test_case_out == current_test_case_out && current_test_case_points_received == current_test_case_points_total) {
+                                if(current_expected_test_case_out == current_test_case_out) {
                                     tc_cell6.appendChild(document.createTextNode("\u2713"));
                                     tc_cell6.style.backgroundColor = "#23a393";
                                     tc_cell6.style.textAlign = "center"
@@ -1106,7 +1143,7 @@ function exam_review_student_onload() {
                                 test_case_table.appendChild(tc_row);
                             }
 
-
+                            
                             var extra_info_table = document.createElement('table');
 
                             if (review_info[key].function_name == "1") {
@@ -1185,6 +1222,7 @@ function exam_review_student_onload() {
                             container.appendChild(table);
 
                         });
+                       
 
                     }
                 } 
@@ -1350,47 +1388,57 @@ function exam_review_list_onload() {
 
             if (req.status == 200) {
                 // alert(req.responseText);
-                var json = JSON.parse(req.responseText);
-                var not_taken = 0;
                 
-                for(i = 0; i < json.length; i++) {
-                    if(json[i].graded != null && json[i].graded > 0 && json[i].rel == 0) {
-                        var row = document.createElement("tr");
-                        var cell1 = document.createElement("td");
-                        var cell2 = document.createElement("td");
-                        var cell3 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode(json[i].user));
-                        cell2.appendChild(document.createTextNode(json[i].graded));
-                        cell3.appendChild(review_exam_by_student_button(json[i].user, json[i].exam));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        row.appendChild(cell3);
-                        table.children[0].appendChild(row);
-                    } else if(json[i].rel == 1) {
-                        var row = document.createElement("tr");
-                        var cell1 = document.createElement("td");
-                        var cell2 = document.createElement("td");
-                        var cell3 = document.createElement("td");
-                        cell1.appendChild(document.createTextNode(json[i].user));
-                        cell2.appendChild(document.createTextNode(json[i].graded));
-                        cell3.appendChild(document.createTextNode("exam released"));
-                        row.appendChild(cell1);
-                        row.appendChild(cell2);
-                        row.appendChild(cell3);
-                        table.children[0].appendChild(row);
-                    } else {
-                        not_taken++;
-                    }
-                }
-                if(json.length == not_taken) {
-                    var row = document.createElement("tr");
-                    var cell1 = document.createElement("td");
-                    cell1.appendChild(document.createTextNode("students have not taken exam"));
-                    row.appendChild(cell1);
-                    table.children[0].appendChild(row);
-                }
-                
-            
+                get_instructor_home_review(got_instructor_home_review)
+                    function got_instructor_home_review(data) {
+                        var exam = JSON.parse(data).exam;
+                        var json = JSON.parse(req.responseText);
+                        var not_taken = 0;
+
+                        for(i = 0; i < json.length; i++) {
+                            if(json[i].exam == exam) {                          
+                                if(json[i].tk == 1 && json[i].rel == 0) {
+                                    var row = document.createElement("tr");
+                                    var cell1 = document.createElement("td");
+                                    var cell2 = document.createElement("td");
+                                    var cell3 = document.createElement("td");
+                                    cell1.appendChild(document.createTextNode(json[i].user));
+                                    cell2.appendChild(document.createTextNode(json[i].graded));
+                                    cell3.appendChild(review_exam_by_student_button(json[i].user, json[i].exam));
+                                    row.appendChild(cell1);
+                                    row.appendChild(cell2);
+                                    row.appendChild(cell3);
+                                    table.children[0].appendChild(row);
+                                } else if(json[i].tk == 1 && json[i].rel == 1) {
+                                    var row = document.createElement("tr");
+                                    var cell1 = document.createElement("td");
+                                    var cell2 = document.createElement("td");
+                                    var cell3 = document.createElement("td");
+                                    cell1.appendChild(document.createTextNode(json[i].user));
+                                    cell2.appendChild(document.createTextNode(json[i].graded));
+                                    cell3.appendChild(document.createTextNode("Exam Released"));
+                                    row.appendChild(cell1);
+                                    row.appendChild(cell2);
+                                    row.appendChild(cell3);
+                                    table.children[0].appendChild(row);
+                                } else {
+                                    not_taken++;
+                                }
+                            }
+                            
+                        }
+                        
+                        if(json.length == not_taken) {
+                            var row = document.createElement("tr");
+                            var cell1 = document.createElement("td");
+                            cell1.appendChild(document.createTextNode("students have not taken exam"));
+                            row.appendChild(cell1);
+                            table.children[0].appendChild(row);
+                        }
+
+
+
+                }          
             } else {
                 status_id.innerHTML = 'An error occurred during your request: ' + req.status + ' ' + req.statusText;
             }
@@ -1436,12 +1484,12 @@ function exam_review_instructor_onload() {
                     function got_test_cases(callback_data) {
                         var info = JSON.parse(req.responseText);
                         var test_case_data = JSON.parse(callback_data);
-                        var review_info = parse_test_cases(test_case_data, info);          
+                        var review_info = parse_test_cases(test_case_data, info);  
+                        
+                        var exam_grade = calculate_exam_grade_and_percentage(info);
                             
                         var exam_name = document.getElementById("exam-review-instructor-exam-name");                   
-                        var student_name = document.getElementById("exam-review-instructor-student-name");
                         exam_name.innerHTML = json_data.student_exam;
-                        student_name.innerHTML = json_data.student_user;
 
                         var exam_info_container= document.getElementById("exam-review-instructor-info-container");
 
@@ -1458,10 +1506,10 @@ function exam_review_instructor_onload() {
                         cell2.appendChild(document.createTextNode(json_data.student_user));   
                         cell3.appendChild(document.createTextNode("Exam Percentage:"));
                         cell3.style.fontWeight = 'bold';
-                        cell4.appendChild(document.createTextNode("N/A"));
+                        cell4.appendChild(document.createTextNode(`${exam_grade[2]}%`));
                         cell5.appendChild(document.createTextNode("Exam Grade:"));
                         cell5.style.fontWeight = 'bold';
-                        cell6.appendChild(document.createTextNode("N/A"));
+                        cell6.appendChild(document.createTextNode(`${exam_grade[0]} / ${exam_grade[1]}`));
                         row.appendChild(cell1);
                         row.appendChild(cell2);
                         row.appendChild(cell3);
@@ -1562,7 +1610,7 @@ function exam_review_instructor_onload() {
                                 tc_cell4.appendChild(document.createTextNode(current_test_case_points_received));
                                 tc_cell5.appendChild(document.createTextNode(current_test_case_points_total));
                                 
-                                if(current_expected_test_case_out == current_test_case_out && current_test_case_points_received == current_test_case_points_total) {
+                                if(current_expected_test_case_out == current_test_case_out) {
                                     tc_cell6.appendChild(document.createTextNode("\u2713"));
                                     tc_cell6.style.backgroundColor = "#23a393";
                                     tc_cell6.style.textAlign = "center"
@@ -1683,6 +1731,41 @@ function exam_review_instructor_onload() {
     }
 }
 
+function calculate_exam_grade_and_percentage(question_data) {
+    var total_percentage = 0.0;
+    var total_points = 0.0;
+    var total_points_received = 0.0;
+
+
+    for(i = 0; i < question_data.length; i++) {
+        total_points = total_points + parseFloat(question_data[i].points);
+        total_points_received = total_points_received + parseFloat(question_data[i].autograde);
+    }
+
+    if (total_points != 0) {
+        total_percentage = (total_points_received / total_points) * 100;
+    }
+
+    return [total_points_received, total_points, total_percentage];
+}
+
+function calculate_exam_grade_and_percentage_student(question_data) {
+    var total_percentage = 0.0;
+    var total_points = 0.0;
+    var total_points_received = 0.0;
+
+
+    for(i = 1; i < question_data.length; i++) {
+        total_points = total_points + parseFloat(question_data[i].points);
+        total_points_received = total_points_received + parseFloat(question_data[i].autograde);
+    }
+
+    if (total_points != 0) {
+        total_percentage = (total_points_received / total_points) * 100;
+    }
+
+    return [total_points_received, total_points, total_percentage];
+}
 
 function non_editable_in_text_area(text) {
     var input = document.createElement("textarea");
@@ -1707,7 +1790,7 @@ class ReviewInfo {
         this.answer = "";
         this.comment = "";
         this.constraint = "";
-        this.function_name = ""; 
+        this.function_name = "";
 
         this.test_case_in.push(test_in);
         this.test_case_out.push(test_out);
@@ -1824,9 +1907,9 @@ function release_exam_button_pressed() {
     var comments_stringified = JSON.stringify(comments);
     var questions_stringified = JSON.stringify(questions);
 
-    var user_name = document.getElementById('exam-review-instructor-student-name').innerHTML;
+    var user_name = document.getElementById('exam-review-instructor-info-container').getElementsByTagName("table")[0].rows[0].cells[1].innerHTML;
     var exam_name = document.getElementById('exam-review-instructor-exam-name').innerHTML;
-
+    
         var vars = "release_exam=true"+"&username="+user_name+"&examname="+exam_name+"&new_points=" +new_points_stringified + "&comments=" + comments_stringified + "&questions=" +questions_stringified;
         var req = new XMLHttpRequest();
         

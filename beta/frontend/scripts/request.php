@@ -71,11 +71,17 @@ if (isset($_POST['login'])) {
 } elseif (isset($_POST['get_test_cases'])) {
     $response = get_test_cases();
     echo $response;
+} elseif (isset($_POST['save_instructor_home_review'])) {
+    $response = save_instructor_home_review();
+    echo $response;
+} elseif (isset($_POST['get_instructor_home_review'])) {
+    $response = get_instructor_home_review();
+    echo $response;
 } 
 
 
+
 function get_test_cases() {
-    // $URL = 'https://web.njit.edu/~eo65/cs490/beta/backend/displaytestcase.php';
     $URL = 'https://web.njit.edu/~ak697/cs490/cs490-beta/displaytestcase.php';
      
     $ch = curl_init();
@@ -162,6 +168,12 @@ function release_exam() {
     // return $arr;
 }
 
+
+function save_instructor_home_review() {
+    $_SESSION['save_instructor_home_review'] = $_POST['save_instructor_home_review'];
+    return $_SESSION['save_instructor_home_review'];
+}
+
 function save_take_exam() {
     $_SESSION['save_take_exam'] = $_POST['save_take_exam'];
     return $_SESSION['save_take_exam'];
@@ -178,6 +190,14 @@ function save_exam_review_list() {
     $_SESSION['student_exam'] = $_POST['student_exam'];
     return "{$_SESSION['student_user']} : {$_SESSION['student_exam']}";
 
+}
+
+function get_instructor_home_review() {
+    $json_array = array(
+        'exam' => $_SESSION['save_instructor_home_review']
+    );
+
+    return json_encode($json_array);
 }
 
 function get_exam_and_student() {

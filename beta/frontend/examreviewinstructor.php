@@ -37,8 +37,6 @@ check_session("instructor");
     <div class="exam-review-instructor-body">
         <h2 id="exam-review-instructor-exam-name"></h2>
 
-        <h3 id="exam-review-instructor-student-name"></h3>
-
         <div id="exam-review-instructor-info-container">
         
         </div>

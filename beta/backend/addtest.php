@@ -9,8 +9,12 @@ if ($db->connect_error) {
 //$response = file_get_contents('php://input');
 
 //$sql1 = "SELECT * FROM taken";
+//$db->query($sql1);
 //$sql2 = "TRUNCATE TABLE records";
 //$sql3 = "TRUNCATE TABLE taken";
+
+//$db->query($sql2);
+//$db->query($sql3);
 //$sql5 = "INSERT INTO taken (user, exam) SELECT DISTINCT Login.user, examquestionlist.exam FROM Login, examquestionlist WHERE Login.role = 'student' AND examquestionlist.exam = '$examName'";
 //$sql6 = "TRUNCATE TABLE examquestionlist";
 //$db->query($sql6);

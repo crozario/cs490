@@ -6,12 +6,14 @@
  		die('Connection failed: ' . $db->connect_error);
 	}
 
-	//$arr1 = array();
 	$examname = $_POST['exam'];
-	$sql = "SELECT DISTINCT examquestionlist.exam, examquestionlist.points, examquestionlist.question, question.testcasein, question.testcaseout, question.functionName, question.constraints FROM question INNER JOIN examquestionlist ON question.questionbody=examquestionlist.question WHERE examquestionlist.exam = '$examname'";
+	
+	$arr = array();
+	$arr1 = array();
+	
+	$sql = "SELECT DISTINCT question FROM examquestionlist";
 		
 	if ($db->query($sql) == True) {
-		$arr = array();
 		$result = $db->query($sql);
 
 		while ($row = $result->fetch_assoc()) {
@@ -19,7 +21,15 @@
 			array_push($arr, $row);	
 		}
 
-		$json = json_encode($arr);
+		for ($i = 0; $i < count($arr); $i++) {
+   			$question = $arr[$i]['question'];
+   			$sql1 = "SELECT DISTINCT examquestionlist.exam, examquestionlist.points, examquestionlist.question, question.testcasein, question.testcaseout, question.functionName, question.constraints FROM question INNER JOIN examquestionlist ON question.questionbody=examquestionlist.question WHERE question = '$question' AND exam = '$examname'";
+   			$result1 = $db->query($sql1);
+   			$row1 = $result1->fetch_assoc();
+   			array_push($arr1, $row1);
+   		}
+		
+		$json = json_encode($arr1);
 		echo $json;
 	} else {
 		printf('{"Error":"%s"}\n', mysqli_error($db));
@@ -33,4 +43,5 @@
 
 
 	$db->close();
+
 ?>

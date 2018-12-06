@@ -4,27 +4,35 @@ var_dump($_POST);
 $comments = $_POST['comments'];
 $points = $_POST['points'];
 $questions = $_POST['questions'];
-process($comments);
+$comment = $comments;
+process1($comments);
 process($questions);
 process($points);
 
-for ($x=0; $x<count($comments);$x++){
+for ($x=0; $x<count($points);$x++){
     echo "post: ". $x.'<br>';
     $data = array(
         'user' => $_POST['user'],
         'exam' => $_POST['exam'],
         'points' => $points[$x],
-        'comments' => $comments[$x],
-        'question'=> $questions[$x]
+        'comments' => addslashes($comments[$x]),
+        'question'=> addslashes($questions[$x])
     );
     //var_dump($data);
     update($data);
 }
-
+//maybe ltrim and rtrim
 //var_dump($_POST);
 function process(&$str){
     $str = trim($str,"\"[]");
     $str = explode("\",\"", $str);
+}
+
+function process1(&$str){
+  $str = trim($str,"[]");
+  $str = explode("\",\"", $str);
+  $str[0] = trim($str[0], "\"");
+  $str[count($str)-1] = trim($str[count($str)-1], "\"");
 }
 
 function update($data){

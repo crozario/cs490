@@ -18,7 +18,6 @@
 //echo file_get_contents("php://input");
 
 //read questions from the showquestiontostudent
-// var_dump post
 $exam = $_POST['exam'];
 $user = $_POST['user'];
 $data = array(
@@ -62,7 +61,7 @@ foreach ($obj as $item)
     //add constraint array later
 //    echo 'question: ' . $question . ' points: '.$points . '<br>';
 }
-var_dump($questions);
+
 //exit(); //before grading
 #TODO: addslashes to testin just to be safe
 foreach ($questions as $key=>$question){
@@ -75,26 +74,42 @@ foreach ($questions as $key=>$question){
     $validConstName = true;
     $printOut = false;
 
-    $code = $answers[$key];
+    $rawCode = $answers[$key];
+    $code = "";
     $funcName = $functionName[$key];
-    $pointsPerTest = $pointsValue[$key]/(count($testCases));
-    echo "points for question: ". $pointsValue[$key] . " points per test: " .$pointsPerTest . " test cases #: ".count($testCases).'<br>';
-    $totalGrade = 0;
+    $originalPointsPerTest = $pointsValue[$key]/(count($testCases));
+    $pointsPerTest = $originalPointsPerTest;
+    echo "points for question: ". $pointsValue[$key] . " points per test: " .$originalPointsPerTest . " test cases #: ".count($testCases).'<br>';
+
     //finds function name in answer
-    if (strpos($code, $funcName) == true){
+    $matches = array();
+    preg_match_all("/[\w\d]+\(/", $rawCode, $matches);
+    if (substr($matches[0][0],0,-1) == $funcName){
         echo "functionName was correct";
+        $code = $rawCode;
 //        $pointsPerTest = $originalPointsPerTest;
     }
     else {
         //replace function name if wrong
         $matches = array();
-        preg_match_all("/[\w\d]+/", $code, $matches);
+        preg_match_all("/[\w\d]+/", $rawCode, $matches);
         $search = $matches[0][1];
-        $code = str_replace($search,$funcName,$code);
+        $code = str_replace($search,$funcName,$rawCode);
         print_r("functionName replaced");
         echo '<br>'.'old name: '.strlen($funcName). ' new name: '. strlen($search) . '<br>';
+        echo '<br>'.'old name: '.$funcName. ' new name: '. $search . '<br>';
 //        $pointsPerTest = $originalPointsPerTest*0.8;
         $validFuncName = false;
+    }
+    //adding colon in first line if not present, might cause problems in different browsers
+    $matches = array();
+    echo '<br> code before colon: ' . $code . '<br>';
+    preg_match_all("/.*[\r\n|\r|\n]/", $code, $matches);
+    if (strpos($matches[0][0], ":") === false){
+    $colon = substr_replace($matches[0][0], ":\n", strlen($matches[0][0])-1);
+    $code = str_replace($matches[0][0],$colon,$code);
+    echo '<br> code after colon: ' . $code . '<br>';
+    echo '<br> colon added <br>';
     }
 //  decides if function call should have print
     if (strpos($code, 'return') == true){
@@ -117,14 +132,14 @@ foreach ($questions as $key=>$question){
 //        echo '<br>'.$constraints[$key] == null.'<br>';
     }
     if (!$validFuncName && !$validConstName){
-        $pointsPerTest = $pointsPerTest * .8;
+        $pointsPerTest = $originalPointsPerTest * .8;
     }
     elseif ($validFuncName && $validConstName){
         //do nothing
     }
     else {
         //10% off for having either funcName or Const wrong
-        $pointsPerTest = $pointsPerTest * .9;
+        $pointsPerTest = $originalPointsPerTest * .9;
     }
     $counter = 0;
     $output = array();
@@ -136,7 +151,6 @@ foreach ($questions as $key=>$question){
         else {
             $codeTemp = $code . "\n$funcName($testIn)";
         }
-//  echo $codeTemp . '<br>';
         file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
         exec("timeout 5 python testCode.py", $output);
 //  echo $out . '<br>';
@@ -144,105 +158,22 @@ foreach ($questions as $key=>$question){
         echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
         $grade = 0;
         if ($testOut == $output[$counter]){
+            echo 'output was correct' . '<br>';
             $grade = $pointsPerTest;
+            echo $grade. '<br>';
 //            $totalGrade += $pointsPerTest;
         }
-//  post to back end records table for each test case, also provide studentid and examid
-        $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>addslashes($testOut), 'points'=>$pointsPerTest, 'autograde'=>$grade, 'testcasesout'=>addslashes($output[$counter]), 'user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code));
+//  post to back end records table for each test case, also provide studentid and examid and funcname & const bool and rawanswer
+        $postArray = array('constraint'=>addslashes($validConstName), 'funcName'=>addslashes($validFuncName), 'testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>addslashes($testOut), 'points'=>$originalPointsPerTest, 'autograde'=>$grade, 'testcasesout'=>addslashes($output[$counter]), 'user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($rawCode));
         echo "POST: " . $counter . '<br>';
         sendGrades($postArray);
-//        var_dump($postArray) . '<br>';
+        #var_dump($postArray) . '<br>';
         $counter++;
     }
 //    $postArray = array('user'=>$user, 'exam'=>$exam, 'question'=>addslashes($questions[$key]), 'answer'=>addslashes($code), 'autograde'=>$totalGrade);
 //    sendGrades($postArray);
 }
 
-//exit();
-// questions and points are stored in respective arrays
-//echo var_dump($obj[0]) . '<br>';
-//echo $obj[0]->questions . '<br>';
-//echo $obj[0]->points . '<br>';
-
-//read in the following fields:
-//$url = "https://web.njit.edu/~ak697/cs490/cs490-beta/fortestcasesandanswer.php";
-
-
-//answers, testCasesIn, testCasesOut, and functionName are stored in respective arrays
-
-
-//make sure to return the old answer instead of the modified one
-//$code = "def operatin(op, a, b):
-//    if op == '+':
-//        print  a+b
-//    elif op == '-':
-//        print a-b
-//    elif op == '*':
-//        print a*b
-//    elif op == '/':
-//        print a/b
-//    else:
-//        print \"eror\"";
-//
-//$testCaseIn = "'+',3,4:'-',13,5:'/',20,4:'*',7,7:'#',8,9";
-//$testCaseOut = "7:8:5:49:error";
-//$functionName = "operation";
-
-//finds function name in answer
-//if (strpos($code, $functionName) == true){
-//    print_r('functionName was correct\n');
-//}
-//else {
-//    //replace first occurence of the word before '(' if function name is wrong
-//    $matches = array();
-//    preg_match_all("/[\w\d]+/", $code, $matches);
-//    $search = $matches[0][1];
-//    $code = str_replace($search,$functionName,$code);
-//    echo '<br>';
-//    print_r('functionName replaced');
-//}
-//
-//if (strpos($code, 'return') == true){
-//    $printOut = true;
-//}
-//
-////constraint yet to be defined
-////if (strpos($code, $constraint) == true){
-////    $printOut = true;
-////}
-//
-//$testCases = array();
-//stringToArray($testCaseIn, $testCaseOut, $testCases);
-////var_dump($testCases);
-//
-//$counter = 0;
-//foreach($testCases as $testIn=> $testOut){
-////divide pointsValue[x] by testCases[x] and assign that value for each correct test case
-//    if($printOut){
-//        $codeTemp = $code . "\nprint($functionName($testIn))";
-//    }
-//    else {
-//        $codeTemp = $code . "\n$functionName($testIn)";
-//    }
-////    echo $codeTemp . '<br>';
-//    file_put_contents("testCode.py", $codeTemp) or die("file_put not working");
-//    exec("python testCode.py", $output) . '<br>';
-////    echo $out . '<br>';
-////    echo 'input: ' . $testIn . ' output: ' . $output[$counter] . '<br>';
-////    echo 'expectedOut: ' . $testOut . ' actualOut: ' . $output[$counter]. '<br>';
-//    if ($testOut == $output[$counter]){
-//        $grade = $pointsValue[$key];
-//    }
-//    else { $grade = 0; }
-//    //post here to back end records table for each test case, also provide studentid and examid
-//    $postArray = array('testcasesin'=>addslashes($testIn), 'expectedtestcaseout'=>$testOut, 'points'=>$grade, 'testcasesout'=>$output[$counter], 'user'=>'rp567', 'exam'=>'exam2', 'question'=>'write a function that can divide, multiply, add, and subtract based on an op and two integer inputs', 'answer'=>addslashes($code));
-//    echo "POST: " . $counter . '<br>';
-////    sendGrades($postArray);
-//    echo var_dump($postArray) . '<br>';
-//    $counter++;
-//}
-
-//echo 'Grade: ' . $grade;
 
 function sendGrades($data){
 
@@ -262,7 +193,7 @@ function retrieveData(&$response, $url, $data){
     //https://web.njit.edu/~eo65/cs490/beta/backend/showquestiontostudent.php
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);    
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = (curl_exec($ch));
 //    print_r($response);
